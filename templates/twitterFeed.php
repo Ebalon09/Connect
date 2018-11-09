@@ -83,9 +83,12 @@
                                 <div class="namecontainer">
                                     <?=$data['Username']?>
                                 </div>
+                                <?php
+                                if($data['Destination'] != ''){?>
                                 <div class="imagecontainer">
-                                    <img src="https://i.ytimg.com/vi/aBKtkNjzpqM/maxresdefault.jpg">
+                                    <img src=<?=$data['Destination']?>>
                                 </div>
+                                <?php } ?>
                                 <h5><?= $data['datum'] ?></h5>
                                 <p><?= $data['text']; ?></p>
                                 <?php if(isset($_SESSION['userid']) && $_SESSION['userid']){?>

@@ -3,10 +3,13 @@
         <div class="col-sm-6 ">
             <h5 class="card-title">neuer Eintrag:</h5>
                 <div class="form">
-                    <form action="./index.php?controller=TwitterController&action=createAction" method="POST">
+                    <form action="./index.php?controller=TwitterController&action=createAction" method="POST" enctype="multipart/form-data">
                         <textarea class="form-control" name="text" maxlength="100" cols="50" rows="5"></textarea>
+                        <input id="my_upload" name="my_upload" class="upload" type="file" accept="image/*">
+
                         <button class="btn btn-primary" type="Submit" name="action" value="Absenden" >Absenden</button>
                     </form>
+
                 </div>
         </div>
     </div>

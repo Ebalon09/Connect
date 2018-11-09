@@ -11,8 +11,19 @@ class TwitterController
         return new Response( Templating::getInstance()->render('./templates/twitterFeed.php', [
             'result' => $this->getUserid(),
             'action' => "index.php?controller=TwitterController&action=createAction",
-            'form' => 'tweetForm.php'
+            'form' => 'tweetForm.php',
         ]));
+    }
+
+
+    public function getLastTweet(){
+        $data = Database::getInstance()->query("SELECT * FROM Entries ORDER BY id DESC", [
+            'postid' => $_SESSION['userid']
+        ]);
+
+        $data2 = $data[0]['id'];
+        return $data2;
+
     }
 
     /**
@@ -23,17 +34,49 @@ class TwitterController
     {
         if ($request->isPostRequest())
         {
-            Database::getInstance()->insert(
-                "INSERT INTO Entries SET text = :text, postid = :postid",
+
+            if ($_FILES['my_upload']['name'] == null) {
+
+
+                Database::getInstance()->insert(
+                    "INSERT INTO Entries SET text = :text, postid = :postid",
                     array(
                         'text' => strip_tags($request->getPost()->get('text')),
                         'postid' => $_SESSION['userid'],
                     ));
-        }
-        $session = Session::getInstance();
-        $session->write('success','Tweet erfolgreich gepostet');
 
-        return new ResponseRedirect("./index.php");
+                $session = Session::getInstance();
+                $session->write('success', 'Tweet erfolgreich gepostet');
+
+                return new ResponseRedirect("./index.php");
+            }
+            else {
+
+
+
+                $_FILES['my_upload']['name'] = $this->getLastTweet()+1 . ".jpg";
+                    $upload_file = $_FILES['my_upload']['name'];
+                    $dest = './uploads/' . $upload_file;
+
+                    move_uploaded_file($_FILES['my_upload']['tmp_name'], $dest);
+
+                    Database::getInstance()->insert(
+                        "INSERT INTO Entries SET text = :text, postid = :postid, Destination = :Destination",
+                        array(
+                            'text' => strip_tags($request->getPost()->get('text')),
+                            'postid' => $_SESSION['userid'],
+                            'Destination' => $dest
+                        ));
+
+
+                    $session = Session::getInstance();
+                    $session->write('success', 'Tweet erfolgreich gepostet');
+
+
+                    return new ResponseRedirect("./index.php");
+
+                }
+        }
     }
 
     /**
@@ -41,8 +84,9 @@ class TwitterController
      */
     private function getUserid()
     {
+
         return Database::getInstance()->query(
-            "SELECT  Login.Username, Login.Email, Entries.text, Entries.datum, Entries.id  FROM Entries INNER JOIN Login   ON Entries.postid = Login.id ORDER BY datum",
+            "SELECT  Login.Username, Login.Email, Entries.text, Entries.datum, Entries.id, Entries.Destination  FROM Entries INNER JOIN Login   ON Entries.postid = Login.id ORDER BY datum DESC",
                 array());
     }
 
@@ -97,6 +141,9 @@ class TwitterController
      * @param Request $request
      * @return ResponseRedirect
      */
+
+
+    //Nacco file service -- upload delete usw.
     public function deleteAction(Request $request)
     {
         Database::getInstance()->query("DELETE FROM Entries WHERE id = :id", [
@@ -106,6 +153,7 @@ class TwitterController
         Database::getInstance()->query("DELETE * WHERE id = :id", [
             'id' => $request->getQuery()->get('id')
         ]);
+
 
         $session = Session::getInstance();
         $session->write('danger','Tweet erfolgreich gelöscht');
