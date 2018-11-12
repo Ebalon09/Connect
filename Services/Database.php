@@ -69,6 +69,7 @@ class Database
      */
     public function update($query, array $parameters = array())
     {
+
         $statement = $this->connection->prepare($query);
 
         foreach($parameters as $key => $value)

@@ -79,22 +79,23 @@
                 endif; ?>
                 <div class = "container">
                     <div class="main">
+                        <?php /** @var Tweet $data */ ?>
                         <?php foreach ($result as $data) { ?>
                             <div class="item">
                                 <div class="namecontainer">
-                                    <?=$data['Username']?>
+                                    <?= "USERNAME" /*$data['Username']*/ ?>
                                 </div>
                                 <?php
-                                if($data['Destination'] != ''){?>
+                                if($data->getDestination() != ''){?>
                                 <div class="imagecontainer">
-                                    <img src=<?=$data['Destination']?>>
+                                    <img src=<?=$data->getDestination()?>>
                                 </div>
                                 <?php } ?>
-                                <h5><?= $data['datum'] ?></h5>
-                                <p><?= $data['text']; ?></p>
+                                <h5><?= $data->getDatum()->format('d.m.Y H:i:s'); ?></h5>
+                                <p><?= $data->getText(); ?></p>
                                 <?php if(isset($_SESSION['userid']) && $_SESSION['userid']){?>
-                                    <a href="./index.php?controller=TwitterController&action=updateAction&id=<?= $data['id'] ?>" <button id="editButton" class="btn btn-primary" type="Submit" name="action" value="Edit" >Edit</button> </a>
-                                    <a href="./index.php?controller=TwitterController&action=deleteAction&id=<?= $data['id'] ?>" <button id="deleteButton" class="btn btn-danger" type="submit" name="action" value="Delete">Delete</button> </a>
+                                    <a href="./index.php?controller=TwitterController&action=updateAction&id=<?= $data->getId() ?>" <button id="editButton" class="btn btn-primary" type="Submit" name="action" value="Edit" >Edit</button> </a>
+                                    <a href="./index.php?controller=TwitterController&action=deleteAction&id=<?= $data->getId() ?>" <button id="deleteButton" class="btn btn-danger" type="submit" name="action" value="Delete">Delete</button> </a>
                                 <?php } ?>
                             </div>
                         <?php }?>
