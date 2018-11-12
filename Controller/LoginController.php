@@ -63,6 +63,7 @@ class LoginController{
 
         if ($pw1 == $pw2)
         {
+
             if ($request->isPostRequest())
             {
                 if (isset($_POST['Username']) && isset($_POST['Email']))
@@ -103,13 +104,18 @@ class LoginController{
 
                 $session = Session::getInstance();
                 $session->write('success', 'Erfolgreich Registriert! bitte anmelden');
+
+            return new ResponseRedirect("./index.php?controller=LoginController&action=indexAction");
+
         }
+        else
+        {
 
-        $session = Session::getInstance();
-        $session->write('danger', 'Passwörter stimmen nicht überein!');
+            $session = Session::getInstance();
+            $session->write('danger', 'Passwörter stimmen nicht überein!');
 
-        return new ResponseRedirect("./index.php?controller=LoginController&action=indexAction");
-
+            return new ResponseRedirect("./index.php?controller=LoginController&action=indexAction");
+        }
     }
 
     /**
