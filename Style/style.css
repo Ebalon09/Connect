@@ -1,8 +1,10 @@
 body {
     padding: 0;
-    background-image: radial-gradient(circle, #171a21, grey);
+    background-color: #002152;
+    background-image:
+            repeating-linear-gradient(45deg, transparent, transparent 1px, rgba(0, 0, 0, 0.8) 10px, #002152 10px),
+            radial-gradient(ellipse at center, #002152 0%, black 130%);
 }
-
 
 .header{
     position: absolute;
@@ -44,18 +46,13 @@ body {
     background-color: rgba(0, 0, 0, .8);
     padding: 20px;
     margin: 20px;
-    transition: background-color .5s;
-
-
 }
 
 .content .container .main .item{
 
-    background-color: rgba(255, 255, 255, 0.3);
+    background-color: rgba(255, 255, 255, 0.2);
     padding: 20px;
     margin: 20px;
-    transition: background-color .5s;
-
 }
 
 .content .container .main .item .imagecontainer{
@@ -126,5 +123,5 @@ body {
 .close{
 
     color: white;
-    
+
 }

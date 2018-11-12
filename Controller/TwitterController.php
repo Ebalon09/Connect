@@ -8,8 +8,12 @@ class TwitterController
      */
     public function indexAction()
     {
+        $result = Database::getInstance()->query(
+            "SELECT  Login.Username, Login.Email, Entries.text, Entries.datum, Entries.id, Entries.Destination  FROM Entries INNER JOIN Login   ON Entries.postid = Login.id ORDER BY datum DESC",
+            array());
+
         return new Response( Templating::getInstance()->render('./templates/twitterFeed.php', [
-            'result' => $this->getUserid(),
+            'result' => $result,
             'action' => "index.php?controller=TwitterController&action=createAction",
             'form' => 'tweetForm.php',
         ]));
@@ -84,6 +88,14 @@ class TwitterController
      */
     private function getUserid()
     {
+
+
+
+
+
+
+
+
 
         return Database::getInstance()->query(
             "SELECT  Login.Username, Login.Email, Entries.text, Entries.datum, Entries.id, Entries.Destination  FROM Entries INNER JOIN Login   ON Entries.postid = Login.id ORDER BY datum DESC",
