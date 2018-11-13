@@ -19,9 +19,9 @@ class Tweet
     protected $datum;
 
     /**
-     * @var int
+     * @var User
      */
-    protected $postid;
+    protected $user;
 
     /**
      * @var string
@@ -31,6 +31,22 @@ class Tweet
     public function __construct()
     {
         $this->datum = new DateTime();
+    }
+
+    /**
+     * @return User
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param User $user
+     */
+    public function setUser(User $user)
+    {
+        $this->user = $user;
     }
 
     /**
@@ -79,22 +95,6 @@ class Tweet
     public function setDatum(\DateTime $datum)
     {
         $this->datum = $datum;
-    }
-
-    /**
-     * @return int
-     */
-    public function getPostid()
-    {
-        return $this->postid;
-    }
-
-    /**
-     * @param int $postid
-     */
-    public function setPostid($postid)
-    {
-        $this->postid = $postid;
     }
 
     /**

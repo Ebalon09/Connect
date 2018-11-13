@@ -2,17 +2,23 @@
 
 class TwitterController
 {
-
     /**
      * @var TweetRepository
      */
     protected $tweetRepository;
+    /**
+     * @var UserRepository
+     */
+    protected $userRepository;
 
+    /**
+     * TwitterController constructor.
+     */
     public function __construct()
     {
         $this->tweetRepository = new TweetRepository();
+        $this->userRepository = new UserRepository();
     }
-
 
     /**
      * @return Response
@@ -29,15 +35,14 @@ class TwitterController
         ]));
     }
 
-
     public function getLastTweet(){
-        $data = Database::getInstance()->query("SELECT * FROM Entries ORDER BY id DESC", [
+        $data = Database::getInstance()->query("SELECT * FROM Tweet ORDER BY id DESC", [
             'postid' => $_SESSION['userid']
         ]);
 
         $data2 = $data[0]['id'];
-        return $data2;
 
+        return $data2;
     }
 
     /**
@@ -50,10 +55,11 @@ class TwitterController
         if ($request->isPostRequest())
         {
 
+            $user = $this->userRepository->findOneById($_SESSION['userid']);
             $tweet = new Tweet();
 
             $tweet->setText(trim(strip_tags($request->getPost()->get('text'))));
-            $tweet->setPostid($_SESSION['userid']);
+            $tweet->setUser($user);
 
             $this->handleFileUpload($tweet);
 
@@ -64,16 +70,6 @@ class TwitterController
 
             return new ResponseRedirect("./index.php");
         }
-    }
-
-    /**
-     * @return mixed
-     */
-    private function getUserid()
-    {
-        return Database::getInstance()->query(
-            "SELECT  Login.Username, Login.Email, Entries.text, Entries.datum, Entries.id, Entries.Destination  FROM Entries INNER JOIN Login   ON Entries.postid = Login.id ORDER BY datum DESC",
-                array());
     }
 
     /**
@@ -117,17 +113,15 @@ class TwitterController
      * @param Request $request
      * @return ResponseRedirect
      */
-
-
     public function deleteAction(Request $request)
     {
-        Database::getInstance()->query("DELETE FROM Entries WHERE id = :id", [
-            'id' => $request->getQuery()->get('id')
-        ])[0];
 
+        $tweet = $this->tweetRepository->findOneById($request->getQuery()->get('id'));
+
+        $this->tweetRepository->remove($tweet) ;
 
         $session = Session::getInstance();
-        $session->write('danger','Tweet erfolgreich gelöscht');
+        $session->write('success','Tweet erfolgreich gelöscht');
 
         return new ResponseRedirect("./index.php");
     }

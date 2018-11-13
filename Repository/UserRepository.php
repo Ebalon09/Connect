@@ -21,14 +21,13 @@ class UserRepository
         $this->database = Database::getInstance();
     }
 
-
     /**
      * @param $username
      * @return User
      */
     public function findOneByUsername($username)
     {
-        $data = $this->database->query("SELECT * FROM Login WHERE username = :username;",[
+        $data = $this->database->query("SELECT * FROM Users WHERE username = :username",[
             'username' => $username
         ])[0];
         $user = $this->arrayToObject($data);
@@ -36,14 +35,13 @@ class UserRepository
         return $user;
     }
 
-
     /**
      * @param $email
      * @return User
      */
     public function findOneByEmail($email)
     {
-        $data = $this->database->query("SELECT * FROM Login WHERE email = :email;",[
+        $data = $this->database->query("SELECT * FROM Users WHERE email = :email",[
             'email' => $email
         ])[0];
 
@@ -71,14 +69,14 @@ class UserRepository
 
         if($user->getId() > 0){
 
-            $query = "UPDATE Login SET";
+            $query = "UPDATE Users SET ";
             $query .= \join(', ', $properties);
             $query .= ' WHERE id = :id';
 
             return $this->database->insert($query, $data);
         }
 
-        $query = "INSERT INTO Login SET ";
+        $query = "INSERT INTO Users SET ";
         $query .= \join(', ', $properties);
 
 
@@ -86,7 +84,6 @@ class UserRepository
         unset($data['id']);
         return $this->database->insert($query, $data);
     }
-
 
     /**
      * @param $data
@@ -96,9 +93,9 @@ class UserRepository
     {
         $user = new User();
         $user->setId($data['id']);
-        $user->setUsername($data['Username']);
-        $user->setPassword($data['Password']);
-        $user->setEmail($data['Email']);
+        $user->setUsername($data['username']);
+        $user->setPassword($data['password']);
+        $user->setEmail($data['email']);
 
         return $user;
     }
@@ -119,5 +116,29 @@ class UserRepository
         return $data;
     }
 
+    public function findOneById($id){
+        $data = $this->database->query("SELECT * FROM Users WHERE id = :id;", [
+            'id' => $id
+        ])[0];
 
+        $user = $this->arrayToObject($data);
+
+        return $user;
+    }
+
+    /**
+     * @param User $user
+     * @return mixed
+     */
+    public function remove(User $user)
+    {
+        $data = $this->objectToArray($user);
+        $data2['id'] = $data['id'];
+
+
+        $query = "DELETE FROM Users ";
+        $query .= "WHERE id = :id";
+
+        return $this->database->insert($query, $data2);
+    }
 }

@@ -2,6 +2,15 @@
 
 class UserActionController
 {
+    /**
+     * @var UserRepository
+     */
+    protected $userRepository;
+
+    public function __construct()
+    {
+        $this->userRepository = new userRepository();
+    }
 
     /**
      * @return Response
@@ -15,20 +24,41 @@ class UserActionController
      * @param Request $request
      * @return Response
      */
-    public function changeEmail(Request $request)
+    public function changeAction(Request $request)
     {
-        $data = Database::getInstance()->query("SELECT * FROM Login WHERE id = :id", [
-            'id' => $_SESSION['userid']
-        ])[0];
+        $result = null;
 
         if ($request->isPostRequest())
         {
-            $result = Database::getInstance()->update(
-                "UPDATE Login SET Email = :email WHERE id = :id",
-                    array(
-                        'email' => strip_tags($request->getPost()->get('email')),
-                        'id' => $_SESSION['userid']
-                    ));
+            if ($request->getPost()->get('email') != null)
+            {
+                $user = $this->userRepository->findOneByEmail($_SESSION['Email']);
+
+                $user->setEmail($request->getPost()->get('email'));
+                $result = $this->userRepository->add($user);
+            }
+
+            if ($request->getPost()->get('username') != null)
+            {
+                $user = $this->userRepository->findOneByUsername($_SESSION['Username']);
+                $user->setUsername($request->getPost()->get('username'));
+                $result = $this->userRepository->add($user);
+
+            }
+            if ($request->getPost()->get('password') != null)
+            {
+                $pw1 = $_POST['Password'];
+                $pw2 = $_POST['re-Password'];
+                if ($pw1 == $pw2)
+                {
+                    $user = $this->userRepository->findOneById($_SESSION['userid']);
+                    $user->setPassword(password_hash($request->getPost()->get('password'), PASSWORD_DEFAULT));
+                    $result = $this->userRepository->add($user);
+                }  else {
+                    Session::getInstance()->write('danger', 'Passwörter müssen übereinstimmen!');
+                }
+            }
+
 
             if (!$result)
             {
@@ -36,97 +66,15 @@ class UserActionController
             }
             else
             {
-                Session::getInstance()->write('success', 'Email erfolgreich geupdatet, bitte neu einloggen damit die änderung in kraft tritt');
+                Session::getInstance()->write('success', 'erfolgreich geupdatet, bitte neu einloggen damit die änderung in kraft tritt');
             }
-        }
-        return new Response(Templating::getInstance()->render('./templates/settingForm.php', [
-            'tweet' => $data,
-            'id' => $data['id'],
-        ]));
-    }
 
-    /**
-     * @param Request $request
-     * @return Response
-     */
-    public function changeUsername(Request $request)
-    {
-        {
-            $data = Database::getInstance()->query("SELECT * FROM Login WHERE id = :id", [
-                'id' => $_SESSION['userid']
-            ])[0];
-
-            if ($request->isPostRequest())
-            {
-                $result = Database::getInstance()->update(
-                    "UPDATE Login SET Username = :username WHERE id = :id",
-                        array(
-                            'username' => strip_tags($request->getPost()->get('username')),
-                            'id' => $_SESSION['userid']
-                        ));
-
-                if (!$result)
-                {
-                    Session::getInstance()->write( 'danger', 'Fehler!');
-                }
-                else
-                {
-                    Session::getInstance()->write('success', 'Nutzername erfolgreich geupdatet, bitte neu einloggen damit die änderung in kraft tritt');
-                }
-            }
             return new Response(Templating::getInstance()->render('./templates/settingForm.php', [
-                'tweet' => $data,
-                'id' => $data['id'],
+                'form' => 'settingForm.php'
             ]));
         }
     }
 
-    /**
-     * @param Request $request
-     * @return Response
-     */
-    public function changePW(Request $request)
-    {
-        $pw1 = $_POST['password'];
-        $pw2 = $_POST['re-password'];
-
-        $data = Database::getInstance()->query("SELECT * FROM Login WHERE id = :id", [
-            'id' => $_SESSION['userid']
-        ])[0];
-
-        if ($pw1 == $pw2)
-        {
-            if ($request->isPostRequest())
-            {
-                $result = Database::getInstance()->update(
-                    "UPDATE Login SET Password = :password WHERE id = :id",
-                        array(
-                            'password' => password_hash($request->getPost()->get('password'), PASSWORD_DEFAULT),
-                            'id' => $_SESSION['userid']
-                        ));
-
-                if (!$result)
-                {
-                    Session::getInstance()->write('danger', 'Fehler!');
-                } else {
-                    Session::getInstance()->write('success', 'Passwort erfolgreich geupdatet, bitte neu einloggen damit die änderung in kraft tritt');
-                }
-            }
-            return new Response(Templating::getInstance()->render('./templates/settingForm.php', [
-                'tweet' => $data,
-                'id' => $data['id'],
-            ]));
-        }
-        else
-        {
-            Session::getInstance()->write('danger', 'Passwörter müssen übereinstimmen!');
-
-            return new Response(Templating::getInstance()->render('./templates/settingForm.php', [
-                'tweet' => $data,
-                'id' => $data['id'],
-            ]));
-        }
-    }
 
     /**
      * @return ResponseRedirect
@@ -142,13 +90,9 @@ class UserActionController
     public function deleteAcc()
     {
         {
-            Database::getInstance()->query("DELETE FROM Login WHERE id = :id", [
-                'id' => $_SESSION['userid']
-            ])[0];
+            $user = $this->userRepository->findOneById($_SESSION['userid']);
 
-            Database::getInstance()->query("DELETE * WHERE id = :id", [
-                'id' => $_SESSION['userid']
-            ]);
+            $this->userRepository->remove($user);
 
             Session::getInstance()->write('success', 'Account erfolgreich Gelöscht!');
 

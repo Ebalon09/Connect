@@ -37,19 +37,19 @@
             <div class="container">
                 <h2>Benutzerdaten Ändern : </h2>
 
-                    <form action="./index.php?controller=UserActionController&action=changeEmail" method="POST">
+                    <form action="./index.php?controller=UserActionController&action=changeAction" method="POST">
                         <label for="email">Email :</label>
                         <input name="email" class="form-control mr-sm-2" type="text" value="<?=$_SESSION['Email']?>" aria-label="Email" required>
                         <button name="changeMail" class="btn btn-outline-light my-2 my-sm-3" type="submit">Email ändern</button>
                     </form>
 
-                    <form action="./index.php?controller=UserActionController&action=changeUsername" method="POST">
+                    <form action="./index.php?controller=UserActionController&action=changeAction" method="POST">
                         <label for="username">Username :</label>
                         <input name="username" class="form-control mr-sm-2" type="text" value="<?=$_SESSION['Username']?>" aria-label="Username" required>
                         <button name="change" class="btn btn-outline-light my-2 my-sm-3" type="submit">Nutzernamen ändern</button>
                     </form>
 
-                    <form action="./index.php?controller=UserActionController&action=changePW" method="POST">
+                    <form action="./index.php?controller=UserActionController&action=changeAction" method="POST">
                         <label for="password">Passwort :</label>
                         <input name="password" class="form-control mr-sm-2" type="password" placeholder="Passwort" aria-label="Password" required>
                         <label for="re-password">Passwort erneut eingeben :</label>

@@ -2,7 +2,6 @@
 
 class LoginController{
 
-
     /**
      * @var UserRepository
      */
@@ -13,7 +12,6 @@ class LoginController{
         $this->userRepository = new UserRepository();
     }
 
-
     /**
      * @return Response
      */
@@ -21,7 +19,6 @@ class LoginController{
     {
         return new Response( Templating::getInstance()->render('./templates/registerForm.php'));
     }
-
 
     /**
      * @param Request $request
@@ -33,7 +30,7 @@ class LoginController{
         if($request->isPostRequest())
         {
 
-            $data = $this->userRepository->findOneByUsername($request->getPost()->get('Username'));
+            $data = $this->userRepository->findOneByUsername($request->getPost()->get('username'));
 
 
 
@@ -45,7 +42,7 @@ class LoginController{
                 return new ResponseRedirect('./index.php?controller=TwitterController&action=indexAction');
             }
 
-            if (password_verify($request->getPost()->get('Password'), $data->getPassword()) == false)
+            if (password_verify($request->getPost()->get('password'), $data->getPassword()) == false)
             {
 
 
@@ -77,25 +74,19 @@ class LoginController{
 
         if ($pw1 == $pw2)
         {
-
             if ($request->isPostRequest())
             {
                 if (isset($_POST['Username']) && isset($_POST['Email']))
                 {
                     $data = $this->userRepository->findOneByEmail($request->getPost()->get('Email'));
 
-
-
-
                     if ($data->getEmail() != null)
                     {
-
                         $session = Session::getInstance();
                         $session->write('danger', 'Fehler beim Registrieren : Email bereits vergeben!');
 
                         return new ResponseRedirect("index.php?controller=LoginController&action=indexAction");
                     }
-
                     $data = null;
                     $data = $this->userRepository->findOneByUsername($request->getPost()->get('Username'));
 
@@ -108,11 +99,10 @@ class LoginController{
                     }
                 }
             }
-
             $user = new User();
-            $user->setUsername(strip_tags($request->getPost()->get('Username')));
-            $user->setPassword(password_hash($request->getPost()->get('Password'), PASSWORD_DEFAULT));
-            $user->setEmail(strip_tags($request->getPost()->get('Email')));
+            $user->setUsername(strip_tags($request->getPost()->get('username')));
+            $user->setPassword(password_hash($request->getPost()->get('password'), PASSWORD_DEFAULT));
+            $user->setEmail(strip_tags($request->getPost()->get('email')));
 
             $this->userRepository->add($user);
 
@@ -120,11 +110,9 @@ class LoginController{
             $session->write('success', 'Erfolgreich Registriert! bitte anmelden');
 
             return new ResponseRedirect("./index.php?controller=LoginController&action=indexAction");
-
         }
         else
         {
-
             $session = Session::getInstance();
             $session->write('danger', 'Passwörter stimmen nicht überein!');
 

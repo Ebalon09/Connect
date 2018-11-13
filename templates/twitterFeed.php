@@ -43,8 +43,8 @@
                         </ul>
                         <?php if(!isset($_SESSION['userid']) && !$_SESSION['userid']){?>
                         <form class="form-inline my-2 my-lg-0" action="./index.php?controller=LoginController&action=loginAction" method="POST">
-                            <input name="Username" class="form-control mr-sm-2" type="text" placeholder="Nutzername" aria-label="Username">
-                            <input name="Password" class="form-control mr-sm-2" type="password" placeholder="Passwort" aria-label="Password">
+                            <input name="username" class="form-control mr-sm-2" type="text" placeholder="Nutzername" aria-label="username">
+                            <input name="password" class="form-control mr-sm-2" type="password" placeholder="Passwort" aria-label="password">
                             <button name="Login" class="btn btn-outline-light my-2 my-sm-0" type="submit">Login</button>
                         </form>
                         <?php }else{?>
@@ -83,7 +83,7 @@
                         <?php foreach ($result as $data) { ?>
                             <div class="item">
                                 <div class="namecontainer">
-                                    <?= "USERNAME" /*$data['Username']*/ ?>
+                                    <?= $data->getUser()->getUsername()?>
                                 </div>
                                 <?php
                                 if($data->getDestination() != ''){?>

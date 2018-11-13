@@ -12,6 +12,10 @@ class TweetRepository
      * @var Database
      */
     private $database;
+    /**
+     * @var UserRepository
+     */
+    protected $userRepository;
 
     /**
      * TweetRepository constructor.
@@ -19,15 +23,15 @@ class TweetRepository
     public function __construct()
     {
         $this->database = Database::getInstance();
+        $this->userRepository = new UserRepository();
     }
-
 
     /**
      * @return array
      */
     public function findAll()
     {
-        $result = $this->database->query("SELECT * FROM Entries ORDER BY datum DESC;");
+        $result = $this->database->query("SELECT * FROM Tweet ORDER BY createDate DESC;");
 
         $tweets = [];
         foreach($result as $data) {
@@ -45,7 +49,7 @@ class TweetRepository
      */
     public function findOneById($id)
     {
-        $data = $this->database->query("SELECT * FROM Entries WHERE id = :id;", [
+        $data = $this->database->query("SELECT * FROM Tweet WHERE id = :id;", [
             'id' => $id
         ])[0];
 
@@ -72,20 +76,35 @@ class TweetRepository
 
         if($tweet->getId() > 0){
 
-            $query = "UPDATE Entries SET ";
+            $query = "UPDATE Tweet SET ";
             $query .= \join(', ', $properties);
             $query .= ' WHERE id = :id';
 
             return $this->database->update($query, $data);
         }
 
-        $query = "INSERT INTO Entries SET ";
+        $query = "INSERT INTO Tweet SET ";
         $query .= \join(', ', $properties);
 
         unset($data['id']);
         return $this->database->insert($query, $data);
     }
 
+    /**
+     * @param Tweet $tweet
+     * @return mixed
+     */
+    public function remove(Tweet $tweet)
+    {
+        $data = $this->objectToArray($tweet);
+        $data2['id'] = $data['id'];
+
+
+        $query = "DELETE FROM Tweet ";
+        $query .= "WHERE id = :id";
+
+        return $this->database->insert($query, $data2);
+    }
 
     /**
      * @param $data
@@ -97,8 +116,8 @@ class TweetRepository
         $tweet->setId($data['id']);
         $tweet->setText($data['text']);
         $tweet->setDatum(new \DateTime($data['datum']));
-        $tweet->setPostid($data['postid']);
-        $tweet->setDestination($data['Destination']);
+        $tweet->setUser($this->userRepository->findOneById($data['postid']));
+        $tweet->setDestination($data['destination']);
         return $tweet;
     }
 
@@ -112,11 +131,10 @@ class TweetRepository
             'id' => $tweet->getId(),
             'text' => $tweet->getText(),
             'datum' => $tweet->getDatum()->format('Y-m-d H:i:s'),
-            'postid' => $tweet->getPostid(),
-            'Destination' => $tweet->getDestination(),
+            'postid' => $tweet->getUser()->getId(),
+            'destination' => $tweet->getDestination(),
         ];
 
         return $data;
     }
-
 }
