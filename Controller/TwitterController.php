@@ -119,16 +119,11 @@ class TwitterController
      */
 
 
-    //Nacco file service -- upload delete usw.
     public function deleteAction(Request $request)
     {
         Database::getInstance()->query("DELETE FROM Entries WHERE id = :id", [
             'id' => $request->getQuery()->get('id')
         ])[0];
-
-        Database::getInstance()->query("DELETE * WHERE id = :id", [
-            'id' => $request->getQuery()->get('id')
-        ]);
 
 
         $session = Session::getInstance();

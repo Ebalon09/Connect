@@ -8,7 +8,6 @@
  */
 class TweetRepository
 {
-
     /**
      * @var Database
      */
@@ -23,6 +22,9 @@ class TweetRepository
     }
 
 
+    /**
+     * @return array
+     */
     public function findAll()
     {
         $result = $this->database->query("SELECT * FROM Entries ORDER BY datum DESC;");
@@ -37,6 +39,10 @@ class TweetRepository
         return $tweets;
     }
 
+    /**
+     * @param $id
+     * @return Tweet
+     */
     public function findOneById($id)
     {
         $data = $this->database->query("SELECT * FROM Entries WHERE id = :id;", [
@@ -48,12 +54,18 @@ class TweetRepository
         return $tweet;
     }
 
+    /**
+     * @param Tweet $tweet
+     * @return mixed
+     */
     public function add(Tweet $tweet)
     {
         $data = $this->objectToArray($tweet);
         $properties = [];
-        foreach($data as $key => $value) {
-            if($key !== 'id') {
+        foreach($data as $key => $value)
+        {
+            if($key !== 'id')
+            {
                 $properties[$key] = $key  . ' = :' .$key;
             }
         }

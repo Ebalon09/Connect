@@ -2,6 +2,18 @@
 
 class LoginController{
 
+
+    /**
+     * @var UserRepository
+     */
+    protected $userRepository;
+
+    public function __construct()
+    {
+        $this->userRepository = new UserRepository();
+    }
+
+
     /**
      * @return Response
      */
@@ -21,9 +33,9 @@ class LoginController{
         if($request->isPostRequest())
         {
 
-            $data = Database::getInstance()->query("SELECT * FROM Login WHERE Username = :Username", [
-                'Username' => $request->getPost()->get('Username')
-                ])[0];
+            $data = $this->userRepository->findOneByUsername($request->getPost()->get('Username'));
+
+
 
             if ($data == null)
             {
@@ -33,17 +45,19 @@ class LoginController{
                 return new ResponseRedirect('./index.php?controller=TwitterController&action=indexAction');
             }
 
-            if (password_verify($request->getPost()->get('Password'), $data['Password']) == false)
+            if (password_verify($request->getPost()->get('Password'), $data->getPassword()) == false)
             {
+
+
                 $session = Session::getInstance();
                 $session->write('danger', 'Passwort falsch!');
 
                 return new ResponseRedirect('./index.php?controller=TwitterController&action=indexAction');
             }
 
-            $_SESSION['Username'] = $data['Username'];
-            $_SESSION['userid'] = $data['id'];
-            $_SESSION['Email'] = $data['Email'];
+            $_SESSION['Username'] = $data->getUsername();
+            $_SESSION['userid'] = $data->getId();
+            $_SESSION['Email'] = $data->getEmail();
             $session = Session::getInstance();
             $session->write('success', 'Erfolgreich angemeldet!');
 
@@ -68,12 +82,14 @@ class LoginController{
             {
                 if (isset($_POST['Username']) && isset($_POST['Email']))
                 {
-                    $data = Database::getInstance()->query("SELECT * FROM Login WHERE Email = :Email", [
-                        'Email' => $request->getPost()->get('Email')
-                        ]);
+                    $data = $this->userRepository->findOneByEmail($request->getPost()->get('Email'));
 
-                    if ($data != null)
+
+
+
+                    if ($data->getEmail() != null)
                     {
+
                         $session = Session::getInstance();
                         $session->write('danger', 'Fehler beim Registrieren : Email bereits vergeben!');
 
@@ -81,11 +97,9 @@ class LoginController{
                     }
 
                     $data = null;
-                    $data = Database::getInstance()->query("SELECT * FROM Login WHERE Username = :Username", [
-                        'Username' => $request->getPost()->get('Username'),
-                    ]);
+                    $data = $this->userRepository->findOneByUsername($request->getPost()->get('Username'));
 
-                    if ($data != null)
+                    if ($data->getUsername() != null)
                     {
                         $session = Session::getInstance();
                         $session->write('danger', 'Fehler beim Registrieren : Nutzername bereits vergeben!');
@@ -94,16 +108,16 @@ class LoginController{
                     }
                 }
             }
-                Database::getInstance()->insert(
-                    "INSERT INTO Login SET username = :Username, password = :Password, email = :Email",
-                        array(
-                            'Username' => strip_tags($request->getPost()->get('Username')),
-                            'Password' => password_hash($request->getPost()->get('Password'), PASSWORD_DEFAULT),
-                            'Email' => strip_tags($request->getPost()->get('Email'))
-                        ));
 
-                $session = Session::getInstance();
-                $session->write('success', 'Erfolgreich Registriert! bitte anmelden');
+            $user = new User();
+            $user->setUsername(strip_tags($request->getPost()->get('Username')));
+            $user->setPassword(password_hash($request->getPost()->get('Password'), PASSWORD_DEFAULT));
+            $user->setEmail(strip_tags($request->getPost()->get('Email')));
+
+            $this->userRepository->add($user);
+
+            $session = Session::getInstance();
+            $session->write('success', 'Erfolgreich Registriert! bitte anmelden');
 
             return new ResponseRedirect("./index.php?controller=LoginController&action=indexAction");
 

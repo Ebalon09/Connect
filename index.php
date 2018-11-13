@@ -12,6 +12,9 @@ require_once "./Services/Database.php";
 require_once "./Services/Templating.php";
 require_once "./Model/Tweet.php";
 require_once "./Repository/TweetRepository.php";
+require_once "./Model/User.php";
+require_once "./Repository/UserRepository.php";
+
 
 $controllerName = "TwitterController";
 $actionName = "indexAction";
