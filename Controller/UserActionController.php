@@ -32,33 +32,45 @@ class UserActionController
         {
             if ($request->getPost()->get('email') != null)
             {
-                $user = $this->userRepository->findOneByEmail($_SESSION['Email']);
+
+                $user = $this->userRepository->findOneBy([
+                    'email' => $_SESSION['email']
+                ]);
 
                 $user->setEmail($request->getPost()->get('email'));
                 $result = $this->userRepository->add($user);
-            }
 
+            }
             if ($request->getPost()->get('username') != null)
             {
-                $user = $this->userRepository->findOneByUsername($_SESSION['Username']);
-                $user->setUsername($request->getPost()->get('username'));
-                $result = $this->userRepository->add($user);
 
+                $user = $this->userRepository->findOneBy([
+                    'username' => $_SESSION['username']
+                ]);
+
+                $user->setUsername($request->getPost()->get('username'));
+
+                $result = $this->userRepository->add($user);
             }
             if ($request->getPost()->get('password') != null)
             {
-                $pw1 = $_POST['Password'];
-                $pw2 = $_POST['re-Password'];
+                $pw1 = $_POST['password'];
+                $pw2 = $_POST['re-password'];
+
                 if ($pw1 == $pw2)
                 {
-                    $user = $this->userRepository->findOneById($_SESSION['userid']);
+
+                    $user = $this->userRepository->findOneBy([
+                        'userid' => $_SESSION['userid']
+                    ]);
+
                     $user->setPassword(password_hash($request->getPost()->get('password'), PASSWORD_DEFAULT));
+
                     $result = $this->userRepository->add($user);
                 }  else {
                     Session::getInstance()->write('danger', 'Passwörter müssen übereinstimmen!');
                 }
             }
-
 
             if (!$result)
             {
@@ -90,15 +102,19 @@ class UserActionController
     public function deleteAcc()
     {
         {
-            $user = $this->userRepository->findOneById($_SESSION['userid']);
+
+
+            $user = $this->userRepository->findOneBy([
+                'userid' => $_SESSION['userid']
+            ]);
 
             $this->userRepository->remove($user);
 
             Session::getInstance()->write('success', 'Account erfolgreich Gelöscht!');
 
-            $_SESSION['Username'] = null;
+            $_SESSION['username'] = null;
             $_SESSION['userid'] = null;
-            $_SESSION['Email'] = null;
+            $_SESSION['email'] = null;
 
             return new ResponseRedirect("./index.php");
         }

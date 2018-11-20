@@ -26,9 +26,9 @@
                         </li>
                     </ul>
                     <form class="form-inline my-2 my-lg-0" action="./index.php?controller=LoginController&action=loginAction" method="POST">
-                        <input name="Username" class="form-control mr-sm-2" type="text" placeholder="Nutzername" aria-label="Username">
-                        <input name="Password" class="form-control mr-sm-2" type="password" placeholder="Passwort" aria-label="Password">
-                        <button name="Login" class="btn btn-outline-light my-2 my-sm-0" type="submit">Login</button>
+                        <input name="username" class="form-control mr-sm-2" type="text" placeholder="nutzername" aria-label="username">
+                        <input name="password" class="form-control mr-sm-2" type="password" placeholder="passwort" aria-label="password">
+                        <button name="login" class="btn btn-outline-light my-2 my-sm-0" type="submit">Login</button>
                     </form>
                 </div>
             </nav>

@@ -6,20 +6,8 @@
  * Time: 08:18
  */
 
-class UserRepository
+class UserRepository extends BaseRepository
 {
-    /**
-     * @var Database
-     */
-    private $database;
-
-    /**
-     * UserRepository constructor.
-     */
-    public function __construct()
-    {
-        $this->database = Database::getInstance();
-    }
 
     /**
      * @param $username
@@ -51,45 +39,10 @@ class UserRepository
     }
 
     /**
-     * @param User $user
-     * @return mixed
-     */
-    public function add(User $user)
-    {
-        $data = $this->objectToArray($user);
-
-        $properties = [];
-        foreach($data as $key => $value)
-        {
-            if($key !== 'id')
-            {
-                $properties[$key] = $key . ' = :' .$key;
-            }
-        }
-
-        if($user->getId() > 0){
-
-            $query = "UPDATE Users SET ";
-            $query .= \join(', ', $properties);
-            $query .= ' WHERE id = :id';
-
-            return $this->database->insert($query, $data);
-        }
-
-        $query = "INSERT INTO Users SET ";
-        $query .= \join(', ', $properties);
-
-
-
-        unset($data['id']);
-        return $this->database->insert($query, $data);
-    }
-
-    /**
      * @param $data
      * @return User
      */
-    private function arrayToObject($data)
+    protected function arrayToObject($data)
     {
         $user = new User();
         $user->setId($data['id']);
@@ -101,16 +54,16 @@ class UserRepository
     }
 
     /**
-     * @param User $user
+     * @param User $model
      * @return array
      */
-    private function objectToArray(User $user)
+    protected function objectToArray($model)
     {
         $data = [
-            'id' => $user->getId(),
-            'username' => $user->getUsername(),
-            'password' => $user->getPassword(),
-            'Email' => $user->getEmail(),
+            'id' => $model->getId(),
+            'username' => $model->getUsername(),
+            'password' => $model->getPassword(),
+            'Email' => $model->getEmail(),
         ];
 
         return $data;
@@ -141,4 +94,23 @@ class UserRepository
 
         return $this->database->insert($query, $data2);
     }
+
+    /**
+     * @return mixed
+     */
+    protected function getTableName()
+    {
+        return 'Users';
+    }
+
+    /**
+     * @param mixed $model
+     * @return bool
+     */
+    protected function isSupported($model)
+    {
+        return $model instanceof User;
+    }
+
+
 }

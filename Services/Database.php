@@ -23,7 +23,9 @@ class Database
 
     public function connect()
     {
-        $this->connection = new PDO($this->getDSN(), self::DB_USER, self::DB_PASSWORD);
+        $this->connection = new PDO($this->getDSN(), self::DB_USER, self::DB_PASSWORD, array(
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+        ));
     }
 
     /**

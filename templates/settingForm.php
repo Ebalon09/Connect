@@ -39,21 +39,21 @@
 
                     <form action="./index.php?controller=UserActionController&action=changeAction" method="POST">
                         <label for="email">Email :</label>
-                        <input name="email" class="form-control mr-sm-2" type="text" value="<?=$_SESSION['Email']?>" aria-label="Email" required>
+                        <input name="email" class="form-control mr-sm-2" type="text" value="<?=$_SESSION['email']?>" aria-label="Email" required>
                         <button name="changeMail" class="btn btn-outline-light my-2 my-sm-3" type="submit">Email ändern</button>
                     </form>
 
                     <form action="./index.php?controller=UserActionController&action=changeAction" method="POST">
                         <label for="username">Username :</label>
-                        <input name="username" class="form-control mr-sm-2" type="text" value="<?=$_SESSION['Username']?>" aria-label="Username" required>
+                        <input name="username" class="form-control mr-sm-2" type="text" value="<?=$_SESSION['username']?>" aria-label="username" required>
                         <button name="change" class="btn btn-outline-light my-2 my-sm-3" type="submit">Nutzernamen ändern</button>
                     </form>
 
                     <form action="./index.php?controller=UserActionController&action=changeAction" method="POST">
                         <label for="password">Passwort :</label>
-                        <input name="password" class="form-control mr-sm-2" type="password" placeholder="Passwort" aria-label="Password" required>
+                        <input name="password" class="form-control mr-sm-2" type="password" placeholder="Passwort" aria-label="password" required>
                         <label for="re-password">Passwort erneut eingeben :</label>
-                        <input name="re-password" class="form-control mr-sm-2" type="password" placeholder="Passwort" aria-label="Password" required>
+                        <input name="re-password" class="form-control mr-sm-2" type="password" placeholder="Passwort" aria-label="password" required>
                         <button name="changePW" class="btn btn-outline-light my-2 my-sm-3" type="submit">Passwort ändern</button>
                     </form>
 

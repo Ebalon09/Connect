@@ -10,6 +10,10 @@ class TwitterController
      * @var UserRepository
      */
     protected $userRepository;
+    /**
+     * @var LikeRepository
+     */
+    protected $likeRepository;
 
     /**
      * TwitterController constructor.
@@ -18,6 +22,7 @@ class TwitterController
     {
         $this->tweetRepository = new TweetRepository();
         $this->userRepository = new UserRepository();
+        $this->likeRepository = new LikeRepository();
     }
 
     /**
@@ -26,7 +31,6 @@ class TwitterController
     public function indexAction()
     {
         $tweets = $this->tweetRepository->findAll();
-
 
         return new Response( Templating::getInstance()->render('./templates/twitterFeed.php', [
             'result' => $tweets,
@@ -51,7 +55,6 @@ class TwitterController
      */
     public function createAction(Request $request)
     {
-
         if ($request->isPostRequest())
         {
 
@@ -81,15 +84,11 @@ class TwitterController
     {
         $tweet = $this->tweetRepository->findOneById($request->getQuery()->get('id'));
 
-
         if ($request->isPostRequest())
         {
             $tweet->setText(strip_tags($request->getPost()->get('text')));
 
-
-
             $result = $this->tweetRepository->add($tweet);
-
 
             if (!$result)
             {

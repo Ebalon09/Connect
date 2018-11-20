@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
     <html>
-
         <head>
             <link rel="icon" href="./favicon.ico">
             <meta charset="UTF-8">
@@ -23,12 +22,12 @@
                             <li class="nav-item active">
                                     <a class="nav-link" href="./index.php"><i class="fas fa-home"></i> <span class="sr-only">(current)</span></a>
                             </li>
-                            <?php if(!isset($_SESSION['userid'])&& !$_SESSION['userid']) { ?>
+                            <?php if(!isset($_SESSION['userid'])) { ?>
                                 <li class="nav-item active" >
                                     <a class="nav-link" href = "./index.php?controller=LoginController&action=indexAction" > Register<span class="sr-only" > (current)</span ></a >
                                 </li >
                             <?php } ?>
-                            <?php if(isset($_SESSION['userid']) && $_SESSION['userid']){?>
+                            <?php if(isset($_SESSION['userid'])){?>
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Optionen</a>
                                     <div class="dropdown-menu">
@@ -41,7 +40,7 @@
                                 </li>
                             <?php } ?>
                         </ul>
-                        <?php if(!isset($_SESSION['userid']) && !$_SESSION['userid']){?>
+                        <?php if(!isset($_SESSION['userid'])){?>
                         <form class="form-inline my-2 my-lg-0" action="./index.php?controller=LoginController&action=loginAction" method="POST">
                             <input name="username" class="form-control mr-sm-2" type="text" placeholder="Nutzername" aria-label="username">
                             <input name="password" class="form-control mr-sm-2" type="password" placeholder="Passwort" aria-label="password">
@@ -49,7 +48,7 @@
                         </form>
                         <?php }else{?>
                         <div class="Username">
-                            Angemeldet als : <?=$_SESSION['Username'] ?>
+                            Angemeldet als : <?=$_SESSION['username'] ?>
                         </div>
                         <form class="form-inline my-2 my-lg-0" action="./index.php?controller=LoginController&action=logoutAction" method="POST">
                             <button name="Logout" class="btn btn-outline-light my-2 my-sm-0" type="submit">Logout</button>
@@ -95,8 +94,14 @@
                                 <p><?= $data->getText(); ?></p>
                                 <?php if(isset($_SESSION['userid']) && $_SESSION['userid']){?>
                                     <a href="./index.php?controller=TwitterController&action=updateAction&id=<?= $data->getId() ?>" <button id="editButton" class="btn btn-primary" type="Submit" name="action" value="Edit" >Edit</button> </a>
+                                    <a href="./index.php?controller=&id=<?= $data->getId() ?>" <button id="reTweetButton" class="btn btn-primary" type="submit" name="action" value="reTweet">reTweet</button> </a>
                                     <a href="./index.php?controller=TwitterController&action=deleteAction&id=<?= $data->getId() ?>" <button id="deleteButton" class="btn btn-danger" type="submit" name="action" value="Delete">Delete</button> </a>
-                                <?php } ?>
+                                <?php if(isset($_SESSION['userid']) && !($data->getUser()->getId() == $_SESSION['userid'])){?>
+                                    <?php if($data->isLikedByUser($likes)){ ?>
+                                        <a href="./index.php?controller=LikeController&action=dislikeAction&id=<?= $data->getId() ?>" <button id="DislikeButton" class="btn btn-secondary" type="submit" name="action" value="Dislike">Dislike</button> </a>
+                                    <?php }?>
+                                        <a href="./index.php?controller=LikeController&action=likeAction&id=<?= $data->getId() ?>" <button id="likeButton" class="btn btn-secondary" type="submit" name="action" value="Like">Like</button> </a>
+                                <?php }}?>
                             </div>
                         <?php }?>
                     </div>

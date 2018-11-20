@@ -6,12 +6,8 @@
  * Date: 12.11.18
  * Time: 11:43
  */
-class TweetRepository
+class TweetRepository extends BaseRepository
 {
-    /**
-     * @var Database
-     */
-    private $database;
     /**
      * @var UserRepository
      */
@@ -22,7 +18,7 @@ class TweetRepository
      */
     public function __construct()
     {
-        $this->database = Database::getInstance();
+        parent::__construct();
         $this->userRepository = new UserRepository();
     }
 
@@ -59,35 +55,11 @@ class TweetRepository
     }
 
     /**
-     * @param Tweet $tweet
      * @return mixed
      */
-    public function add(Tweet $tweet)
+    protected function getTableName()
     {
-        $data = $this->objectToArray($tweet);
-        $properties = [];
-        foreach($data as $key => $value)
-        {
-            if($key !== 'id')
-            {
-                $properties[$key] = $key  . ' = :' .$key;
-            }
-        }
-
-        if($tweet->getId() > 0){
-
-            $query = "UPDATE Tweet SET ";
-            $query .= \join(', ', $properties);
-            $query .= ' WHERE id = :id';
-
-            return $this->database->update($query, $data);
-        }
-
-        $query = "INSERT INTO Tweet SET ";
-        $query .= \join(', ', $properties);
-
-        unset($data['id']);
-        return $this->database->insert($query, $data);
+        return 'Tweet';
     }
 
     /**
@@ -110,13 +82,13 @@ class TweetRepository
      * @param $data
      * @return Tweet
      */
-    private function arrayToObject($data)
+    protected function arrayToObject($data)
     {
         $tweet = new Tweet();
         $tweet->setId($data['id']);
         $tweet->setText($data['text']);
-        $tweet->setDatum(new \DateTime($data['datum']));
-        $tweet->setUser($this->userRepository->findOneById($data['postid']));
+        $tweet->setDatum(new \DateTime($data['createDate']));
+        $tweet->setUser($this->userRepository->findOneById($data['userid']));
         $tweet->setDestination($data['destination']);
         return $tweet;
     }
@@ -125,16 +97,27 @@ class TweetRepository
      * @param Tweet $tweet
      * @return array
      */
-    private function objectToArray(Tweet $tweet)
+    protected function objectToArray($tweet)
     {
         $data = [
             'id' => $tweet->getId(),
             'text' => $tweet->getText(),
-            'datum' => $tweet->getDatum()->format('Y-m-d H:i:s'),
-            'postid' => $tweet->getUser()->getId(),
+            'createDate' => $tweet->getDatum()->format('Y-m-d H:i:s'),
+            'userid' => $tweet->getUser()->getId(),
             'destination' => $tweet->getDestination(),
         ];
 
         return $data;
+    }
+
+
+
+    /**
+     * @param mixed $model
+     * @return bool
+     */
+    protected function isSupported($model)
+    {
+        return $model instanceof Tweet;
     }
 }

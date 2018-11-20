@@ -29,10 +29,9 @@ class LoginController{
 
         if($request->isPostRequest())
         {
-
-            $data = $this->userRepository->findOneByUsername($request->getPost()->get('username'));
-
-
+            $data = $this->userRepository->findOneBy([
+                'username' => $request->getPost()->get('username')
+            ]);
 
             if ($data == null)
             {
@@ -47,14 +46,14 @@ class LoginController{
 
 
                 $session = Session::getInstance();
-                $session->write('danger', 'Passwort falsch!');
+                $session->write('danger', 'passwort falsch!');
 
                 return new ResponseRedirect('./index.php?controller=TwitterController&action=indexAction');
             }
 
-            $_SESSION['Username'] = $data->getUsername();
+            $_SESSION['username'] = $data->getUsername();
             $_SESSION['userid'] = $data->getId();
-            $_SESSION['Email'] = $data->getEmail();
+            $_SESSION['email'] = $data->getEmail();
             $session = Session::getInstance();
             $session->write('success', 'Erfolgreich angemeldet!');
 
@@ -78,7 +77,10 @@ class LoginController{
             {
                 if (isset($_POST['Username']) && isset($_POST['Email']))
                 {
-                    $data = $this->userRepository->findOneByEmail($request->getPost()->get('Email'));
+                    $data = $this->userRepository->findOneBy([
+                        'email' => $request->getPost()->get('Email')
+                    ]);
+
 
                     if ($data->getEmail() != null)
                     {
@@ -88,10 +90,15 @@ class LoginController{
                         return new ResponseRedirect("index.php?controller=LoginController&action=indexAction");
                     }
                     $data = null;
-                    $data = $this->userRepository->findOneByUsername($request->getPost()->get('Username'));
+
+                    $data = $this->userRepository->findOneBy([
+                        'username' => $request->getPost()->get('Username')
+                    ]);
+
 
                     if ($data->getUsername() != null)
                     {
+
                         $session = Session::getInstance();
                         $session->write('danger', 'Fehler beim Registrieren : Nutzername bereits vergeben!');
 
@@ -100,9 +107,10 @@ class LoginController{
                 }
             }
             $user = new User();
-            $user->setUsername(strip_tags($request->getPost()->get('username')));
-            $user->setPassword(password_hash($request->getPost()->get('password'), PASSWORD_DEFAULT));
-            $user->setEmail(strip_tags($request->getPost()->get('email')));
+            $user->setUsername(strip_tags($request->getPost()->get('Username')));
+            $user->setPassword(password_hash($request->getPost()->get('Password'), PASSWORD_DEFAULT));
+            $user->setEmail(strip_tags($request->getPost()->get('Email')));
+
 
             $this->userRepository->add($user);
 
@@ -125,9 +133,9 @@ class LoginController{
      */
     public function logoutAction()
     {
-        $_SESSION['Username'] = null;
+        $_SESSION['username'] = null;
         $_SESSION['userid'] = null;
-        $_SESSION['Email'] = null;
+        $_SESSION['email'] = null;
 
         return new ResponseRedirect("./index.php");
     }

@@ -112,4 +112,20 @@ class Tweet
     {
         $this->destination = $destination;
     }
+
+    /**
+     * @param $likes[]
+     * @return bool
+     */
+    public function isLikedByUser($likes){
+        foreach((array)$likes as $data){
+            if($data->getUser()->getid() === $this->getUser()->getId()){
+                return true;
+
+            }
+        }
+        return false;
+    }
+
+
 }
