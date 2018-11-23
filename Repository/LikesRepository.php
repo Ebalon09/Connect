@@ -41,7 +41,6 @@ class LikeRepository extends BaseRepository{
         }
 
         return $tweets;
-
     }
 
 
@@ -145,6 +144,8 @@ class LikeRepository extends BaseRepository{
      */
     protected function arrayToObject($data){
 
+
+
         $likes = new Likes();
         $likes->setId($data['id']);
         $likes->setUser($this->userRepository->findOneById($data['userid']));
@@ -170,22 +171,6 @@ class LikeRepository extends BaseRepository{
 
     }
 
-    /**
-     * @param Likes $likes
-     * @return int
-     */
-    public function countLikes(Likes $likes){
-
-        $data = $this->database->query("SELECT * FROM Likes WHERE userid = :userid",[
-            'userid' => $likes->getUser()->getId()
-        ]);
-
-        $count = count($data);
-
-        return $count;
-
-        }
-
 
     /**
      * @return mixed
@@ -202,6 +187,17 @@ class LikeRepository extends BaseRepository{
     protected function isSupported($model)
     {
         return $model instanceof Likes;
+    }
+
+    /**
+     * @param Tweet $tweet
+     * @return int
+     */
+    public function countLikes(Tweet $tweet)
+    {
+        return count($this->database->query("SELECT * FROM Likes WHERE tweetid = :tweetid",[
+            'tweetid' => $tweet->getId()
+        ]));
     }
 
 }

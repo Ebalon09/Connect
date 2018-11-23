@@ -16,7 +16,7 @@ require_once "./Repository/TweetRepository.php";
 require_once "./Model/User.php";
 require_once "./Repository/UserRepository.php";
 require_once "./Model/Likes.php";
-require_once "./Repository/LikeRepository.php";
+require_once "./Repository/LikesRepository.php";
 
 $controllerName = "TwitterController";
 $actionName = "indexAction";

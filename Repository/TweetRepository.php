@@ -110,8 +110,6 @@ class TweetRepository extends BaseRepository
         return $data;
     }
 
-
-
     /**
      * @param mixed $model
      * @return bool

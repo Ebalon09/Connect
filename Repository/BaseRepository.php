@@ -90,6 +90,32 @@ abstract class BaseRepository
         return $object;
     }
 
+    /**
+     * @param array $parameters
+     * @return mixed
+     */
+    public function findBy(array $parameters){
+
+        $properties = [];
+        foreach($parameters as $key => $value)
+        {
+            $properties[$key] = $key . ' = :' .$key;
+        }
+
+        $query = "SELECT * FROM ".$this->getTableName()." WHERE ";
+        $query .= \join(',',$properties);
+
+        $data = $this->database->query($query, $parameters);
+
+
+        $objects = [];
+        foreach($data as $result){
+            $object = $this->arrayToObject($result);
+            $objects[] = $object;
+        }
+        return $objects;
+    }
+
 
 
     /**

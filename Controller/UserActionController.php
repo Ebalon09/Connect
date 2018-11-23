@@ -59,7 +59,6 @@ class UserActionController
 
                 if ($pw1 == $pw2)
                 {
-
                     $user = $this->userRepository->findOneBy([
                         'userid' => $_SESSION['userid']
                     ]);

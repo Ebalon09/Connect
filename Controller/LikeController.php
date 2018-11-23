@@ -37,7 +37,9 @@ class LikeController{
      */
     public function indexAction(){
         $tweets = $this->tweetRepository->findAll();
-        $likes = $this->likeRepository->findAllByUserId($_SESSION['userid']);
+        $likes = $this->likeRepository->findBy([ 'userid' => $_SESSION['userid']]);
+
+
 
         return new Response( Templating::getInstance()->render('./templates/twitterFeed.php', [
             'result' => $tweets,
@@ -45,9 +47,7 @@ class LikeController{
             'form' => 'tweetForm.php',
             'likes' => $likes,
         ]));
-
     }
-
 
     /**
      * @param Request $request
@@ -55,13 +55,12 @@ class LikeController{
      */
     public function likeAction(Request $request)
     {
-        $likes = $this->likeRepository->findAllByUserId($_SESSION['userid']);
+        $likes = $this->likeRepository->findBy(['userid' => $_SESSION['userid']]);
 
         foreach((array)$likes as $data)
         {
             if($data->getTweet()->getId() == $request->getQuery()->get('id'))
             {
-
                 Session::getInstance()->write( 'danger', 'Bereits Geliked!');
                 return new ResponseRedirect('./index.php');
             }
@@ -91,11 +90,12 @@ class LikeController{
      */
     public function dislikeAction(Request $request){
 
-        $like = $this->likeRepository->findByTweetId($request->getQuery()->get('id'));
+
+        $like = $this->likeRepository->findOneBy(['tweetid' => $request->getQuery()->get('id')]);
 
         $this->likeRepository->remove($like);
 
-        return new ResponseRedirect('.index.php');
+        return new ResponseRedirect('./index.php');
     }
 
 

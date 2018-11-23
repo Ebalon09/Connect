@@ -31,11 +31,25 @@ class TwitterController
     public function indexAction()
     {
         $tweets = $this->tweetRepository->findAll();
+        $likes = $this->likeRepository->findBy(['userid' => $_SESSION['userid']]);
+
+
+
+        $array = array();
+
+        foreach($tweets as $tweet)
+        {
+            $array[$tweet->getId()] = $this->likeRepository->countLikes($tweet);
+        }
+
 
         return new Response( Templating::getInstance()->render('./templates/twitterFeed.php', [
             'result' => $tweets,
             'action' => "index.php?controller=TwitterController&action=createAction",
             'form' => 'tweetForm.php',
+            'likes' => $likes,
+            'countLikes' => $array,
+            'test' => $this->likeRepository->countLikes($tweet)
         ]));
     }
 
@@ -58,7 +72,10 @@ class TwitterController
         if ($request->isPostRequest())
         {
 
-            $user = $this->userRepository->findOneById($_SESSION['userid']);
+            $user = $this->userRepository->findBy([
+                'id' => $_SESSION['userid']
+            ]);
+
             $tweet = new Tweet();
 
             $tweet->setText(trim(strip_tags($request->getPost()->get('text'))));
@@ -82,7 +99,12 @@ class TwitterController
      */
     public function updateAction(Request $request)
     {
-        $tweet = $this->tweetRepository->findOneById($request->getQuery()->get('id'));
+
+
+
+        $tweet = $this->tweetRepository->findBy([
+            'userid' => $request->getQuery()->get('id')
+        ]);
 
         if ($request->isPostRequest())
         {
@@ -115,7 +137,10 @@ class TwitterController
     public function deleteAction(Request $request)
     {
 
-        $tweet = $this->tweetRepository->findOneById($request->getQuery()->get('id'));
+
+        $tweet = $this->tweetRepository->findBy([
+            'id' => $request->getQuery()->get('id')
+        ]);
 
         $this->tweetRepository->remove($tweet) ;
 

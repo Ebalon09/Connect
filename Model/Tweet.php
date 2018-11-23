@@ -28,6 +28,28 @@ class Tweet
      */
     protected $destination;
 
+    /**
+     * @var Likes
+     */
+    protected $likes;
+
+    /**
+     * @return Likes
+     */
+    public function getLikes()
+    {
+        return $this->likes;
+    }
+
+    /**
+     * @param Likes $likes
+     */
+    public function setLikes($likes)
+    {
+
+        $this->likes = $likes;
+    }
+
     public function __construct()
     {
         $this->datum = new DateTime();
@@ -114,18 +136,18 @@ class Tweet
     }
 
     /**
-     * @param $likes[]
+     * @param Likes $likes[]
      * @return bool
      */
     public function isLikedByUser($likes){
         foreach((array)$likes as $data){
-            if($data->getUser()->getid() === $this->getUser()->getId()){
+            if($data->getTweet()->getId() === $this->getId()){
                 return true;
-
             }
         }
         return false;
     }
+
 
 
 }

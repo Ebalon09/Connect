@@ -22,6 +22,26 @@ class Likes{
      * @var Tweet
      */
     protected $tweet;
+    /**
+     * @var int
+     */
+    protected $likes;
+
+    /**
+     * @return int
+     */
+    public function getLikes()
+    {
+        return $this->likes;
+    }
+
+    /**
+     * @param int $likes
+     */
+    public function setLikes($likes)
+    {
+        $this->likes = $likes;
+    }
 
     /**
      * @return int

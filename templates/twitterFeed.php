@@ -98,10 +98,11 @@
                                     <a href="./index.php?controller=TwitterController&action=deleteAction&id=<?= $data->getId() ?>" <button id="deleteButton" class="btn btn-danger" type="submit" name="action" value="Delete">Delete</button> </a>
                                 <?php if(isset($_SESSION['userid']) && !($data->getUser()->getId() == $_SESSION['userid'])){?>
                                     <?php if($data->isLikedByUser($likes)){ ?>
-                                        <a href="./index.php?controller=LikeController&action=dislikeAction&id=<?= $data->getId() ?>" <button id="DislikeButton" class="btn btn-secondary" type="submit" name="action" value="Dislike">Dislike</button> </a>
-                                    <?php }?>
+                                        <a href="./index.php?controller=LikeController&action=dislikeAction&id=<?= $data->getId()?>" <button id="DislikeButton" class="btn btn-secondary" type="submit" name="action" value="Dislike">Dislike</button> </a>
+                                    <?php }else{?>
                                         <a href="./index.php?controller=LikeController&action=likeAction&id=<?= $data->getId() ?>" <button id="likeButton" class="btn btn-secondary" type="submit" name="action" value="Like">Like</button> </a>
-                                <?php }}?>
+                                <?php } }} ?>
+                                <b><?=$countLikes[$data->getId()]?></b>
                             </div>
                         <?php }?>
                     </div>
