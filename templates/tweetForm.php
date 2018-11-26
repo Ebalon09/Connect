@@ -7,9 +7,8 @@
                         <textarea class="form-control" name="text" maxlength="100" cols="50" rows="5"></textarea>
                         <input id="my_upload" name="my_upload" class="upload" type="file" accept="image/*">
 
-                        <button class="btn btn-primary" type="Submit" name="action" value="Absenden" >Absenden</button>
+                        <button class="btn btn-outline-dark" type="Submit" name="action" value="Absenden" >Absenden</button>
                     </form>
-
                 </div>
         </div>
     </div>

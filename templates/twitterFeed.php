@@ -63,8 +63,9 @@
                 if(isset($_SESSION['userid']) && $_SESSION['userid'])
                 {
                     include "templates/" . $form;
-                }
-                if($_SESSION != null):  ?>
+                }else{ ?>
+                <?php }
+                if($_SESSION['userid'] != null):  ?>
                     <div class="warnung">
                         <?php
                         foreach(Session::getInstance()->readMessage() as $type => $messages) {
@@ -81,32 +82,35 @@
                         <?php /** @var Tweet $data */ ?>
                         <?php foreach ($result as $data) { ?>
                             <div id="<?= $data->getId()-1?>" class="item">
+                                <h5><?= $data->getDatum()->format('d.m.Y H:i:s'); ?></h5>
+                                <div class="Buttons">
+                                    <?php if(isset($_SESSION['userid']) && !($data->getUser()->getId() == $_SESSION['userid'])){?>
+                                        <?php if($data->isLikedByUser($likes)){ ?>
+                                            <a href="./index.php?controller=LikesController&action=dislikeAction&id=<?= $data->getId()?>#<?= $data->getId()?>" <button id="DislikeButton" class="btn btn-outline-dark" type="submit" name="action" value="Dislike"><i class="fas fa-heart"></i></button> </a>
+                                        <?php }else{?>
+                                            <a href="./index.php?controller=LikesController&action=likeAction&id=<?= $data->getId() ?>#<?= $data->getId()?>" <button id="likeButton" class="btn btn-outline-dark" type="submit" name="action" value="Like"><i class="far fa-heart"></i></button> </a>
+                                        <?php } } ?>
+                                    <a href="./index.php?controller=TwitterController&action=updateAction&id=<?= $data->getId() ?>" <button id="editButton" class="btn btn-outline-dark" type="Submit" name="action" value="Edit" ><i class="far fa-edit"></i></button> </a>
+                                    <a href="./index.php?controller=TwitterController&action=deleteAction&id=<?= $data->getId() ?>" <button id="deleteButton" class="btn btn-outline-dark" type="submit" name="action" value="Delete"><i class="far fa-trash-alt"></i></button> </a>
+                                </div>
                                 <div class="namecontainer">
                                     <?= $data->getUser()->getUsername()?>
                                 </div>
-                                <?php
-                                if($data->getDestination() != ''){?>
+                                <?php if($data->getDestination() != ''){?>
+                                    <p><?= $data->getText(); ?></p>
                                 <div class="imagecontainer">
                                     <img src=<?=$data->getDestination()?>>
                                 </div>
                                 <?php } ?>
-                                <h5><?= $data->getDatum()->format('d.m.Y H:i:s'); ?></h5>
-                                <p><?= $data->getText(); ?></p>
                                 <?php if($data->getLinkID() != null){?>
-                                    <iframe width="560" height="315" src="https://www.youtube.com/embed/<?php $data->getLinkID()?>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                    <div class="ytcontainer">
+                                    <iframe id="ytplayer" width="560" height="315" src="https://www.youtube.com/embed/<?php $data->getLinkID()?>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                    </div>
                                 <?php } ?>
                                 <?php if(isset($_SESSION['userid']) && $_SESSION['userid']){?>
                                     <p></p>
-                                    <a href="./index.php?controller=TwitterController&action=updateAction&id=<?= $data->getId() ?>" <button id="editButton" class="btn btn-primary" type="Submit" name="action" value="Edit" >Edit</button> </a>
-                                    <a href="./index.php?controller=&id=<?= $data->getId() ?>" <button id="reTweetButton" class="btn btn-primary" type="submit" name="action" value="reTweet">reTweet</button> </a>
-                                    <a href="./index.php?controller=TwitterController&action=deleteAction&id=<?= $data->getId() ?>" <button id="deleteButton" class="btn btn-danger" type="submit" name="action" value="Delete">Delete</button> </a>
-                                <?php if(isset($_SESSION['userid']) && !($data->getUser()->getId() == $_SESSION['userid'])){?>
-                                    <?php if($data->isLikedByUser($likes)){ ?>
-                                        <a href="./index.php?controller=LikesController&action=dislikeAction&id=<?= $data->getId()?>#<?= $data->getId()?>" <button id="DislikeButton" class="btn btn-secondary" type="submit" name="action" value="Dislike">Dislike</button> </a>
-                                    <?php }else{?>
-                                        <a href="./index.php?controller=LikesController&action=likeAction&id=<?= $data->getId() ?>#<?= $data->getId()?>" <button id="likeButton" class="btn btn-secondary" type="submit" name="action" value="Like">Like</button> </a>
-                                <?php } }} ?>
-                                <b><?=$countLikes[$data->getId()]?></b>
+                                <h6><b><?="Likes : ".$countLikes[$data->getId()]?></b></h6>
+                                <?php }?>
                             </div>
                         <?php }?>
                     </div>
