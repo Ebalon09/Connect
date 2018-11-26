@@ -90,6 +90,7 @@ class TweetRepository extends BaseRepository
         $tweet->setDatum(new \DateTime($data['createDate']));
         $tweet->setUser($this->userRepository->findOneById($data['userid']));
         $tweet->setDestination($data['destination']);
+        $tweet->setLinkID($data['LinkID']);
         return $tweet;
     }
 
@@ -105,6 +106,7 @@ class TweetRepository extends BaseRepository
             'createDate' => $tweet->getDatum()->format('Y-m-d H:i:s'),
             'userid' => $tweet->getUser()->getId(),
             'destination' => $tweet->getDestination(),
+            'LinkID' => $tweet->getLinkID()
         ];
 
         return $data;

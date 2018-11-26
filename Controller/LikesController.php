@@ -6,7 +6,7 @@
  * Time: 09:10
  */
 
-class LikeController{
+class LikesController{
 
     /**
      * @var TweetRepository

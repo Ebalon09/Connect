@@ -10,6 +10,7 @@ require_once './Services/ResponseInterface.php';
 require_once './Services/ResponseRedirect.php';
 require_once "./Services/Database.php";
 require_once "./Services/Templating.php";
+require_once "./Services/linkPreview.php";
 require_once "./Model/Tweet.php";
 require_once "./Repository/BaseRepository.php";
 require_once "./Repository/TweetRepository.php";

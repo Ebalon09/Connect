@@ -80,7 +80,7 @@
                     <div class="main">
                         <?php /** @var Tweet $data */ ?>
                         <?php foreach ($result as $data) { ?>
-                            <div class="item">
+                            <div id="<?= $data->getId()-1?>" class="item">
                                 <div class="namecontainer">
                                     <?= $data->getUser()->getUsername()?>
                                 </div>
@@ -92,15 +92,19 @@
                                 <?php } ?>
                                 <h5><?= $data->getDatum()->format('d.m.Y H:i:s'); ?></h5>
                                 <p><?= $data->getText(); ?></p>
+                                <?php if($data->getLinkID() != null){?>
+                                    <iframe width="560" height="315" src="https://www.youtube.com/embed/<?php $data->getLinkID()?>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                <?php } ?>
                                 <?php if(isset($_SESSION['userid']) && $_SESSION['userid']){?>
+                                    <p></p>
                                     <a href="./index.php?controller=TwitterController&action=updateAction&id=<?= $data->getId() ?>" <button id="editButton" class="btn btn-primary" type="Submit" name="action" value="Edit" >Edit</button> </a>
                                     <a href="./index.php?controller=&id=<?= $data->getId() ?>" <button id="reTweetButton" class="btn btn-primary" type="submit" name="action" value="reTweet">reTweet</button> </a>
                                     <a href="./index.php?controller=TwitterController&action=deleteAction&id=<?= $data->getId() ?>" <button id="deleteButton" class="btn btn-danger" type="submit" name="action" value="Delete">Delete</button> </a>
                                 <?php if(isset($_SESSION['userid']) && !($data->getUser()->getId() == $_SESSION['userid'])){?>
                                     <?php if($data->isLikedByUser($likes)){ ?>
-                                        <a href="./index.php?controller=LikeController&action=dislikeAction&id=<?= $data->getId()?>" <button id="DislikeButton" class="btn btn-secondary" type="submit" name="action" value="Dislike">Dislike</button> </a>
+                                        <a href="./index.php?controller=LikesController&action=dislikeAction&id=<?= $data->getId()?>#<?= $data->getId()?>" <button id="DislikeButton" class="btn btn-secondary" type="submit" name="action" value="Dislike">Dislike</button> </a>
                                     <?php }else{?>
-                                        <a href="./index.php?controller=LikeController&action=likeAction&id=<?= $data->getId() ?>" <button id="likeButton" class="btn btn-secondary" type="submit" name="action" value="Like">Like</button> </a>
+                                        <a href="./index.php?controller=LikesController&action=likeAction&id=<?= $data->getId() ?>#<?= $data->getId()?>" <button id="likeButton" class="btn btn-secondary" type="submit" name="action" value="Like">Like</button> </a>
                                 <?php } }} ?>
                                 <b><?=$countLikes[$data->getId()]?></b>
                             </div>

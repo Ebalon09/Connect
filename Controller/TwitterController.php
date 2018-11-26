@@ -33,8 +33,6 @@ class TwitterController
         $tweets = $this->tweetRepository->findAll();
         $likes = $this->likeRepository->findBy(['userid' => $_SESSION['userid']]);
 
-
-
         $array = array();
 
         foreach($tweets as $tweet)
@@ -49,7 +47,8 @@ class TwitterController
             'form' => 'tweetForm.php',
             'likes' => $likes,
             'countLikes' => $array,
-            'test' => $this->likeRepository->countLikes($tweet)
+            'test' => $this->likeRepository->countLikes($tweet),
+            'link' => $GLOBALS['LINK'],
         ]));
     }
 
@@ -72,13 +71,40 @@ class TwitterController
         if ($request->isPostRequest())
         {
 
-            $user = $this->userRepository->findBy([
+            $GLOBALS['LINK'] = false;
+
+            $user = $this->userRepository->findOneBy([
                 'id' => $_SESSION['userid']
             ]);
 
             $tweet = new Tweet();
 
+            $text = $request->getPost()->get('text');
+
+            if(strpos($text, 'https://www.youtube.com/watch?v=') !== false)
+            {
+                $GLOBALS['LINK'] = true;
+
+
+                $textarray = explode(" ", $text);
+
+                $video = null;
+                foreach($textarray as $array)
+                {
+
+                    if($array == (strpos($text, 'https://www.youtube.com/watch?v=') !== false))
+                    {
+
+                        $video = str_replace("https://www.youtube.com/watch?v=" , "" , $array);
+
+                        $tweet->setLinkID($video);
+
+                    }
+                }
+            }
+
             $tweet->setText(trim(strip_tags($request->getPost()->get('text'))));
+
             $tweet->setUser($user);
 
             $this->handleFileUpload($tweet);
@@ -87,6 +113,7 @@ class TwitterController
 
             $session = Session::getInstance();
             $session->write('success', 'Tweet erfolgreich gepostet');
+
 
             return new ResponseRedirect("./index.php");
         }
@@ -136,9 +163,7 @@ class TwitterController
      */
     public function deleteAction(Request $request)
     {
-
-
-        $tweet = $this->tweetRepository->findBy([
+        $tweet = $this->tweetRepository->findOneBy([
             'id' => $request->getQuery()->get('id')
         ]);
 

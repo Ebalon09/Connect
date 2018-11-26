@@ -34,6 +34,26 @@ class Tweet
     protected $likes;
 
     /**
+     * @return string
+     */
+    public function getLinkID()
+    {
+        return $this->linkID;
+    }
+
+    /**
+     * @param string $linkID
+     */
+    public function setLinkID($linkID)
+    {
+        $this->linkID = $linkID;
+    }
+    /**
+     * @var string
+     */
+    protected $linkID;
+
+    /**
      * @return Likes
      */
     public function getLikes()
