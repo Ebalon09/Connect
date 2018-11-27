@@ -35,7 +35,7 @@ body {
 
 .content .container {
     text-align: center;
-   flex-direction: column;
+    flex-direction: column;
     position: relative;
 }
 
@@ -166,7 +166,7 @@ body {
 }
 
 .container .main .item .Buttons #DislikeButton{
-
+    margin-top: 50px;
     margin-bottom: 5px;
     width: 100%;
 }

@@ -41,6 +41,8 @@ abstract class BaseRepository
 
         $data = $this->objectToArray($model);
 
+
+
         $properties = [];
         foreach($data as $key => $value)
         {
@@ -54,6 +56,8 @@ abstract class BaseRepository
             $query = "UPDATE ".$this->getTableName()." SET ";
             $query .= \join(', ', $properties);
             $query .= ' WHERE id = :id';
+
+
 
             return $this->database->update($query, $data);
         }

@@ -13,7 +13,7 @@
         <body class="text-white">
             <header class="header">
                 <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
-                    <a class="navbar-brand">Twitter Clone</a>
+                    <a class="navbar-brand">TwitterClone</a>
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
                         </button>
@@ -87,11 +87,17 @@
                                     <?php if(isset($_SESSION['userid']) && !($data->getUser()->getId() == $_SESSION['userid'])){?>
                                         <?php if($data->isLikedByUser($likes)){ ?>
                                             <a href="./index.php?controller=LikesController&action=dislikeAction&id=<?= $data->getId()?>#<?= $data->getId()?>" <button id="DislikeButton" class="btn btn-outline-dark" type="submit" name="action" value="Dislike"><i class="fas fa-heart"></i></button> </a>
+                                            <br>
                                         <?php }else{?>
                                             <a href="./index.php?controller=LikesController&action=likeAction&id=<?= $data->getId() ?>#<?= $data->getId()?>" <button id="likeButton" class="btn btn-outline-dark" type="submit" name="action" value="Like"><i class="far fa-heart"></i></button> </a>
+                                            <br>
                                         <?php } } ?>
                                     <a href="./index.php?controller=TwitterController&action=updateAction&id=<?= $data->getId() ?>" <button id="editButton" class="btn btn-outline-dark" type="Submit" name="action" value="Edit" ><i class="far fa-edit"></i></button> </a>
+                                    <br>
                                     <a href="./index.php?controller=TwitterController&action=deleteAction&id=<?= $data->getId() ?>" <button id="deleteButton" class="btn btn-outline-dark" type="submit" name="action" value="Delete"><i class="far fa-trash-alt"></i></button> </a>
+                                    <br>
+                                    <a href="./index.php?controller=CommentController&action=indexAction&id=<?= $data->getId()?>" ><button id="commentButton" class="btn btn-outline-dark" type="submit" name="action" value="Comment"><i class="far fa-comment-alt"></i></button></a>
+                                    <br>
                                 </div>
                                 <div class="namecontainer">
                                     <?= $data->getUser()->getUsername()?>
@@ -110,7 +116,7 @@
                                 <?php if(isset($_SESSION['userid']) && $_SESSION['userid']){?>
                                     <p></p>
                                 <h6><b><?="Likes : ".$countLikes[$data->getId()]?></b></h6>
-                                <?php }?>
+                                <?php } ?>
                             </div>
                         <?php }?>
                     </div>
