@@ -145,7 +145,7 @@ class CommentController
     public function deleteAction(Request $request)
     {
         $comment = $this->commentRepository->findOneBy([
-            'id' => $request->getQuery()->get('id')
+            'id' => $request->getQuery()->get('idc')
         ]);
 
 

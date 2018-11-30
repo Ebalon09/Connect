@@ -136,11 +136,11 @@
                             </div>
                             <div class="buttons">
                                 <?php if(isset($_SESSION['userid']) && ($data->getUser()->getId() == $_SESSION['userid'])){ ?>
-                                    <a href="./index.php?controller=CommentController&action=updateAction&id=<?= $data->getId()?>&c=true" <button id="editButton" class="btn btn-outline-dark" type="Submit" name="action" value="Edit" ><i class="far fa-edit"></i></button> </a>
+                                    <a href="./index.php?controller=CommentController&action=updateAction&id=<?= $data->getTweet()->getId() ?>&idc=<?=$data->getId()?>&c=true" <button id="editButton" class="btn btn-outline-dark" type="Submit" name="action" value="Edit" ><i class="far fa-edit"></i></button> </a>
                                     <?php } ?>
                                 <br>
                                 <?php if(isset($_SESSION['userid']) && ($data->getUser()->getId() == $_SESSION['userid'])){ ?>
-                                    <a href="./index.php?controller=CommentController&action=deleteAction&id=<?= $data->getId()?>&c=true" <button id="deleteButton" class="btn btn-outline-dark" type="submit" name="action" value="Delete"><i class="far fa-trash-alt"></i></button> </a>
+                                    <a href="./index.php?controller=CommentController&action=deleteAction&id=<?= $data->getTweet()->getId() ?>&idc=<?=$data->getId()?>&c=true" <button id="deleteButton" class="btn btn-outline-dark" type="submit" name="action" value="Delete"><i class="far fa-trash-alt"></i></button> </a>
                                     <?php } ?>
                                 <br>
                             </div>
