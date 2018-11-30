@@ -79,22 +79,13 @@ class TwitterController
             $tweet = new Tweet();
             $text = $request->getPost()->get('text');
 
-            if(strpos($text, 'https://www.youtube.com/watch?v=') !== false)
+            preg_match_all('/https:\/\/www\.youtube\.com\/watch\?v=([^\s]*)( |$)/', $text, $matches);
+            foreach($matches[1] as $key => $id)
             {
-                $GLOBALS['LINK'] = true;
-
-                $textarray = explode(" ", $text);
-
-                $video = null;
-                foreach($textarray as $array)
-                {
-                    if($array == (strpos($text, 'https://www.youtube.com/watch?v=') !== false))
-                    {
-                        $video = str_replace("https://www.youtube.com/watch?v=" , "" , $array);
-                        $tweet->setLinkID($video);
-                    }
-                }
+                $tweet->setLinkID($id);
+                $text = str_replace($matches[1][$key] , "" , $text);
             }
+
             $tweet->setText(trim(strip_tags($request->getPost()->get('text'))));
             $tweet->setUser($user);
             $this->handleFileUpload($tweet);

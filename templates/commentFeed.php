@@ -101,7 +101,7 @@
                         <?php } ?>
                         <?php if($tweet->getLinkID() != null){?>
                             <div class="ytcontainer">
-                                <iframe id="ytplayer" width="560" height="315" src="https://www.youtube.com/embed/<?php $tweet->getLinkID()?>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                <iframe id="ytplayer" width="560" height="315" src="https://www.youtube.com/embed/<?= $tweet->getLinkID()?>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                             </div>
                         <?php } include './templates/commentForm.php';?>
                         <?php if(isset($_SESSION['userid']) && $_SESSION['userid']){?>

@@ -110,7 +110,7 @@
                                 <?php } ?>
                                 <?php if($data->getLinkID() != null){?>
                                     <div class="ytcontainer">
-                                    <iframe id="ytplayer" width="560" height="315" src="https://www.youtube.com/embed/<?php $data->getLinkID()?>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                    <iframe id="ytplayer" width="560" height="315" src="https://www.youtube.com/embed/<?= $data->getLinkID()?>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                                     </div>
                                 <?php } ?>
                                 <?php if(isset($_SESSION['userid']) && $_SESSION['userid']){?>

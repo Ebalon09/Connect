@@ -37,6 +37,8 @@ class UserActionController
                 ]);
                 $user->setEmail($request->getPost()->get('email'));
                 $result = $this->userRepository->add($user);
+
+
             }
             if ($request->getPost()->get('username') != null)
             {
@@ -69,8 +71,12 @@ class UserActionController
             }
             else
             {
+                $_SESSION['username'] = null;
+                $_SESSION['userid'] = null;
+                $_SESSION['email'] = null;
                 Session::getInstance()->write('success', 'erfolgreich geupdatet, bitte neu einloggen damit die änderung in kraft tritt');
             }
+
             return new Response(Templating::getInstance()->render('./templates/settingForm.php', [
                 'form' => 'settingForm.php'
             ]));
