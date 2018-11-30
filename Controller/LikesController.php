@@ -31,15 +31,13 @@ class LikesController{
         $this->likeRepository = new LikeRepository();
     }
 
-
     /**
      * @return Response
      */
-    public function indexAction(){
+    public function indexAction()
+    {
         $tweets = $this->tweetRepository->findAll();
         $likes = $this->likeRepository->findBy([ 'userid' => $_SESSION['userid']]);
-
-
 
         return new Response( Templating::getInstance()->render('./templates/twitterFeed.php', [
             'result' => $tweets,
@@ -55,7 +53,9 @@ class LikesController{
      */
     public function likeAction(Request $request)
     {
-        $likes = $this->likeRepository->findBy(['userid' => $_SESSION['userid']]);
+        $likes = $this->likeRepository->findBy([
+            'userid' => $_SESSION['userid']
+        ]);
 
         foreach((array)$likes as $data)
         {
@@ -67,58 +67,34 @@ class LikesController{
         }
 
         $likes = new Likes();
-
         $likes->setUser($this->userRepository->findOneBy([
             'username' => $_SESSION['username']
         ]));
-
-
         $likes->setTweet($this->tweetRepository->findOneBy([
             'id' => $request->getQuery()->get('id')
         ]));
-
-
         $this->likeRepository->add($likes);
 
         $id = $request->getQuery()->get('id');
-
         if($request->getQuery()->get('c') == true){
             return new ResponseRedirect("./index.php?controller=CommentController&action=indexAction&id=$id&c=true");
         }
         return new ResponseRedirect("./index.php");
     }
 
-
     /**
      * @param Request $request
      * @return ResponseRedirect
      */
-    public function dislikeAction(Request $request){
-
-
+    public function dislikeAction(Request $request)
+    {
         $like = $this->likeRepository->findOneBy(['tweetid' => $request->getQuery()->get('id')]);
-
         $this->likeRepository->remove($like);
 
         $id = $request->getQuery()->get('id');
-
         if($request->getQuery()->get('c') == true){
             return new ResponseRedirect("./index.php?controller=CommentController&action=indexAction&id=$id&c=true");
         }
         return new ResponseRedirect('./index.php');
     }
-
-
-
-
-
-    //TODO
-    //userid und tweetid in like speichern,
-    //userid == tweetid ausgeben und die häufigkeit counten
-    //wenn userid bereits für einen tweet gegeben, like button deaktivieren
-
-
-
-
-
 }

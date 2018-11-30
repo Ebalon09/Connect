@@ -136,7 +136,7 @@
                             </div>
                             <div class="buttons">
                                 <?php if(isset($_SESSION['userid']) && ($data->getUser()->getId() == $_SESSION['userid'])){ ?>
-                                    <a href="./index.php?controller=CommentController&action=updateAction&id=<?= $data->getTweet()->getId() ?>&idc=<?=$data->getId()?>&c=true" <button id="editButton" class="btn btn-outline-dark" type="Submit" name="action" value="Edit" ><i class="far fa-edit"></i></button> </a>
+                                    <a href="./index.php?controller=CommentController&action=indexAction&id=<?= $data->getTweet()->getId() ?>&idc=<?=$data->getId()?>&c=true" <button id="editButton" class="btn btn-outline-dark" type="Submit" name="action" value="Edit" ><i class="far fa-edit"></i></button> </a>
                                     <?php } ?>
                                 <br>
                                 <?php if(isset($_SESSION['userid']) && ($data->getUser()->getId() == $_SESSION['userid'])){ ?>
@@ -152,11 +152,6 @@
                 </div>
             </div>
         </div>
-
     </div>
-
-
-
-
 </body>
 </html>

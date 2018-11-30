@@ -36,7 +36,6 @@ class CommentController
         $this->commentRepository = new CommentRepository();
     }
 
-
     /**
      * @param Request $request
      * @return Response
@@ -44,16 +43,11 @@ class CommentController
     public function indexAction(Request $request)
     {
         $comments = $this->commentRepository->findAll();
-
         $tweet = $this->tweetRepository->findOneBy(['id' => $request->getQuery()->get('id')]);
-
         $likes = $this->likeRepository->findBy(['userid' => $_SESSION['userid']]);
 
-
         $array = array();
-
         $array[$tweet->getId()] = $this->likeRepository->countLikes($tweet);
-
 
         return new Response(Templating::getInstance()->render('./templates/commentFeed.php', [
             'result' => $comments,
@@ -72,7 +66,6 @@ class CommentController
     {
         if($request->isPostRequest())
         {
-
             $user = $this->userRepository->findOneBy([
                 'id' => $_SESSION['userid']
             ]);
@@ -81,27 +74,21 @@ class CommentController
                 'id' => $request->getQuery()->get('id')
             ]);
 
-
             $comment = new Comment();
 
             $comment->setComment(trim(strip_tags($request->getPost()->get('text'))));
-
             $comment->setUser($user);
-
             $comment->setTweet($tweet);
-
             $this->commentRepository->add($comment);
 
             $session = Session::getInstance();
             $session->write('success', 'Kommentar erfolgreich gepostet');
 
             $id = $request->getQuery()->get('id');
-
             if($request->getQuery()->get('c') == true){
                 return new ResponseRedirect("./index.php?controller=CommentController&action=indexAction&id=$id&c=true");
             }
             return new ResponseRedirect('./index.php');
-
         }
     }
 
@@ -121,16 +108,13 @@ class CommentController
             $tweet = new Tweet();
 
             $tweet->setText(trim(strip_tags($request->getPost()->get('text'))));
-
             $tweet->setUser($user);
-
             $this->tweetRepository->add($tweet);
 
             $session = Session::getInstance();
             $session->write('success', 'Tweet erfolgreich gepostet');
 
             $id = $request->getQuery()->get('id');
-
             if($request->getQuery()->get('c') == true){
                 return new ResponseRedirect("./index.php?controller=CommentController&action=indexAction&id=$id&c=true");
             }
@@ -148,14 +132,12 @@ class CommentController
             'id' => $request->getQuery()->get('idc')
         ]);
 
-
         $this->commentRepository->remove($comment);
 
         $session = Session::getInstance();
         $session->write('success', 'Tweet erfolgreich gelöscht');
 
         $id = $request->getQuery()->get('id');
-
         if ($request->getQuery()->get('c') == true) {
             return new ResponseRedirect("./index.php?controller=CommentController&action=indexAction&id=$id&c=true");
         }

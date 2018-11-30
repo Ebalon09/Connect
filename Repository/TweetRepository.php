@@ -35,7 +35,6 @@ class TweetRepository extends BaseRepository
 
             $tweets[] = $tweet;
         }
-
         return $tweets;
     }
 
@@ -50,7 +49,6 @@ class TweetRepository extends BaseRepository
         ])[0];
 
         $tweet = $this->arrayToObject($data);
-
         return $tweet;
     }
 
@@ -71,10 +69,8 @@ class TweetRepository extends BaseRepository
         $data = $this->objectToArray($tweet);
         $data2['id'] = $data['id'];
 
-
         $query = "DELETE FROM Tweet ";
         $query .= "WHERE id = :id";
-
         return $this->database->insert($query, $data2);
     }
 
@@ -88,7 +84,7 @@ class TweetRepository extends BaseRepository
         $tweet->setId($data['id']);
         $tweet->setText($data['text']);
         $tweet->setDatum(new \DateTime($data['createDate']));
-        $tweet->setUser($this->userRepository->findOneById($data['userid']));
+        $tweet->setUser($this->userRepository->findOneBy(['id' => $data['userid']]));
         $tweet->setDestination($data['destination']);
         $tweet->setLinkID($data['LinkID']);
         return $tweet;
@@ -108,7 +104,6 @@ class TweetRepository extends BaseRepository
             'destination' => $tweet->getDestination(),
             'LinkID' => $tweet->getLinkID()
         ];
-
         return $data;
     }
 

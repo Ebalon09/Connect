@@ -6,8 +6,8 @@
  * Time: 17:43
  */
 
-class Comment {
-
+class Comment
+{
     /**
      * @var string
      */

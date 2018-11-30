@@ -6,13 +6,13 @@
  * Time: 17:43
  */
 
-class CommentRepository extends BaseRepository{
-
-
+class CommentRepository extends BaseRepository
+{
     /**
      * @var UserRepository
      */
     protected $userRepository;
+
     /**
      * @var TweetRepository
      */
@@ -36,15 +36,14 @@ class CommentRepository extends BaseRepository{
         $result = $this->database->query("SELECT * FROM Comments");
 
         $tweets = [];
-        foreach($result as $data) {
+        foreach($result as $data)
+        {
             $tweet = $this->arrayToObject($data);
 
             $tweets[] = $tweet;
         }
-
         return $tweets;
     }
-
 
     /**
      * @param $data
@@ -65,14 +64,14 @@ class CommentRepository extends BaseRepository{
      * @param Comment $model
      * @return array
      */
-    protected function objectToArray($model){
+    protected function objectToArray($model)
+    {
         $data = [
             'id' => $model->getId(),
             'userid' => $model->getUser()->getId(),
             'tweetid' => $model->getTweet()->getId(),
             'comment' => $model->getComment(),
         ];
-
         return $data;
     }
 
@@ -87,10 +86,8 @@ class CommentRepository extends BaseRepository{
 
         $query = "DELETE FROM Comments ";
         $query .= "WHERE id = :id";
-
         return $this->database->insert($query, $data2);
     }
-
 
     /**
      * @return mixed

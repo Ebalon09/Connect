@@ -6,12 +6,13 @@
  * Time: 16:12
  */
 
-class LikeRepository extends BaseRepository{
-
+class LikeRepository extends BaseRepository
+{
     /**
      * @var UserRepository
      */
     protected $userRepository;
+
     /**
      * @var TweetRepository
      */
@@ -30,67 +31,18 @@ class LikeRepository extends BaseRepository{
     /**
      * @return array
      */
-    public function findAll(){
+    public function findAll()
+    {
         $result = $this->database->query("SELECT * FROM Likes");
 
         $tweets = [];
-        foreach($result as $data) {
+        foreach($result as $data)
+        {
             $tweet = $this->arrayToObject($data);
 
             $tweets[] = $tweet;
         }
-
         return $tweets;
-    }
-
-
-    /**
-     * @param $userid
-     * @return Likes[]
-     */
-    public function findAllByUserId($userid){
-
-        $result = $this->database->query("SELECT * FROM Likes WHERE userid = :userid",[
-            'userid' => $userid
-        ]);
-
-        foreach($result as $data) {
-            $like = $this->arrayToObject($data);
-
-            $likes[] = $like;
-        }
-
-        return $likes;
-
-
-    }
-
-    /**
-     * @param $userid
-     * @return Likes
-     */
-    public function findOneByUserId($userid){
-
-        $data = $this->database->query("SELECT * FROM Likes WHERE userid = :userid",[
-            'userid' => $userid
-        ])[0];
-        $user = $this->arrayToObject($data);
-
-        return $user;
-    }
-
-    public function findByTweetId($tweetid){
-
-        $data = $this->database->query("SELECT * FROM Users WHERE tweetid = :tweetid",[
-            'tweetid' => $tweetid
-        ])[0];
-
-        $user = $this->arrayToObject($data);
-
-        return $user;
-
-
-
     }
 
     /**
@@ -99,7 +51,6 @@ class LikeRepository extends BaseRepository{
      */
     public function add(Likes $likes)
     {
-
         $data = $this->objectToArray($likes);
 
         $properties = [];
@@ -110,15 +61,11 @@ class LikeRepository extends BaseRepository{
                 $properties[$key] = $key . ' = :' .$key;
             }
         }
-
         $query = "INSERT INTO Likes SET ";
         $query .= \join(', ', $properties);
 
-
         unset($data['id']);
-
         return $this->database->insert($query, $data);
-
     }
 
     /**
@@ -127,10 +74,8 @@ class LikeRepository extends BaseRepository{
      */
     public function remove(Likes $likes)
     {
-
         $data = $this->objectToArray($likes);
         $data2['id'] = $data['id'];
-
 
         $query = "DELETE FROM Likes ";
         $query .= "WHERE id = :id";
@@ -142,13 +87,11 @@ class LikeRepository extends BaseRepository{
      * @param $data
      * @return Likes
      */
-    protected function arrayToObject($data){
-
-
-
+    protected function arrayToObject($data)
+    {
         $likes = new Likes();
         $likes->setId($data['id']);
-        $likes->setUser($this->userRepository->findOneById($data['userid']));
+        $likes->setUser($this->userRepository->findOneBy(['id' => $data['userid']]));
         $likes->setTweet($this->tweetRepository->findOneById($data['tweetid']));
 
         return $likes;
@@ -158,9 +101,8 @@ class LikeRepository extends BaseRepository{
      * @param Likes $model
      * @return array
      */
-    protected function objectToArray($model){
-
-
+    protected function objectToArray($model)
+    {
         $data = [
             'id' => $model->getId(),
             'userid' => $model->getUser()->getId(),
@@ -168,9 +110,7 @@ class LikeRepository extends BaseRepository{
         ];
 
         return $data;
-
     }
-
 
     /**
      * @return mixed

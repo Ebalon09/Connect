@@ -34,12 +34,10 @@ class TwitterController
         $likes = $this->likeRepository->findBy(['userid' => $_SESSION['userid']]);
 
         $array = array();
-
         foreach($tweets as $tweet)
         {
             $array[$tweet->getId()] = $this->likeRepository->countLikes($tweet);
         }
-
 
         return new Response( Templating::getInstance()->render('./templates/twitterFeed.php', [
             'result' => $tweets,
@@ -52,11 +50,13 @@ class TwitterController
         ]));
     }
 
+    /**
+     * @return mixed
+     */
     public function getLastTweet(){
         $data = Database::getInstance()->query("SELECT * FROM Tweet ORDER BY id DESC", [
             'postid' => $_SESSION['userid']
         ]);
-
         $data2 = $data[0]['id'];
 
         return $data2;
@@ -77,43 +77,31 @@ class TwitterController
             ]);
 
             $tweet = new Tweet();
-
             $text = $request->getPost()->get('text');
 
             if(strpos($text, 'https://www.youtube.com/watch?v=') !== false)
             {
                 $GLOBALS['LINK'] = true;
 
-
                 $textarray = explode(" ", $text);
 
                 $video = null;
                 foreach($textarray as $array)
                 {
-
                     if($array == (strpos($text, 'https://www.youtube.com/watch?v=') !== false))
                     {
-
                         $video = str_replace("https://www.youtube.com/watch?v=" , "" , $array);
-
                         $tweet->setLinkID($video);
-
                     }
                 }
             }
-
             $tweet->setText(trim(strip_tags($request->getPost()->get('text'))));
-
             $tweet->setUser($user);
-
             $this->handleFileUpload($tweet);
-
             $this->tweetRepository->add($tweet);
 
             $session = Session::getInstance();
             $session->write('success', 'Tweet erfolgreich gepostet');
-
-
             return new ResponseRedirect("./index.php");
         }
     }
@@ -126,13 +114,12 @@ class TwitterController
     public function updateAction(Request $request)
     {
         $tweet = $this->tweetRepository->findBy([
-            'userid' => $request->getQuery()->get('id')
+            'userid' => $request->getQuery()->get('idc')
         ]);
 
         if ($request->isPostRequest())
         {
             $tweet->setText(strip_tags($request->getPost()->get('text')));
-
             $result = $this->tweetRepository->add($tweet);
 
             if (!$result)
@@ -143,7 +130,6 @@ class TwitterController
             {
                 Session::getInstance()->write('success', 'Eintrag erfolgreich geupdatet');
             }
-
             return new ResponseRedirect('./index.php?controller=TwitterController&action=indexAction');
         }
         return new Response(Templating::getInstance()->render('./templates/twitterFeed.php', [
@@ -159,7 +145,6 @@ class TwitterController
      */
     public function deleteAction(Request $request)
     {
-
         $tweet = $this->tweetRepository->findOneBy([
             'id' => $request->getQuery()->get('id')
         ]);
@@ -168,7 +153,6 @@ class TwitterController
 
         $session = Session::getInstance();
         $session->write('success','Tweet erfolgreich gelöscht');
-
         return new ResponseRedirect("./index.php");
     }
 

@@ -8,7 +8,6 @@
 
 class UserRepository extends BaseRepository
 {
-
     /**
      * @param $username
      * @return User
@@ -32,7 +31,6 @@ class UserRepository extends BaseRepository
         $data = $this->database->query("SELECT * FROM Users WHERE email = :email",[
             'email' => $email
         ])[0];
-
         $user = $this->arrayToObject($data);
 
         return $user;
@@ -49,7 +47,6 @@ class UserRepository extends BaseRepository
         $user->setUsername($data['username']);
         $user->setPassword($data['password']);
         $user->setEmail($data['email']);
-
         return $user;
     }
 
@@ -69,16 +66,6 @@ class UserRepository extends BaseRepository
         return $data;
     }
 
-    public function findOneById($id){
-        $data = $this->database->query("SELECT * FROM Users WHERE id = :id;", [
-            'id' => $id
-        ])[0];
-
-        $user = $this->arrayToObject($data);
-
-        return $user;
-    }
-
     /**
      * @param User $user
      * @return mixed
@@ -88,10 +75,8 @@ class UserRepository extends BaseRepository
         $data = $this->objectToArray($user);
         $data2['id'] = $data['id'];
 
-
         $query = "DELETE FROM Users ";
         $query .= "WHERE id = :id";
-
         return $this->database->insert($query, $data2);
     }
 

@@ -8,7 +8,6 @@
  */
 abstract class BaseRepository
 {
-
     /**
      * @var Database
      */
@@ -29,7 +28,8 @@ abstract class BaseRepository
      */
     public function add($model)
     {
-        if(!$this->isSupported($model)) {
+        if(!$this->isSupported($model))
+        {
             throw new \Exception(
                 \sprintf(
                     "Cannot save an model of instance %s, in Repository %s",
@@ -38,10 +38,7 @@ abstract class BaseRepository
                 )
             );
         }
-
         $data = $this->objectToArray($model);
-
-
 
         $properties = [];
         foreach($data as $key => $value)
@@ -51,17 +48,14 @@ abstract class BaseRepository
                 $properties[$key] = $key . ' = :' .$key;
             }
         }
-        if($model->getId() > 0){
-
+        if($model->getId() > 0)
+        {
             $query = "UPDATE ".$this->getTableName()." SET ";
             $query .= \join(', ', $properties);
             $query .= ' WHERE id = :id';
 
-
-
             return $this->database->update($query, $data);
         }
-
         $query = "INSERT INTO ".$this->getTableName()." SET ";
         $query .= \join(', ', $properties);
 
@@ -75,25 +69,17 @@ abstract class BaseRepository
      */
     public function findOneBy(array $parameters)
     {
-
         $properties = [];
         foreach($parameters as $key => $value)
         {
             $properties[$key] = $key . ' = :' .$key;
         }
-
-
-
         $query = "SELECT * FROM ".$this->getTableName()." WHERE ";
         $query .= \join(',',$properties);
 
         $data = $this->database->query($query, $parameters);
-
         $data2 = $data[0];
-
-
         $object = $this->arrayToObject($data2);
-
 
         return $object;
     }
@@ -102,19 +88,17 @@ abstract class BaseRepository
      * @param array $parameters
      * @return mixed
      */
-    public function findBy(array $parameters){
-
+    public function findBy(array $parameters)
+    {
         $properties = [];
         foreach($parameters as $key => $value)
         {
             $properties[$key] = $key . ' = :' .$key;
         }
-
         $query = "SELECT * FROM ".$this->getTableName()." WHERE ";
         $query .= \join(',',$properties);
 
         $data = $this->database->query($query, $parameters);
-
 
         $objects = [];
         foreach($data as $result){
@@ -123,8 +107,6 @@ abstract class BaseRepository
         }
         return $objects;
     }
-
-
 
     /**
      * @return string

@@ -2,7 +2,6 @@
 
 class Tweet
 {
-
     /**
      * @var int
      */
@@ -34,6 +33,19 @@ class Tweet
     protected $likes;
 
     /**
+     * @var string
+     */
+    protected $linkID;
+
+    /**
+     * Tweet constructor.
+     */
+    public function __construct()
+    {
+        $this->datum = new DateTime();
+    }
+
+    /**
      * @return string
      */
     public function getLinkID()
@@ -48,10 +60,6 @@ class Tweet
     {
         $this->linkID = $linkID;
     }
-    /**
-     * @var string
-     */
-    protected $linkID;
 
     /**
      * @return Likes
@@ -68,11 +76,6 @@ class Tweet
     {
 
         $this->likes = $likes;
-    }
-
-    public function __construct()
-    {
-        $this->datum = new DateTime();
     }
 
     /**
@@ -159,15 +162,14 @@ class Tweet
      * @param Likes $likes[]
      * @return bool
      */
-    public function isLikedByUser($likes){
-        foreach((array)$likes as $data){
+    public function isLikedByUser($likes)
+    {
+        foreach((array)$likes as $data)
+        {
             if($data->getTweet()->getId() === $this->getId()){
                 return true;
             }
         }
         return false;
     }
-
-
-
 }

@@ -6,8 +6,8 @@
  * Time: 16:12
  */
 
-class Likes{
-
+class Likes
+{
     /**
      * @var int
      */
@@ -22,6 +22,7 @@ class Likes{
      * @var Tweet
      */
     protected $tweet;
+
     /**
      * @var int
      */
