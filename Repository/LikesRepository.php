@@ -196,7 +196,7 @@ class LikeRepository extends BaseRepository{
     public function countLikes(Tweet $tweet)
     {
         return count($this->database->query("SELECT * FROM Likes WHERE tweetid = :tweetid",[
-            'tweetid' => $tweet->getId()
+            'tweetid' => $tweet->getId(),
         ]));
     }
 

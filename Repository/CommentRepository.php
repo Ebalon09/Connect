@@ -74,7 +74,21 @@ class CommentRepository extends BaseRepository{
         ];
 
         return $data;
+    }
 
+    /**
+     * @param Comment $comment
+     * @return mixed
+     */
+    public function remove(Comment $comment)
+    {
+        $data = $this->objectToArray($comment);
+        $data2['id'] = $data['id'];
+
+        $query = "DELETE FROM Comments ";
+        $query .= "WHERE id = :id";
+
+        return $this->database->insert($query, $data2);
     }
 
 

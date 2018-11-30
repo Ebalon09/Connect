@@ -70,7 +70,6 @@ class TwitterController
     {
         if ($request->isPostRequest())
         {
-
             $GLOBALS['LINK'] = false;
 
             $user = $this->userRepository->findOneBy([
@@ -160,6 +159,7 @@ class TwitterController
      */
     public function deleteAction(Request $request)
     {
+
         $tweet = $this->tweetRepository->findOneBy([
             'id' => $request->getQuery()->get('id')
         ]);

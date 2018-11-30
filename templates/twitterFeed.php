@@ -96,7 +96,7 @@
                                     <br>
                                     <a href="./index.php?controller=TwitterController&action=deleteAction&id=<?= $data->getId() ?>" <button id="deleteButton" class="btn btn-outline-dark" type="submit" name="action" value="Delete"><i class="far fa-trash-alt"></i></button> </a>
                                     <br>
-                                    <a href="./index.php?controller=CommentController&action=indexAction&id=<?= $data->getId()?>" ><button id="commentButton" class="btn btn-outline-dark" type="submit" name="action" value="Comment"><i class="far fa-comment-alt"></i></button></a>
+                                    <a href="./index.php?controller=CommentController&action=indexAction&id=<?= $data->getId()?>&c=true" ><button id="commentButton" class="btn btn-outline-dark" type="submit" name="action" value="Comment"><i class="far fa-comment-alt"></i></button></a>
                                     <br>
                                 </div>
                                 <div class="namecontainer">

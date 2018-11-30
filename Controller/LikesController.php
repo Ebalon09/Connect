@@ -80,6 +80,11 @@ class LikesController{
 
         $this->likeRepository->add($likes);
 
+        $id = $request->getQuery()->get('id');
+
+        if($request->getQuery()->get('c') == true){
+            return new ResponseRedirect("./index.php?controller=CommentController&action=indexAction&id=$id&c=true");
+        }
         return new ResponseRedirect("./index.php");
     }
 
@@ -95,6 +100,11 @@ class LikesController{
 
         $this->likeRepository->remove($like);
 
+        $id = $request->getQuery()->get('id');
+
+        if($request->getQuery()->get('c') == true){
+            return new ResponseRedirect("./index.php?controller=CommentController&action=indexAction&id=$id&c=true");
+        }
         return new ResponseRedirect('./index.php');
     }
 

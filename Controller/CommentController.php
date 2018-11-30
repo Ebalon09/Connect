@@ -95,6 +95,11 @@ class CommentController
             $session = Session::getInstance();
             $session->write('success', 'Kommentar erfolgreich gepostet');
 
+            $id = $request->getQuery()->get('id');
+
+            if($request->getQuery()->get('c') == true){
+                return new ResponseRedirect("./index.php?controller=CommentController&action=indexAction&id=$id&c=true");
+            }
             return new ResponseRedirect('./index.php');
 
         }
@@ -102,29 +107,58 @@ class CommentController
 
     /**
      * @param Request $request
+     * @return ResponseRedirect
+     * @throws Exception
      */
     public function updateAction(Request $request)
     {
+        if ($request->isPostRequest())
+        {
+            $user = $this->userRepository->findOneBy([
+                'id' => $_SESSION['userid']
+            ]);
 
+            $tweet = new Tweet();
+
+            $tweet->setText(trim(strip_tags($request->getPost()->get('text'))));
+
+            $tweet->setUser($user);
+
+            $this->tweetRepository->add($tweet);
+
+            $session = Session::getInstance();
+            $session->write('success', 'Tweet erfolgreich gepostet');
+
+            $id = $request->getQuery()->get('id');
+
+            if($request->getQuery()->get('c') == true){
+                return new ResponseRedirect("./index.php?controller=CommentController&action=indexAction&id=$id&c=true");
+            }
+            return new ResponseRedirect("./index.php");
+        }
     }
 
+    /**
+     * @param Request $request
+     * @return ResponseRedirect
+     */
     public function deleteAction(Request $request)
     {
         $comment = $this->commentRepository->findOneBy([
             'id' => $request->getQuery()->get('id')
         ]);
 
+
         $this->commentRepository->remove($comment);
 
-
         $session = Session::getInstance();
-        $session->write('success','Tweet erfolgreich gelöscht');
+        $session->write('success', 'Tweet erfolgreich gelöscht');
 
+        $id = $request->getQuery()->get('id');
+
+        if ($request->getQuery()->get('c') == true) {
+            return new ResponseRedirect("./index.php?controller=CommentController&action=indexAction&id=$id&c=true");
+        }
         return new ResponseRedirect("./index.php");
-
-
     }
-
-
-
 }

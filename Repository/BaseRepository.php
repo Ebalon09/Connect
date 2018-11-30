@@ -75,21 +75,25 @@ abstract class BaseRepository
      */
     public function findOneBy(array $parameters)
     {
+
         $properties = [];
         foreach($parameters as $key => $value)
         {
             $properties[$key] = $key . ' = :' .$key;
         }
 
+
+
         $query = "SELECT * FROM ".$this->getTableName()." WHERE ";
         $query .= \join(',',$properties);
 
         $data = $this->database->query($query, $parameters);
 
-
         $data2 = $data[0];
 
+
         $object = $this->arrayToObject($data2);
+
 
         return $object;
     }
@@ -144,5 +148,5 @@ abstract class BaseRepository
      * @param $data
      * @return mixed
      */
-    abstract protected function ArrayToObject($data);
+    abstract protected function arrayToObject($data);
 }
