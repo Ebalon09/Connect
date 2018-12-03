@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="./Style/commentStyle.css">
+    <link rel="stylesheet" type="text/css" href="./Style/style.css">
     <title>Twitter</title>
 </head>
 
@@ -143,14 +143,8 @@
                                     <a href="./index.php?controller=CommentController&action=deleteAction&id=<?= $data->getTweet()->getId() ?>&idc=<?=$data->getId()?>&c=true" <button id="deleteButton" class="btn btn-outline-dark" type="submit" name="action" value="Delete"><i class="far fa-trash-alt"></i></button> </a>
                                     <?php } ?>
                                 <br>
-                                <?php if(isset($_SESSION['userid']) && ($data->getUser()->getId() == $_SESSION['userid'])){ ?>
-                                    <a href="./index.php?controller=CommentController&action=reTweetAction&id=<?= $data->getTweet()->getId() ?>&idc=<?=$data->getId()?>&c=true" <button id="reTweet" class="btn btn-outline-dark" type="submit" name="action" value="reTweet"><i class="fas fa-retweet"></i></button> </a>
-                                <?php } ?>
-                                <br>
                             </div>
                             <p><?= $data->getComment()?></p>
-                            <br>
-                            <h6><b><?="Likes : ".$countLikes[$data->getId()]?></b></h6>
                         </div>
                     <?php } }?>
                 </div>

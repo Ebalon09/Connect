@@ -48,14 +48,14 @@ class TwitterController
             'likes' => $likes,
             'countLikes' => $array,
             'test' => $this->likeRepository->countLikes($tweet),
-            'link' => $GLOBALS['LINK'],
         ]));
     }
 
     /**
      * @return mixed
      */
-    public function getLastTweet(){
+    public function getLastTweet()
+    {
         $data = Database::getInstance()->query("SELECT * FROM Tweet ORDER BY id DESC", [
             'postid' => $_SESSION['userid']
         ]);
@@ -72,8 +72,6 @@ class TwitterController
     {
         if ($request->isPostRequest())
         {
-            $GLOBALS['LINK'] = false;
-
             $user = $this->userRepository->findOneBy([
                 'id' => $_SESSION['userid']
             ]);
@@ -99,6 +97,11 @@ class TwitterController
         }
     }
 
+    /**
+     * @param Request $request
+     * @return ResponseRedirect
+     * @throws Exception
+     */
     public function reTweetAction(Request $request)
     {
         $tweet = $this->tweetRepository->findOneBy([
@@ -186,7 +189,8 @@ class TwitterController
      */
     private function handleFileUpload($tweet)
     {
-        if ($_FILES['my_upload']['name'] != null) {
+        if ($_FILES['my_upload']['name'] != null)
+        {
             $_FILES['my_upload']['name'] = $this->getLastTweet() + 1 . ".jpg";
             $upload_file = $_FILES['my_upload']['name'];
             $dest = './uploads/' . $upload_file;
