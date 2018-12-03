@@ -39,6 +39,8 @@ class TwitterController
             $array[$tweet->getId()] = $this->likeRepository->countLikes($tweet);
         }
 
+
+
         return new Response( Templating::getInstance()->render('./templates/twitterFeed.php', [
             'result' => $tweets,
             'action' => "index.php?controller=TwitterController&action=createAction",
@@ -95,6 +97,38 @@ class TwitterController
             $session->write('success', 'Tweet erfolgreich gepostet');
             return new ResponseRedirect("./index.php");
         }
+    }
+
+    public function reTweetAction(Request $request)
+    {
+        $tweet = $this->tweetRepository->findOneBy([
+            'id' => $request->getQuery()->get('id')
+        ]);
+
+        $user = $this->userRepository->findOneBy([
+            'id' => $_SESSION['userid']
+        ]);
+
+        $text = $tweet->getText();
+
+        $reTweet = new Tweet();
+        preg_match_all('/https:\/\/www\.youtube\.com\/watch\?v=([^\s]*)( |$)/', $text, $matches);
+        foreach($matches[1] as $key => $id)
+        {
+            $reTweet->setLinkID($id);
+            $text = str_replace($matches[1][$key] , "" , $text);
+        }
+
+        $reTweet->setReTweet($tweet);
+        $reTweet->setUser($user);
+        $reTweet->setText(trim(strip_tags($tweet->getText())));
+
+
+        $this->tweetRepository->add($reTweet);
+
+        $session = Session::getInstance();
+        $session->write('success', 'Tweet erfolgreich gepostet');
+        return new ResponseRedirect("./index.php");
     }
 
     /**

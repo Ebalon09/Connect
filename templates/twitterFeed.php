@@ -98,12 +98,17 @@
                                     <br>
                                     <a href="./index.php?controller=CommentController&action=indexAction&id=<?= $data->getId()?>&idc=<?=$data->getId()?>&c=true" ><button id="commentButton" class="btn btn-outline-dark" type="submit" name="action" value="Comment"><i class="far fa-comment-alt"></i></button></a>
                                     <br>
+                                    <a href="./index.php?controller=TwitterController&action=reTweetAction&id=<?= $data->getId() ?>&idc=<?=$data->getId()?>" <button id="reTweet" class="btn btn-outline-dark" type="submit" name="action" value="reTweet"><i class="fas fa-retweet"></i></button> </a>
+                                    <br>
                                 </div>
                                 <div class="namecontainer">
-                                    <?= $data->getUser()->getUsername()?>
+                                    <?php if($data->getReTweet() == null){?>
+                                    <?= $data->getUser()->getUsername(); }else{?>
+                                    <b><i class="fas fa-retweet"><?=$data->getUser()->getUsername()?></i></b>
+                                    <?php } ?>
                                 </div>
+                                <p><?= $data->getText() ?></p>
                                 <?php if($data->getDestination() != ''){?>
-                                    <p><?= $data->getText(); ?></p>
                                 <div class="imagecontainer">
                                     <img src=<?=$data->getDestination()?>>
                                 </div>

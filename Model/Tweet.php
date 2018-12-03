@@ -38,11 +38,32 @@ class Tweet
     protected $linkID;
 
     /**
+     * @var Tweet
+     */
+    protected $reTweet;
+
+    /**
      * Tweet constructor.
      */
     public function __construct()
     {
         $this->datum = new DateTime();
+    }
+
+    /**
+     * @return Tweet
+     */
+    public function getReTweet()
+    {
+        return $this->reTweet;
+    }
+
+    /**
+     * @param Tweet $tweet
+     */
+    public function setReTweet(Tweet $tweet)
+    {
+        $this->reTweet = $tweet;
     }
 
     /**

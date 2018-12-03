@@ -102,7 +102,8 @@ class TweetRepository extends BaseRepository
             'createDate' => $tweet->getDatum()->format('Y-m-d H:i:s'),
             'userid' => $tweet->getUser()->getId(),
             'destination' => $tweet->getDestination(),
-            'LinkID' => $tweet->getLinkID()
+            'LinkID' => $tweet->getLinkID(),
+            'reTweet' => $tweet->getReTweet(),
         ];
         return $data;
     }

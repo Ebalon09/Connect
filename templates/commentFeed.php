@@ -143,6 +143,10 @@
                                     <a href="./index.php?controller=CommentController&action=deleteAction&id=<?= $data->getTweet()->getId() ?>&idc=<?=$data->getId()?>&c=true" <button id="deleteButton" class="btn btn-outline-dark" type="submit" name="action" value="Delete"><i class="far fa-trash-alt"></i></button> </a>
                                     <?php } ?>
                                 <br>
+                                <?php if(isset($_SESSION['userid']) && ($data->getUser()->getId() == $_SESSION['userid'])){ ?>
+                                    <a href="./index.php?controller=CommentController&action=reTweetAction&id=<?= $data->getTweet()->getId() ?>&idc=<?=$data->getId()?>&c=true" <button id="reTweet" class="btn btn-outline-dark" type="submit" name="action" value="reTweet"><i class="fas fa-retweet"></i></button> </a>
+                                <?php } ?>
+                                <br>
                             </div>
                             <p><?= $data->getComment()?></p>
                             <br>

@@ -40,6 +40,7 @@ abstract class BaseRepository
         }
         $data = $this->objectToArray($model);
 
+
         $properties = [];
         foreach($data as $key => $value)
         {
@@ -58,6 +59,14 @@ abstract class BaseRepository
         }
         $query = "INSERT INTO ".$this->getTableName()." SET ";
         $query .= \join(', ', $properties);
+
+
+        $reTweet = $data['reTweet'];
+
+        if($reTweet !==null)
+        {
+            $data['reTweet'] = $reTweet->getId();
+        }
 
         unset($data['id']);
         return $this->database->insert($query, $data);
