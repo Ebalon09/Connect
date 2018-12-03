@@ -52,21 +52,11 @@ body {
     background-color: rgba(255, 255, 255, 0.05);
     padding: 20px;
     margin: 20px;
+    min-width: 67em;
+    min-height: 25em;
+    position: relative;
 }
 
-.content .container .main .item .imagecontainer{
-    width: 100%;
-    text-align: center;
-    margin-bottom: 5px;
-}
-
-.content .container .main .item .imagecontainer img{
-    width : 100%;
-    max-width:500px;
-    height:200px;
-    object-fit: cover;
-    object-position: top;
-}
 
 #table {
 
@@ -82,6 +72,20 @@ body {
     position: relative;
     padding: 2em;
 
+}
+
+.tweetForm .form #submitButton {
+
+    position: absolute;
+    right: 1em;
+
+
+}
+
+.tweetForm .form #my_upload {
+
+    position: absolute;
+    left: 1em;
 }
 
 .updateForm {
@@ -148,14 +152,58 @@ body {
 }
 
 .container .main .item .namecontainer{
+    position: static;
+}
+
+.container .main .item .textcontainer{
+
+    position: static;
+}
 
 
+.container .main .item .Likecontainer{
+
+    position: absolute;
+    right: 2.5%;
+    bottom: 2.5%;
+}
+
+.content .container .main .item .imagecontainer{
+    position: static;
+    width: 100%;
+    margin-bottom: 1em;
+}
+
+.content .container .main .item .imagecontainer img{
+    width : 100%;
+    max-width:500px;
+    height:200px;
+    object-fit: cover;
+    object-position: top;
+}
+
+.container .main .item .ytcontainer{
+
+    position: static;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 5px;
+    box-sizing: border-box;
+
+}
+
+.container .main .item .ytcontainer iframe{
+
+    object-fit: cover;
+    object-position: top;
 
 }
 
 .container .main .item h6{
 
-    text-align: right;
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
 
 }
 
@@ -193,6 +241,12 @@ body {
 
 }
 
+
+.container .main .item .Buttons #deleteButton:hover{
+
+    background-color: darkred;
+}
+
 .container .main .item .Buttons #commentButton{
 
     margin-bottom: 5px;
@@ -200,19 +254,10 @@ body {
 
 }
 
+.container .main .item .Buttons #reTweetButton{
 
-.container .main .item .ytcontainer{
-
-    width: 100%;
-    text-align: center;
     margin-bottom: 5px;
-    box-sizing: border-box;
+    width: 100%;
 
 }
 
-.container .main .item .ytcontainer iframe{
-
-    object-fit: cover;
-    object-position: top;
-
-}

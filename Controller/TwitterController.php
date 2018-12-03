@@ -139,8 +139,8 @@ class TwitterController
     public function updateAction(Request $request)
     {
         $tweet = $this->tweetRepository->findBy([
-            'userid' => $request->getQuery()->get('idc')
-        ]);
+            'id' => $request->getQuery()->get('id')
+        ])[0];
 
         if ($request->isPostRequest())
         {

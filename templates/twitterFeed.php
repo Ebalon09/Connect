@@ -96,18 +96,18 @@
                                     <br>
                                     <a href="./index.php?controller=TwitterController&action=deleteAction&id=<?= $data->getId() ?>" <button id="deleteButton" class="btn btn-outline-dark" type="submit" name="action" value="Delete"><i class="far fa-trash-alt"></i></button> </a>
                                     <br>
-                                    <a href="./index.php?controller=CommentController&action=indexAction&id=<?= $data->getId()?>&idc=<?=$data->getId()?>&c=true" ><button id="commentButton" class="btn btn-outline-dark" type="submit" name="action" value="Comment"><i class="far fa-comment-alt"></i></button></a>
+                                    <a href="./index.php?controller=TwitterController&action=reTweetAction&id=<?= $data->getId() ?>&idc=<?=$data->getId()?>" <button id="reTweetButton" class="btn btn-outline-dark" type="submit" name="action" value="reTweet"><i class="fas fa-retweet"></i></button> </a>
                                     <br>
-                                    <a href="./index.php?controller=TwitterController&action=reTweetAction&id=<?= $data->getId() ?>&idc=<?=$data->getId()?>" <button id="reTweet" class="btn btn-outline-dark" type="submit" name="action" value="reTweet"><i class="fas fa-retweet"></i></button> </a>
+                                    <a href="./index.php?controller=CommentController&action=indexAction&id=<?= $data->getId()?>&idc=<?=$data->getId()?>&c=true" ><button id="commentButton" class="btn btn-outline-dark" type="submit" name="action" value="Comment"><i class="far fa-comment-alt"></i></button></a>
                                     <br>
                                 </div>
                                 <div class="namecontainer">
                                     <?php if($data->getReTweet() == null){?>
-                                    <?= $data->getUser()->getUsername(); }else{?>
-                                    <b><i class="fas fa-retweet"><?=$data->getUser()->getUsername()?></i></b>
-                                    <?php } ?>
+                                    <?= $data->getUser()->getUsername(); }?>
                                 </div>
-                                <p><?= $data->getText() ?></p>
+                                <div class="textcontainer">
+                                    <p><?= $data->getText() ?></p>
+                                </div>
                                 <?php if($data->getDestination() != ''){?>
                                 <div class="imagecontainer">
                                     <img src=<?=$data->getDestination()?>>
@@ -119,8 +119,9 @@
                                     </div>
                                 <?php } ?>
                                 <?php if(isset($_SESSION['userid']) && $_SESSION['userid']){?>
-                                    <p></p>
-                                <h6><b><?="Likes : ".$countLikes[$data->getId()]?></b></h6>
+                                    <div clasS="Likecontainer">
+                                        <h6><i class="far fa-thumbs-up"></i><?=$countLikes[$data->getId()]?></h6>
+                                    </div>
                                 <?php } ?>
                             </div>
                         <?php }?>

@@ -98,7 +98,7 @@ class UserActionController
     {
         {
             $user = $this->userRepository->findOneBy([
-                'userid' => $_SESSION['userid']
+                'id' => $_SESSION['userid']
             ]);
             $this->userRepository->remove($user);
 
