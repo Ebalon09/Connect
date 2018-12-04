@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 26, 2018 at 01:17 PM
+-- Generation Time: Dec 04, 2018 at 05:47 PM
 -- Server version: 10.1.34-MariaDB-0ubuntu0.18.04.1
 -- PHP Version: 5.6.38-3+ubuntu18.04.1+deb.sury.org+1
 
@@ -31,7 +31,6 @@ SET time_zone = "+00:00";
 CREATE TABLE `Comments` (
   `id` int(11) NOT NULL,
   `comment` text COLLATE utf8_unicode_ci NOT NULL,
-  `commentid` int(11) NOT NULL,
   `userid` int(11) NOT NULL,
   `tweetid` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -56,12 +55,13 @@ CREATE TABLE `Likes` (
 
 CREATE TABLE `Tweet` (
   `id` int(11) NOT NULL,
-  `text` text COLLATE utf8_unicode_ci NOT NULL,
+  `text` text COLLATE utf8_unicode_ci,
   `createDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `userid` int(11) NOT NULL,
   `destination` text COLLATE utf8_unicode_ci,
   `editDate` int(11) NOT NULL,
-  `LinkID` text COLLATE utf8_unicode_ci
+  `LinkID` text COLLATE utf8_unicode_ci,
+  `reTweet` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -74,7 +74,8 @@ CREATE TABLE `Users` (
   `id` int(11) NOT NULL,
   `username` text COLLATE utf8_unicode_ci NOT NULL,
   `password` text COLLATE utf8_unicode_ci NOT NULL,
-  `email` text COLLATE utf8_unicode_ci NOT NULL
+  `email` text COLLATE utf8_unicode_ci NOT NULL,
+  `picture` text COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
