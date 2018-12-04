@@ -82,7 +82,7 @@
                             <!--Show logged in User, with profile pic and data-->
                             <?php if(isset($_SESSION['userid'])){?>
                             <div class="panel panel-default">
-                                <div class="panel-body">
+                                <div    class="panel-body">
                                     <a href="#"><img class="img-responsive" alt="" src="<?= $user->getPicture()?>"></a>
                                     <div class="row">
                                         <div class="col-xs-3">
@@ -131,7 +131,7 @@
                                     <!--Text Box-->
                                     <div class="media">
                                         <a class="media-left" href="#fake">
-                                            <img id="Userpic" alt="" class="media-object img-rounded" src="http://placehold.it/35x35">
+                                            <img id="userpictext" alt="" class="media-object img-rounded" src="<?=$user->getPicture()?>">
                                         </a>
                                         <div class="media-body">
                                             <form action="./index.php?controller=TwitterController&action=createAction" method="POST">
@@ -142,18 +142,17 @@
                                     </div>
                                 </div>
                                 <div class="panel-body">
-
                                     <!--here foreach with user posts,names,profile pics and buttons-->
                                     <?php /** @var Tweet $data */?>
                                     <?php foreach($result as $data) { ?>
                                     <div class="media">
                                         <a class="media-left" href="#fake">
-                                            <img id="Userpic" alt="" class="media-object img-rounded" src="<?=$data->getUser()->getPicture()?>">
+                                            <img id="userpicpost" alt="" class="media-object img-rounded" src="<?=$data->getUser()->getPicture()?>">
                                         </a>
                                         <div class="media-body">
                                             <h4 class="media-heading" id="Username"><?=$data->getUser()->getUsername() ?></h4>
                                             <p id="Text"><?=$data->getText() ?></p>
-                                            <ul class="nav nav-pills nav-pills-custom">
+                                            <ul id="buttons" class="nav nav-pills nav-pills-custom">
                                                 <li><a id="comment" href="./index.php?controller=CommentController&action=indexAction&id=<?= $data->getId()?>&idc=<?=$data->getId()?>&c=true" ><i class="far fa-comment-alt"></i></button></a></li>
                                                 <li><a id="reTweet" href="./index.php?controller=TwitterController&action=reTweetAction&id=<?= $data->getId() ?>&idc=<?=$data->getId()?>" <i class="fas fa-retweet"></i></button> </a></li>
                                                 <li><a id="delete" href="./index.php?controller=TwitterController&action=deleteAction&id=<?= $data->getId() ?>" <i class="far fa-trash-alt"></i></button> </a></li>

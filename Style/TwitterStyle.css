@@ -100,12 +100,14 @@ div.panel-heading
 .panel .panel-body
 {
     padding: 15px;
+    text-align: center;
 }
 
 .panel .panel-body img
 {
+
     vertical-align: middle;
-    max-width: 400px;
+    max-width: 225px;
     max-height: 140px;
     margin-bottom: 5px;
 }
@@ -157,21 +159,52 @@ div.panel-heading
 
 #Username{
     padding-left: 10px;
+    text-align: left;
 }
 
 #Text{
     padding-left: 10px;
+    text-align: left;
 }
 
-#Userpic{
-    clip-path: circle(30% at center);
+#userpictext{
+
+    margin-top: 5px;
+    margin-right: 3px;
+    max-width: 40px;
+    max-height: 40px;
+}
+
+#userpicpost{
+    margin-bottom: 0;
+    clip-path: circle(50% at center);
+    max-width: 64px;
+    max-height: 64px;
+    width:100%;
+    object-fit: cover;
+    object-position: top;
 }
 
 #Userinput{
-    width: 30em;
+    width: 28em;
     margin-right: 0;
     flex-grow: 2;
 }
 
+.container-fluid .container .row .col-sm-3 .panel .panel-body{
+    text-align: left;
+}
 
+#buttons{
+    margin-bottom: 20px;
+}
 
+#line{
+    border: 1px;
+}
+
+.header .navbar .collapse .Username{
+
+    margin-right: 20px;
+
+}
