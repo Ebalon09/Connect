@@ -66,8 +66,9 @@ class LoginController{
         $pw1 = $_POST['Password'];
         $pw2 = $_POST['re-Password'];
 
-        if($_FILES == null) {
-            $pic = "../uploads/ProfilePics/Fill2.png";
+
+        if($_FILES['name'] == '') {
+            $pic = "./uploads/ProfilePics/fill.jpg";
         }
 
         if ($pw1 == $pw2)
@@ -102,7 +103,12 @@ class LoginController{
 
 
             $user = new User();
-            $user->setPicture(strip_tags($this->handlefileupload($request)));
+
+            if(isset($pic)){
+                $user->setPicture($pic);
+            }else {
+                $user->setPicture(strip_tags($this->handlefileupload($request)));
+            }
             $user->setUsername(strip_tags($request->getPost()->get('Username')));
             $user->setPassword(password_hash($request->getPost()->get('Password'), PASSWORD_DEFAULT));
             $user->setEmail(strip_tags($request->getPost()->get('Email')));
