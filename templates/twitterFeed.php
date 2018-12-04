@@ -83,7 +83,7 @@
                             <?php if(isset($_SESSION['userid'])){?>
                             <div class="panel panel-default">
                                 <div class="panel-body">
-                                    <a href="#"><img class="img-responsive" alt="" src="http://placehold.it/800x500"></a>
+                                    <a href="#"><img class="img-responsive" alt="" src="<?= $user->getPicture()?>"></a>
                                     <div class="row">
                                         <div class="col-xs-3">
                                             <h5>
@@ -134,12 +134,10 @@
                                             <img id="Userpic" alt="" class="media-object img-rounded" src="http://placehold.it/35x35">
                                         </a>
                                         <div class="media-body">
-                                            <div class="form-group has-feedback">
-                                                <label class="control-label sr-only" for="inputSuccess5">Hidden label</label>
-                                                <input type="text" class="form-control" id="search2" aria-describedby="search">
-                                                <span class="glyphicon glyphicon-camera form-control-feedback" aria-hidden="true"></span>
-                                                <span id="search2" class="sr-only">(success)</span>
-                                            </div>
+                                            <form action="./index.php?controller=TwitterController&action=createAction" method="POST">
+                                            <label class="control-label sr-only" for="inputSuccess5">Hidden label</label>
+                                            <input id="Userinput" name="text" type="text" class="form-control" autocomplete="off">
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
@@ -150,7 +148,7 @@
                                     <?php foreach($result as $data) { ?>
                                     <div class="media">
                                         <a class="media-left" href="#fake">
-                                            <img id="Userpic" alt="" class="media-object img-rounded" src="http://placehold.it/64x64">
+                                            <img id="Userpic" alt="" class="media-object img-rounded" src="<?=$data->getUser()->getPicture()?>">
                                         </a>
                                         <div class="media-body">
                                             <h4 class="media-heading" id="Username"><?=$data->getUser()->getUsername() ?></h4>
@@ -163,18 +161,17 @@
                                             </ul>
                                         </div>
                                     </div>
+                                    <?php } ?>
                                 </div>
                             </div>
-                            <?php } ?>
+
 
                             <!-- Foot panel-->
                             <div class="panel panel-default">
-                                <div class="panel-heading">Footer?</div>
+                                <div class="panel-heading">Hier ist das Ende :(</div>
                                 <div class="panel-body">
                                     <ul class="nav nav-pills">
-                                        <li role="presentation" class="active"><a href="#">Home</a></li>
-                                        <li role="presentation"><a href="#">Profile</a></li>
-                                        <li role="presentation"><a href="#">Messages</a></li>
+                                        <li role="presentation" class="active"><a href="./index.php">Refreshe mal deine Seite, vielleicht ist ja was neues da!</a></li>
                                     </ul>
                                 </div>
                             </div>

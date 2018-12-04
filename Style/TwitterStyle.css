@@ -58,11 +58,6 @@ div.panel-heading
     padding-bottom: 0px;
 }
 
-.form-control-feedback
-{ /*camera icon in text field*/
-    line-height:27px;
-}
-
 .panel-info
 { /*content border*/
     border:1px lightgrey solid;
@@ -85,6 +80,14 @@ div.panel-heading
     position: static;
 
 }
+
+.col-sm-6 .panel{
+    box-shadow: 0 1px 1px rgba(0,0,0,.05);
+    background-color: white;
+    margin-bottom: 20px;
+    border-radius: 4px;
+}
+
 
 .panel
 {
@@ -163,3 +166,12 @@ div.panel-heading
 #Userpic{
     clip-path: circle(30% at center);
 }
+
+#Userinput{
+    width: 30em;
+    margin-right: 0;
+    flex-grow: 2;
+}
+
+
+

@@ -47,6 +47,7 @@ class UserRepository extends BaseRepository
         $user->setUsername($data['username']);
         $user->setPassword($data['password']);
         $user->setEmail($data['email']);
+        $user->setPicture($data['picture']);
         return $user;
     }
 
@@ -61,7 +62,9 @@ class UserRepository extends BaseRepository
             'username' => $model->getUsername(),
             'password' => $model->getPassword(),
             'Email' => $model->getEmail(),
+            'picture' => $model->getPicture()
         ];
+
 
         return $data;
     }

@@ -33,6 +33,10 @@ class TwitterController
         $tweets = $this->tweetRepository->findAll();
         $likes = $this->likeRepository->findBy(['userid' => $_SESSION['userid']]);
 
+
+        $user = $this->userRepository->findOneBy(['id' => $_SESSION['userid']]);
+
+
         $array = array();
         foreach($tweets as $tweet)
         {
@@ -47,7 +51,7 @@ class TwitterController
             'form' => 'tweetForm.php',
             'likes' => $likes,
             'countLikes' => $array,
-            'test' => $this->likeRepository->countLikes($tweet),
+            'user' => $user,
         ]));
     }
 

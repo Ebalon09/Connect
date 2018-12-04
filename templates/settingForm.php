@@ -57,8 +57,14 @@
                         <button name="changePW" class="btn btn-outline-light my-2 my-sm-3" type="submit">Passwort ändern</button>
                     </form>
 
+                    <form action="./index.php?controller=UserActionController&action=changeAction" method="POST" enctype="multipart/form-data">
+                        <input id="my_upload" name="my_upload" class="upload" type="file" accept="image/*">
+
+                        <button name="Picture" class="btn btn-outline-light my-2 my-sm-3" type="submit">Bild Hochladen</button>
+                    </form>
+
                     <form action="./index.php?controller=UserActionController&action=finished">
-                    <button name="change" class="btn btn-outline-light my-2 my-sm-3" type="submit">Fertig</button>
+                        <button name="change" class="btn btn-outline-light my-2 my-sm-3" type="submit">Fertig</button>
                     </form>
             </div>
 

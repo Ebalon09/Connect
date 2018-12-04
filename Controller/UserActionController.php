@@ -28,6 +28,7 @@ class UserActionController
     {
         $result = null;
 
+
         if ($request->isPostRequest())
         {
             if ($request->getPost()->get('email') != null)
@@ -64,6 +65,17 @@ class UserActionController
                 {
                     Session::getInstance()->write('danger', 'Passwörter müssen übereinstimmen!');
                 }
+            }
+            if($_FILES != null){
+                $user = $this->userRepository->findOneBy([
+                    'id' => $_SESSION['userid'],
+                ]);
+
+
+                $user->setPicture($this->handleFileUpload($user));
+
+                $result = $this->userRepository->add($user);
+
             }
             if (!$result)
             {
@@ -111,5 +123,25 @@ class UserActionController
             return new ResponseRedirect("./index.php");
         }
     }
+
+    /**
+     * @param $user
+     * @return string
+     */
+    private function handleFileUpload($user)
+    {
+        if ($_FILES['my_upload']['name'] != null)
+        {
+            $user = $this->userRepository->findOneBy(['id' => $_SESSION['userid']]);
+            $_FILES['my_upload']['name'] = $user->getUsername(). ".jpg";
+            $upload_file = $_FILES['my_upload']['name'];
+            $dest = './uploads/ProfilePics/' . $upload_file;
+
+            move_uploaded_file($_FILES['my_upload']['tmp_name'], $dest);
+
+            return $dest;
+        }
+    }
+
 }
 

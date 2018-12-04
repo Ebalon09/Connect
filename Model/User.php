@@ -27,6 +27,26 @@ class User
      * @var string
      */
     protected $email;
+    /**
+     * @var string
+     */
+    protected $picture;
+
+    /**
+     * @return string
+     */
+    public function getPicture()
+    {
+        return $this->picture;
+    }
+
+    /**
+     * @param string $picture
+     */
+    public function setPicture($picture)
+    {
+        $this->picture = $picture;
+    }
 
     /**
      * @return int

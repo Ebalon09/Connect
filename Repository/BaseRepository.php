@@ -86,8 +86,11 @@ abstract class BaseRepository
         $query = "SELECT * FROM ".$this->getTableName()." WHERE ";
         $query .= \join(',',$properties);
 
+
         $data = $this->database->query($query, $parameters);
         $data2 = $data[0];
+
+
         $object = $this->arrayToObject($data2);
 
         return $object;
