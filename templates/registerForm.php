@@ -43,7 +43,7 @@
                 </div>
             <?php endif; ?>
 
-            <form action="./index.php?controller=LoginController&action=registerAction" method="POST">
+            <form action="./index.php?controller=LoginController&action=registerAction" method="POST" enctype="multipart/form-data">
                 <div class="container">
                     <h1>Registrieren : </h1>
 
@@ -60,6 +60,11 @@
                     <label for="re-Password">Passwort erneut eingeben :</label>
                     <input name="re-Password" class="form-control mr-sm-2" type="password" placeholder="Passwort" aria-label="Password" required>
 
+
+                    <label for="Picture">Profilbild</label>
+                    <input id="my_upload" name="my_upload" class="upload" type="file" accept="image/*">
+
+                    <br>
 
                     <button name="Login" class="btn btn-outline-light my-2 my-sm-3" type="submit">Registrieren</button>
                 </div>

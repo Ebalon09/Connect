@@ -66,7 +66,9 @@ class LoginController{
         $pw1 = $_POST['Password'];
         $pw2 = $_POST['re-Password'];
 
-        $pic = "../uploads/ProfilePics/Fill.png";
+        if($_FILES == null) {
+            $pic = "../uploads/ProfilePics/Fill2.png";
+        }
 
         if ($pw1 == $pw2)
         {
@@ -97,8 +99,10 @@ class LoginController{
                     }
                 }
             }
+
+
             $user = new User();
-            $user->setPicture($pic);
+            $user->setPicture(strip_tags($this->handlefileupload($request)));
             $user->setUsername(strip_tags($request->getPost()->get('Username')));
             $user->setPassword(password_hash($request->getPost()->get('Password'), PASSWORD_DEFAULT));
             $user->setEmail(strip_tags($request->getPost()->get('Email')));
@@ -128,4 +132,28 @@ class LoginController{
 
         return new ResponseRedirect("./index.php");
     }
+
+    /**
+     * @param $request
+     * @return string
+     */
+    private function handleFileUpload($request)
+    {
+
+
+        if ($_FILES['my_upload']['name'] != null)
+        {
+
+
+            $_FILES['my_upload']['name'] = $request->getPost()->get('Username'). ".jpg";
+            $upload_file = $_FILES['my_upload']['name'];
+            $dest = './uploads/ProfilePics/' . $upload_file;
+
+
+            move_uploaded_file($_FILES['my_upload']['tmp_name'], $dest);
+
+            return $dest;
+        }
+    }
+
 }
