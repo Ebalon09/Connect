@@ -1,0 +1,165 @@
+body {
+    background-color: #002152;
+    background-image:
+            radial-gradient(ellipse at center, #002152 0%, black 130%);
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #333;
+
+}
+
+.nav-pills-custom>li>a
+{ /*button normal color*/
+    color: lightgrey;
+}
+
+.nav-pills-custom>li>a:focus,
+.nav-pills-custom>li>a:hover
+{ /*button hover color*/
+    background: none;
+    color: black;
+}
+
+.panel-custom>.panel-heading /*box head(trend and fill)*/
+{
+    background: none;
+    border-bottom: none;
+}
+
+.form-control-nav
+{	/* searchbar*/
+    border: lightgrey solid 1px;
+    border-radius:15px;
+}
+
+.navbar-default .navbar-collapse, .navbar-default
+{
+    background-color: #343a40;
+}
+
+.panel-footer
+{
+    background-color: lightcyan;
+}
+
+.well
+{
+    background-color: lightcyan;
+}
+
+a
+{
+    color:#343a40; /* schriftfarbe links*/
+}
+
+div.panel-heading
+{ /*text field box*/
+    padding-top:15px;
+    padding-bottom: 0px;
+}
+
+.form-control-feedback
+{ /*camera icon in text field*/
+    line-height:27px;
+}
+
+.panel-info
+{ /*content border*/
+    border:1px lightgrey solid;
+}
+
+.container-fluid
+{
+    margin-top: 70px;
+}
+
+.container-fluid .panel .panel-body .col-cs-3 
+{
+    position: static;
+    
+    
+}
+
+.container-fluid .panel .panel-body .col-cs-6
+{
+    position: static;
+
+}
+
+.panel
+{
+    box-shadow: 0 1px 1px rgba(0,0,0,.05);
+    background-color: white;
+    margin-bottom: 20px;
+    border-radius: 4px;
+}
+
+.panel .panel-body
+{
+    padding: 15px;
+}
+
+.panel .panel-body img
+{
+    vertical-align: middle;
+    max-width: 400px;
+    max-height: 140px;
+    margin-bottom: 5px;
+}
+
+.panel .panel-body .row
+{
+    margin-right: -15px;
+    margin-left: -15px;
+
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+
+.container-fluid .container .row .panel .panel-heading
+{
+    padding-top: 15px;
+    padding-left: 15px;
+}
+
+.panel-title
+{
+    font-size: 16px;
+}
+
+#edit
+{
+    font-size: 20px;
+    padding-right: 5px;
+}
+
+#comment
+{
+    font-size: 20px;
+    padding-right: 5px;
+}
+
+#delete
+{
+    font-size: 20px;
+    padding-right: 5px;
+}
+
+#reTweet
+{
+    font-size: 20px;
+    padding-right: 5px;
+}
+
+#Username{
+    padding-left: 10px;
+}
+
+#Text{
+    padding-left: 10px;
+}
+
+#Userpic{
+    clip-path: circle(30% at center);
+}

@@ -1,9 +1,4 @@
-body {
-    padding: 0;
-    background-color: #002152;
-    background-image:
-            radial-gradient(ellipse at center, #002152 0%, black 130%);
-}
+
 
 .header{
     position: absolute;
