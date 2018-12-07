@@ -208,3 +208,9 @@ div.panel-heading
     margin-right: 20px;
 
 }
+
+#commentinput{
+    width: 14em;
+    margin-right: 0;
+    flex-grow: 2;
+}

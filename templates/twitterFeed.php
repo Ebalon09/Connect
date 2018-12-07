@@ -134,10 +134,18 @@
                                             <img id="userpictext" alt="" class="media-object img-rounded" src="<?=$user->getPicture()?>">
                                         </a>
                                         <div class="media-body">
-                                            <form action="./index.php?controller=TwitterController&action=createAction" method="POST">
-                                            <label class="control-label sr-only" for="inputSuccess5">Hidden label</label>
-                                            <input id="Userinput" name="text" type="text" class="form-control" autocomplete="off">
-                                            </form>
+                                            <?php
+                                            if(isset($update)){?>
+                                                <form action="./index.php?controller=TwitterController&action=updateAction&id=<?= $update->getId();?>" method="POST">
+                                                    <label class="control-label sr-only" for="inputSuccess5">Hidden label</label>
+                                                    <input id="Userinput" name="text" type="text" class="form-control" autocomplete="off" value="<?=$update->getText()?>">
+                                                </form>
+                                            <?php } else { ?>
+                                                <form action="./index.php?controller=TwitterController&action=createAction" method="POST">
+                                                    <label class="control-label sr-only" for="inputSuccess5">Hidden label</label>
+                                                    <input id="Userinput" name="text" type="text" class="form-control" autocomplete="off">
+                                                </form>
+                                            <?php } ?>
                                         </div>
                                     </div>
                                 </div>
@@ -157,6 +165,13 @@
                                                 <li><a id="reTweet" href="./index.php?controller=TwitterController&action=reTweetAction&id=<?= $data->getId() ?>&idc=<?=$data->getId()?>" <i class="fas fa-retweet"></i></button> </a></li>
                                                 <li><a id="delete" href="./index.php?controller=TwitterController&action=deleteAction&id=<?= $data->getId() ?>" <i class="far fa-trash-alt"></i></button> </a></li>
                                                 <li><a id="edit" href="./index.php?controller=TwitterController&action=updateAction&id=<?= $data->getId() ?>" <i class="far fa-edit"></i></button> </a></li>
+
+
+                                                <?php if(isset($_GET['c'])){?>
+                                                <form action="./index.php?controller=CommentController&action=createAction" method="POST">
+                                                <input id="commentinput" name="text" type="text" class="form-control" autocomplete="off">
+                                                </form>
+                                                <?php } ?>
                                             </ul>
                                         </div>
                                     </div>

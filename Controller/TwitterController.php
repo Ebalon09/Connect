@@ -33,17 +33,13 @@ class TwitterController
         $tweets = $this->tweetRepository->findAll();
         $likes = $this->likeRepository->findBy(['userid' => $_SESSION['userid']]);
 
-
         $user = $this->userRepository->findOneBy(['id' => $_SESSION['userid']]);
-
 
         $array = array();
         foreach($tweets as $tweet)
         {
             $array[$tweet->getId()] = $this->likeRepository->countLikes($tweet);
         }
-
-
 
         return new Response( Templating::getInstance()->render('./templates/twitterFeed.php', [
             'result' => $tweets,
@@ -149,11 +145,13 @@ class TwitterController
             'id' => $request->getQuery()->get('id')
         ])[0];
 
+        $user = $this->userRepository->findOneBy(['id' => $_SESSION['userid']]);
+
         if ($request->isPostRequest())
         {
-            $tweet->setText(strip_tags($request->getPost()->get('text')));
-            $result = $this->tweetRepository->add($tweet);
+            $tweet->setText($request->getPost()->get('text'));
 
+            $result = $this->tweetRepository->add($tweet);
             if (!$result)
             {
                 Session::getInstance()->write( 'danger', 'Ungültige Abfrage!');
@@ -165,9 +163,10 @@ class TwitterController
             return new ResponseRedirect('./index.php?controller=TwitterController&action=indexAction');
         }
         return new Response(Templating::getInstance()->render('./templates/twitterFeed.php', [
-            'tweet' => $tweet,
             'result' => $this->tweetRepository->findAll(),
-            'form' => '../templates/updateForm.php'
+            'update' => $tweet,
+            'user' => $user,
+            'id' => $tweet->getId()
         ]));
     }
 

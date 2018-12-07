@@ -42,18 +42,24 @@ class CommentController
      */
     public function indexAction(Request $request)
     {
+
+        $tweets = $this->tweetRepository->findAll();
+        $likes = $this->likeRepository->findBy(['userid' => $_SESSION['userid']]);
         $comments = $this->commentRepository->findAll();
         $tweet = $this->tweetRepository->findOneBy(['id' => $request->getQuery()->get('id')]);
-        $likes = $this->likeRepository->findBy(['userid' => $_SESSION['userid']]);
+
+        $user = $this->userRepository->findOneBy(['id' => $_SESSION['userid']]);
 
         $array = array();
         $array[$tweet->getId()] = $this->likeRepository->countLikes($tweet);
 
-        return new Response(Templating::getInstance()->render('./templates/commentFeed.php', [
-            'result' => $comments,
+        return new Response(Templating::getInstance()->render('./templates/twitterFeed.php', [
+            'comments' => $comments,
+            'result' => $tweets,
             'tweet' => $tweet,
             'likes' => $likes,
             'countLikes' => $array,
+            'user' => $user
         ]));
     }
 
