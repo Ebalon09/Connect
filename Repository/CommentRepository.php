@@ -6,6 +6,10 @@
  * Time: 17:43
  */
 
+namespace Test\Repository;
+
+use Test\Model\Comment;
+
 class CommentRepository extends BaseRepository
 {
     /**

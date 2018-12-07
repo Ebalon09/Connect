@@ -5,6 +5,11 @@
  * Date: 13.11.18
  * Time: 16:12
  */
+namespace Test\Repository;
+
+
+use Test\Model\Likes;
+use Test\Model\Tweet;
 
 class LikeRepository extends BaseRepository
 {

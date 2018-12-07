@@ -5,6 +5,7 @@
  * Date: 12.10.18
  * Time: 13:54
  */
+namespace Test\Services;
 
 class ResponseRedirect implements ResponseInterface
 {

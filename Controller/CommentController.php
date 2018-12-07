@@ -6,6 +6,22 @@
  * Time: 17:43
  */
 
+namespace Test\Controller;
+
+
+
+use Test\Model\Comment;
+use Test\Model\Tweet;
+use Test\Repository\CommentRepository;
+use Test\Repository\LikeRepository;
+use Test\Repository\TweetRepository;
+use Test\Repository\UserRepository;
+use Test\Services\Request;
+use Test\Services\Response;
+use Test\Services\ResponseRedirect;
+use Test\Services\Session;
+use Test\Services\Templating;
+
 class CommentController
 {
     /**
@@ -66,7 +82,7 @@ class CommentController
     /**
      * @param Request $request
      * @return ResponseRedirect
-     * @throws Exception
+     * @throws \Exception
      */
     public function createAction(Request $request)
     {
@@ -101,7 +117,7 @@ class CommentController
     /**
      * @param Request $request
      * @return ResponseRedirect
-     * @throws Exception
+     * @throws \Exception
      */
     public function updateAction(Request $request)
     {

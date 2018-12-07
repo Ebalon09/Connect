@@ -1,5 +1,6 @@
 <?php
 
+namespace Test\Services;
 
 class ParameterBag
 {

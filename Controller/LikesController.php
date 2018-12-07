@@ -5,6 +5,18 @@
  * Date: 19.11.18
  * Time: 09:10
  */
+namespace Test\Controller;
+
+
+use Test\Model\Likes;
+use Test\Repository\LikeRepository;
+use Test\Repository\TweetRepository;
+use Test\Repository\UserRepository;
+use Test\Services\Request;
+use Test\Services\Response;
+use Test\Services\ResponseRedirect;
+use Test\Services\Session;
+use Test\Services\Templating;
 
 class LikesController{
 

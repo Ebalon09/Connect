@@ -1,5 +1,16 @@
 <?php
 
+namespace Test\Controller;
+
+
+use Test\Model\User;
+use Test\Repository\UserRepository;
+use Test\Services\Request;
+use Test\Services\Response;
+use Test\Services\ResponseRedirect;
+use Test\Services\Session;
+use Test\Services\Templating;
+
 class LoginController{
 
     /**

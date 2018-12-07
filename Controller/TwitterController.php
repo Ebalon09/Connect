@@ -1,5 +1,18 @@
 <?php
 
+namespace Test\Controller;
+
+use Test\Model\Tweet;
+use Test\Repository\LikeRepository;
+use Test\Repository\TweetRepository;
+use Test\Repository\UserRepository;
+use Test\Services\Database;
+use Test\Services\Request;
+use Test\Services\Response;
+use Test\Services\ResponseRedirect;
+use Test\Services\Session;
+use Test\Services\Templating;
+
 class TwitterController
 {
     /**
@@ -100,7 +113,7 @@ class TwitterController
     /**
      * @param Request $request
      * @return ResponseRedirect
-     * @throws Exception
+     * @throws \Exception
      */
     public function reTweetAction(Request $request)
     {

@@ -5,6 +5,7 @@
  * Date: 13.11.18
  * Time: 08:19
  */
+namespace Test\Model;
 
 class User
 {

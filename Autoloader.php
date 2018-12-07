@@ -52,7 +52,8 @@ class Autoloader
 
         $filename = __DIR__ . '/' . $path . '.php';
 
-        if(file_exists($filename)) {
+        if(file_exists($filename))
+        {
             require_once $filename;
         }
     }

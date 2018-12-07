@@ -5,8 +5,7 @@
  * Date: 12.10.18
  * Time: 10:44
  */
-
-require_once 'SingletonTrait.php';
+namespace Test\Services;
 
 class Database
 {
@@ -18,13 +17,16 @@ class Database
     const DB_PASSWORD = 'root';
     const DB_NAME = 'Twitter';
 
+    /**
+     * @var \PDO
+     */
     private $connection;
 
 
     public function connect()
     {
-        $this->connection = new PDO($this->getDSN(), self::DB_USER, self::DB_PASSWORD, array(
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+        $this->connection = new \PDO($this->getDSN(), self::DB_USER, self::DB_PASSWORD, array(
+            \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION
         ));
     }
 
@@ -62,7 +64,7 @@ class Database
 
         $statement->execute();
 
-        return $statement->fetchAll(PDO::FETCH_ASSOC);
+        return $statement->fetchAll(\PDO::FETCH_ASSOC);
     }
 
     /**

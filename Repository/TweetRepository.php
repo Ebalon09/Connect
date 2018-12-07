@@ -6,6 +6,11 @@
  * Date: 12.11.18
  * Time: 11:43
  */
+
+namespace Test\Repository;
+
+use Test\Model\Tweet;
+
 class TweetRepository extends BaseRepository
 {
     /**

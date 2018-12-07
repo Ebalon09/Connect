@@ -6,6 +6,11 @@
  * Time: 08:18
  */
 
+
+namespace Test\Repository;
+
+use Test\Model\User;
+
 class UserRepository extends BaseRepository
 {
     /**

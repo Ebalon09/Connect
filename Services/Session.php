@@ -5,6 +5,7 @@
  * Date: 19.10.18
  * Time: 11:10
  */
+namespace Test\Services;
 
 require_once 'SingletonTrait.php';
 

@@ -1,4 +1,5 @@
 <?php
+namespace Test\Model;
 
 class Tweet
 {
@@ -47,7 +48,7 @@ class Tweet
      */
     public function __construct()
     {
-        $this->datum = new DateTime();
+        $this->datum = new \DateTime();
     }
 
     /**

@@ -5,6 +5,7 @@
  * Date: 13.11.18
  * Time: 16:12
  */
+namespace Test\Model;
 
 class Likes
 {

@@ -6,6 +6,11 @@
  * Date: 20.11.18
  * Time: 12:26
  */
+
+namespace Test\Repository;
+
+use Test\Services\Database;
+
 abstract class BaseRepository
 {
     /**
@@ -24,7 +29,7 @@ abstract class BaseRepository
     /**
      * @param mixed $model
      * @return mixed
-     * @throws Exception
+     * @throws \Exception
      */
     public function add($model)
     {

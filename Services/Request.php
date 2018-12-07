@@ -1,4 +1,5 @@
 <?php
+namespace Test\Services;
 
 /**
  * Created by PhpStorm.
@@ -7,7 +8,6 @@
  * Time: 12:51
  */
 
-require_once 'ParameterBag.php';
 
 class Request
 {

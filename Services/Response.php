@@ -1,4 +1,5 @@
 <?php
+namespace Test\Services;
 
 /**
  * Created by PhpStorm.
@@ -6,8 +7,6 @@
  * Date: 12.10.18
  * Time: 13:50
  */
-
-require_once 'ResponseInterface.php';
 
 class Response implements ResponseInterface
 {
