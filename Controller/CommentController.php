@@ -147,8 +147,11 @@ class CommentController
     {
 
         $comment = $this->commentRepository->findBy([
-            'id' => $request->getQuery()->get('id')
+            'id' => $request->getQuery()->get('idc')
         ])[0];
+
+
+
 
         $user = $this->userRepository->findOneBy(['id' => $_SESSION['userid']]);
 
@@ -169,6 +172,7 @@ class CommentController
             $comment->setComment(trim(strip_tags($request->getPost()->get('text'))));
             $comment->setUser($user);
             $comment->setTweet($tweet);
+            $comment->setId($request->getQuery()->get('idc'));
 
 
             $this->commentRepository->add($comment);
@@ -176,9 +180,10 @@ class CommentController
             $session = Session::getInstance();
             $session->write('success', 'Tweet erfolgreich gepostet');
 
-            $id = $request->getQuery()->get('id');
+            $id = $comment->getTweet()->getId();
+            $idc = $request->getQuery()->get('idc');
             if($request->getQuery()->get('c') == true){
-                return new ResponseRedirect("./index.php?controller=CommentController&action=commentFeed&id=$id&c=true");
+                return new ResponseRedirect("./index.php?controller=CommentController&action=commentFeed&id=$id&c=true&idc=$idc");
             }
             return new ResponseRedirect("./index.php");
         }
@@ -200,19 +205,20 @@ class CommentController
     public function deleteAction(Request $request)
     {
         $comment = $this->commentRepository->findOneBy([
-            'id' => $request->getQuery()->get('id')
+            'id' => $request->getQuery()->get('idc')
         ]);
 
-
+        $id = $comment->getTweet()->getId();
 
         $this->commentRepository->remove($comment);
 
         $session = Session::getInstance();
         $session->write('success', 'Tweet erfolgreich gelöscht');
 
-        $id = $request->getQuery()->get('id');
+
+        $idc = $request->getQuery()->get('idc');
         if ($request->getQuery()->get('c') == true) {
-            return new ResponseRedirect("./index.php?controller=CommentController&action=commentFeed&id=$id&c=true");
+            return new ResponseRedirect("./index.php?controller=CommentController&action=commentFeed&id=$id&idc=$idc&c=true");
         }
         return new ResponseRedirect("./index.php");
     }

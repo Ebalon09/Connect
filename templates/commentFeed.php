@@ -105,7 +105,7 @@
                                 <div class="media-body">
                                     <?php
                                     if(isset($update)){?>
-                                        <form action="./index.php?controller=CommentController&action=updateAction&id=<?= $update->getId();?>&c=true" method="POST">
+                                        <form action="./index.php?controller=CommentController&action=updateAction&idc=<?= $update->getId();?>&c=true&id=<?= $update->getTweet()->getId() ?>" method="POST">
                                             <label class="control-label sr-only" for="inputSuccess5">Hidden label</label>
                                             <input id="Userinput" name="text" type="text" class="form-control" autocomplete="off" value="<?=$update->getComment()?>">
                                         </form>
@@ -130,9 +130,8 @@
                                         <h4 class="media-heading" id="Username"><?=$data->getUser()->getUsername() ?></h4>
                                         <p id="Text"><?=$data->getComment() ?></p>
                                         <ul id="buttons" class="nav nav-pills nav-pills-custom">
-                                            <li><a href="./index.php?controller=CommentController&action=commentFeed&id=<?= $data->getId()?>&c=true"><?= $countcomments[$data->getId()]?></li>
-                                            <li><a id="delete" href="./index.php?controller=CommentController&action=deleteAction&id=<?= $data->getId() ?>&c=true" <i class="far fa-trash-alt"></i></button> </a></li>
-                                            <li><a id="edit" href="./index.php?controller=CommentController&action=updateAction&id=<?= $data->getId() ?>&c=true" <i class="far fa-edit"></i></button> </a></li>
+                                            <li><a id="delete" href="./index.php?controller=CommentController&action=deleteAction&idc=<?= $data->getId() ?>&c=true&id=<?= $data->getTweet()->getId() ?>" <i class="far fa-trash-alt"></i></button> </a></li>
+                                            <li><a id="edit" href="./index.php?controller=CommentController&action=updateAction&idc=<?= $data->getId() ?>&c=true&id=<?= $data->getTweet()->getId() ?>" <i class="far fa-edit"></i></button> </a></li>
                                         </ul>
                                     </div>
                                 </div>
