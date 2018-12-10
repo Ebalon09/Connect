@@ -134,28 +134,34 @@ class TwitterController
             'id' => $_SESSION['userid']
         ]);
 
-
-        $text = $tweet->getText();
-
-        $reTweet = new Tweet();
-        preg_match_all('/https:\/\/www\.youtube\.com\/watch\?v=([^\s]*)( |$)/', $text, $matches);
-        foreach($matches[1] as $key => $id)
+        if($request->isPostRequest())
         {
-            $reTweet->setLinkID($id);
-            $text = str_replace($matches[1][$key] , "" , $text);
+
+            $text = $request->getPost()->get('text');
+
+            $reTweet = new Tweet();
+            preg_match_all('/https:\/\/www\.youtube\.com\/watch\?v=([^\s]*)( |$)/', $text, $matches);
+            foreach ($matches[1] as $key => $id) {
+                $reTweet->setLinkID($id);
+                $text = str_replace($matches[1][$key], "", $text);
+            }
+
+            $reTweet->setReTweet($tweet);
+            $reTweet->setText($text);
+            $reTweet->setUser($user);
+
+            $this->tweetRepository->add($reTweet);
+
+            $session = Session::getInstance();
+            $session->write('success', 'Tweet erfolgreich gepostet');
+            return new ResponseRedirect("./index.php");
         }
-
-        $reTweet->setReTweet($tweet);
-
-
-
-        $reTweet->setUser($user);
-
-        $this->tweetRepository->add($reTweet);
-
-        $session = Session::getInstance();
-        $session->write('success', 'Tweet erfolgreich gepostet');
-        return new ResponseRedirect("./index.php");
+        return new Response(Templating::getInstance()->render('./templates/twitterFeed.php', [
+            'result' => $this->tweetRepository->findAll(),
+            'reTweet' => $tweet,
+            'user' => $user,
+            'id' => $tweet->getId()
+        ]));
     }
 
     /**
