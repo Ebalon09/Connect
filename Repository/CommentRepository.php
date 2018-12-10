@@ -9,6 +9,7 @@
 namespace Test\Repository;
 
 use Test\Model\Comment;
+use Test\Model\Tweet;
 
 class CommentRepository extends BaseRepository
 {
@@ -110,7 +111,16 @@ class CommentRepository extends BaseRepository
         return $model instanceof Comment;
     }
 
-
+    /**
+     * @param Tweet $tweet
+     * @return int
+     */
+    public function countComments(Tweet $tweet)
+    {
+        return count($this->database->query("SELECT * FROM Comments WHERE tweetid = :tweetid",[
+            'tweetid' => $tweet->getId(),
+        ]));
+    }
 
 
 

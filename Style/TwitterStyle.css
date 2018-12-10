@@ -214,3 +214,13 @@ div.panel-heading
     margin-right: 0;
     flex-grow: 2;
 }
+
+#commentcontainerfluid{
+    text-align: center;
+}
+
+#commenttweet{
+
+    margin-top: 10px;
+
+}

@@ -3,6 +3,7 @@
 namespace Test\Controller;
 
 use Test\Model\Tweet;
+use Test\Repository\CommentRepository;
 use Test\Repository\LikeRepository;
 use Test\Repository\TweetRepository;
 use Test\Repository\UserRepository;
@@ -27,6 +28,10 @@ class TwitterController
      * @var LikeRepository
      */
     protected $likeRepository;
+    /**
+     * @var CommentRepository
+     */
+    protected $commentRepository;
 
     /**
      * TwitterController constructor.
@@ -36,6 +41,7 @@ class TwitterController
         $this->tweetRepository = new TweetRepository();
         $this->userRepository = new UserRepository();
         $this->likeRepository = new LikeRepository();
+        $this->commentRepository = new CommentRepository();
     }
 
     /**
@@ -48,10 +54,12 @@ class TwitterController
 
         $user = $this->userRepository->findOneBy(['id' => $_SESSION['userid']]);
 
-        $array = array();
+        $commentarray = array();
+        $likearray = array();
         foreach($tweets as $tweet)
         {
-            $array[$tweet->getId()] = $this->likeRepository->countLikes($tweet);
+            $likearray[$tweet->getId()] = $this->likeRepository->countLikes($tweet);
+            $commentarray[$tweet->getId()] = $this->commentRepository->countComments($tweet);
         }
 
         return new Response( Templating::getInstance()->render('./templates/twitterFeed.php', [
@@ -59,8 +67,9 @@ class TwitterController
             'action' => "index.php?controller=TwitterController&action=createAction",
             'form' => 'tweetForm.php',
             'likes' => $likes,
-            'countLikes' => $array,
+            'countLikes' => $likearray,
             'user' => $user,
+            'countcomments' => $commentarray,
         ]));
     }
 

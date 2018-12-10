@@ -149,7 +149,7 @@ class Tweet
     }
 
     /**
-     * @return DateTime
+     * @return \DateTime
      */
     public function getDatum()
     {
@@ -157,7 +157,7 @@ class Tweet
     }
 
     /**
-     * @param DateTime $datum
+     * @param \DateTime $datum
      */
     public function setDatum(\DateTime $datum)
     {
