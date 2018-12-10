@@ -62,7 +62,7 @@ class Tweet
     /**
      * @param Tweet $tweet
      */
-    public function setReTweet(Tweet $tweet)
+    public function setReTweet($tweet)
     {
         $this->reTweet = $tweet;
     }

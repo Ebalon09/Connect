@@ -134,6 +134,7 @@ class TwitterController
             'id' => $_SESSION['userid']
         ]);
 
+
         $text = $tweet->getText();
 
         $reTweet = new Tweet();
@@ -145,9 +146,10 @@ class TwitterController
         }
 
         $reTweet->setReTweet($tweet);
-        $reTweet->setUser($user);
-        $reTweet->setText(trim(strip_tags($tweet->getText())));
 
+
+
+        $reTweet->setUser($user);
 
         $this->tweetRepository->add($reTweet);
 

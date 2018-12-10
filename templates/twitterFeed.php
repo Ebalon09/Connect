@@ -115,6 +115,19 @@
                                         <div class="media-body">
                                             <h4 class="media-heading" id="Username"><?=$data->getUser()->getUsername() ?></h4>
                                             <p id="Text"><?=$data->getText() ?></p>
+
+
+
+
+                                            <?php if($data->getReTweet() !== null){ ?>
+                                            <div class="media-body">
+                                                <h4 class="media-heading" id="Username"><?=$data->getUser()->getUsername() ?></h4>
+                                                <p id="Text"><?=$data->getReTweet()->getText() ?></p>
+                                            </div>
+                                            <?php } ?>
+
+
+
                                             <ul id="buttons" class="nav nav-pills nav-pills-custom">
                                                 <li><a id="comment" href="./index.php?controller=CommentController&action=indexAction&id=<?= $data->getId()?>&idc=<?=$data->getId()?>&c=true" ><i class="far fa-comment-alt"></i></button></a></li>
                                                 <li><a href="./index.php?controller=CommentController&action=commentFeed&id=<?= $data->getId()?>&c=true"><?= $countcomments[$data->getId()]?></li>

@@ -92,6 +92,14 @@ class TweetRepository extends BaseRepository
         $tweet->setUser($this->userRepository->findOneBy(['id' => $data['userid']]));
         $tweet->setDestination($data['destination']);
         $tweet->setLinkID($data['LinkID']);
+
+        if($data['reTweet'] !== null) {
+
+            $tweet->setReTweet($this->findOneBy(['id' => $data['reTweet']]));
+        }
+
+
+
         return $tweet;
     }
 
