@@ -17,12 +17,10 @@ class CommentRepository extends BaseRepository
      * @var UserRepository
      */
     protected $userRepository;
-
     /**
      * @var TweetRepository
      */
     protected $tweetRepository;
-
     /**
      * LikeRepository constructor.
      */
@@ -95,7 +93,7 @@ class CommentRepository extends BaseRepository
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     protected function getTableName()
     {

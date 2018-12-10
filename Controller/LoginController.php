@@ -11,8 +11,8 @@ use Test\Services\ResponseRedirect;
 use Test\Services\Session;
 use Test\Services\Templating;
 
-class LoginController{
-
+class LoginController
+{
     /**
      * @var UserRepository
      */
@@ -71,17 +71,16 @@ class LoginController{
     /**
      * @param Request $request
      * @return ResponseRedirect
+     * @throws \Exception
      */
     public function registerAction(Request $request)
     {
         $pw1 = $_POST['Password'];
         $pw2 = $_POST['re-Password'];
 
-
         if($_FILES['name'] == '') {
             $pic = "./uploads/ProfilePics/fill.jpg";
         }
-
         if ($pw1 == $pw2)
         {
             if ($request->isPostRequest())
@@ -111,8 +110,6 @@ class LoginController{
                     }
                 }
             }
-
-
             $user = new User();
 
             if(isset($pic)){
@@ -156,21 +153,15 @@ class LoginController{
      */
     private function handleFileUpload($request)
     {
-
-
         if ($_FILES['my_upload']['name'] != null)
         {
-
-
             $_FILES['my_upload']['name'] = $request->getPost()->get('Username'). ".jpg";
             $upload_file = $_FILES['my_upload']['name'];
             $dest = './uploads/ProfilePics/' . $upload_file;
-
 
             move_uploaded_file($_FILES['my_upload']['tmp_name'], $dest);
 
             return $dest;
         }
     }
-
 }

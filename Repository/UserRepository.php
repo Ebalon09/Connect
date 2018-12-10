@@ -69,8 +69,6 @@ class UserRepository extends BaseRepository
             'Email' => $model->getEmail(),
             'picture' => $model->getPicture()
         ];
-
-
         return $data;
     }
 

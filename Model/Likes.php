@@ -13,22 +13,18 @@ class Likes
      * @var int
      */
     protected $id;
-
     /**
      * @var User
      */
     protected $user;
-
     /**
      * @var Tweet
      */
     protected $tweet;
-
     /**
      * @var int
      */
     protected $likes;
-
     /**
      * @return int
      */
@@ -92,5 +88,4 @@ class Likes
     {
         $this->tweet = $tweet;
     }
-
 }

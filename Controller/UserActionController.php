@@ -17,6 +17,9 @@ class UserActionController
      */
     protected $userRepository;
 
+    /**
+     * UserActionController constructor.
+     */
     public function __construct()
     {
         $this->userRepository = new userRepository();
@@ -33,11 +36,11 @@ class UserActionController
     /**
      * @param Request $request
      * @return Response
+     * @throws \Exception
      */
     public function changeAction(Request $request)
     {
         $result = null;
-
 
         if ($request->isPostRequest())
         {
@@ -48,8 +51,6 @@ class UserActionController
                 ]);
                 $user->setEmail($request->getPost()->get('email'));
                 $result = $this->userRepository->add($user);
-
-
             }
             if ($request->getPost()->get('username') != null)
             {
@@ -81,9 +82,7 @@ class UserActionController
                     'id' => $_SESSION['userid'],
                 ]);
 
-
                 $user->setPicture($this->handleFileUpload($user));
-
                 $result = $this->userRepository->add($user);
 
             }
@@ -98,19 +97,10 @@ class UserActionController
                 $_SESSION['email'] = null;
                 Session::getInstance()->write('success', 'erfolgreich geupdatet, bitte neu einloggen damit die änderung in kraft tritt');
             }
-
             return new Response(Templating::getInstance()->render('./templates/settingForm.php', [
                 'form' => 'settingForm.php'
             ]));
         }
-    }
-
-    /**
-     * @return ResponseRedirect
-     */
-    public function finished()
-    {
-        return new ResponseRedirect('./index.php?controller=TwitterController&action=indexAction');
     }
 
     /**

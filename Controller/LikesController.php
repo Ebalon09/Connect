@@ -77,13 +77,10 @@ class LikesController{
                 return new ResponseRedirect('./index.php');
             }
         }
-
         $likes = new Likes();
         $likes->setUser($this->userRepository->findOneBy([
             'username' => $_SESSION['username']
         ]));
-
-
         $likes->setTweet($this->tweetRepository->findOneBy([
             'id' => $request->getQuery()->get('id')
         ]));

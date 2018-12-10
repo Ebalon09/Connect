@@ -22,7 +22,6 @@ class Database
      */
     private $connection;
 
-
     public function connect()
     {
         $this->connection = new \PDO($this->getDSN(), self::DB_USER, self::DB_PASSWORD, array(
@@ -43,9 +42,7 @@ class Database
         {
             $statement->bindValue(':'.$key, $value);
         }
-
         return $statement->execute();
-
     }
 
     /**
@@ -61,7 +58,6 @@ class Database
         {
             $statement->bindValue(':'.$key, $value);
         }
-
         $statement->execute();
 
         return $statement->fetchAll(\PDO::FETCH_ASSOC);
@@ -74,14 +70,12 @@ class Database
      */
     public function update($query, array $parameters = array())
     {
-
         $statement = $this->connection->prepare($query);
 
         foreach($parameters as $key => $value)
         {
             $statement->bindValue(':'.$key, $value);
         }
-
         return $statement->execute();
     }
 

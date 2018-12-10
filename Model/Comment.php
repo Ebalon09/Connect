@@ -13,22 +13,18 @@ class Comment
      * @var string
      */
     protected $comment;
-
     /**
      * @var Tweet
      */
     protected $Tweet;
-
     /**
      * @var int
      */
     protected $id;
-
     /**
      * @var User
      */
     protected $user;
-
     /**
      * @return String
      */

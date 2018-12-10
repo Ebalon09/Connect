@@ -17,12 +17,10 @@ class LikeRepository extends BaseRepository
      * @var UserRepository
      */
     protected $userRepository;
-
     /**
      * @var TweetRepository
      */
     protected $tweetRepository;
-
     /**
      * LikeRepository constructor.
      */

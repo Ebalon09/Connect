@@ -13,17 +13,14 @@ class User
      * @var int
      */
     protected $id;
-
     /**
      * @var string
      */
     protected $username;
-
     /**
      * @var string
      */
     protected $password;
-
     /**
      * @var string
      */
@@ -32,7 +29,6 @@ class User
      * @var string
      */
     protected $picture;
-
     /**
      * @return string
      */

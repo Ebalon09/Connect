@@ -27,7 +27,7 @@ abstract class BaseRepository
     }
 
     /**
-     * @param mixed $model
+     * @param $model
      * @return mixed
      * @throws \Exception
      */
@@ -89,11 +89,8 @@ abstract class BaseRepository
         $query = "SELECT * FROM ".$this->getTableName()." WHERE ";
         $query .= \join(',',$properties);
 
-
         $data = $this->database->query($query, $parameters);
         $data2 = $data[0];
-
-
         $object = $this->arrayToObject($data2);
 
         return $object;
@@ -101,7 +98,7 @@ abstract class BaseRepository
 
     /**
      * @param array $parameters
-     * @return mixed
+     * @return array
      */
     public function findBy(array $parameters)
     {
@@ -116,7 +113,8 @@ abstract class BaseRepository
         $data = $this->database->query($query, $parameters);
 
         $objects = [];
-        foreach($data as $result){
+        foreach($data as $result)
+        {
             $object = $this->arrayToObject($result);
             $objects[] = $object;
         }
@@ -130,13 +128,12 @@ abstract class BaseRepository
 
     /**
      * @param $model
-     *
      * @return array
      */
     abstract protected function objectToArray($model);
 
     /**
-     * @param mixed $model
+     * @param $model
      * @return boolean
      */
     abstract protected function isSupported($model);

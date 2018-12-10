@@ -97,9 +97,6 @@ class TweetRepository extends BaseRepository
 
             $tweet->setReTweet($this->findOneBy(['id' => $data['reTweet']]));
         }
-
-
-
         return $tweet;
     }
 
