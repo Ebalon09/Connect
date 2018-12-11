@@ -7,7 +7,7 @@ session_start();
 
 require_once 'Autoloader.php';
 $autoloader = new Autoloader();
-$autoloader->registerNamespace("Test/", "");
+$autoloader->registerNamespace("Test/", "src/");
 
 $controllerName = "TwitterController";
 $actionName = "indexAction";

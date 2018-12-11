@@ -65,7 +65,6 @@ class TwitterController
         return new Response( Templating::getInstance()->render('./templates/twitterFeed.php', [
             'result' => $tweets,
             'action' => "index.php?controller=TwitterController&action=createAction",
-            'form' => 'tweetForm.php',
             'likes' => $likes,
             'countLikes' => $likearray,
             'user' => $user,
