@@ -134,7 +134,8 @@
                                             <ul id="buttons" class="nav nav-pills nav-pills-custom">
                                                 <label for="comment" class="sr-only">comment</label>
                                                 <li><a id="comment" href="./index.php?controller=CommentController&action=indexAction&id=<?= $data->getId()?>&idc=<?=$data->getId()?>&c=true" ><i class="far fa-comment-alt"></i></button></a></li>
-                                                <li><a href="./index.php?controller=CommentController&action=commentFeed&id=<?= $data->getId()?>&c=true"><?= $countcomments[$data->getId()]?></li>
+                                                <label for="commentCounter" class="sr-only">commentCounter</label>
+                                                <li><a id="commentCounter" href="./index.php?controller=CommentController&action=commentFeed&id=<?= $data->getId()?>&c=true"><?= $countcomments[$data->getId()]?></li>
                                                 <label for="reTweet" class="sr-only">ReTweet</label>
                                                 <li><a id="reTweet" href="./index.php?controller=TwitterController&action=reTweetAction&id=<?= $data->getId() ?>&idc=<?=$data->getId()?>" <i class="fas fa-retweet"></i></button> </a></li>
                                                 <label for="delete" class="sr-only">delete</label>

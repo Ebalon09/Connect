@@ -7,7 +7,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="./index.php"><i class="fas fa-home"></i> <span class="sr-only">(current)</span></a>
+                    <a id="homeButton" name="homeButton" title="Home" class="nav-link" href="./index.php"><i class="fas fa-home"></i> <span class="sr-only">(current)</span></a>
                 </li>
                 <?php if(!isset($_SESSION['userid'])) { ?>
                     <li class="nav-item active" >
@@ -22,7 +22,6 @@
                             <a class="dropdown-item" href="./index.php?controller=MyPostController&action=indexAction">Meine Posts</a>
                             <a class="dropdown-item" href="#">Fill2</a>
                             <div class="dropdown-divider"></div>
-                            <label for="deleteAcc" class="sr-only">Delete Account</label>
                             <a id="deleteAcc" class="dropdown-item" href="./index.php?controller=UserActionController&action=deleteAcc">Account Löschen</a>
                         </div>
                     </li>

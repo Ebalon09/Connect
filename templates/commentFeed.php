@@ -106,12 +106,12 @@
                                     <?php
                                     if(isset($update)){?>
                                         <form action="./index.php?controller=CommentController&action=updateAction&idc=<?= $update->getId();?>&c=true&id=<?= $update->getTweet()->getId() ?>" method="POST">
-                                            <label class="control-label sr-only" for="inputSuccess5">Hidden label</label>
+                                            <label class="control-label sr-only" for="Userinput">edit</label>
                                             <input id="Userinput" name="text" type="text" class="form-control" autocomplete="off" value="<?=$update->getComment()?>">
                                         </form>
                                     <?php } else { ?>
                                         <form action="./index.php?controller=CommentController&action=createAction&id=<?= $_GET['id']?>&c=true" method="POST">
-                                            <label class="control-label sr-only" for="inputSuccess5">Hidden label</label>
+                                            <label class="control-label sr-only" for="Userinput">Userinput</label>
                                             <input id="Userinput" name="text" type="text" class="form-control" autocomplete="off">
                                         </form>
                                     <?php } ?>
@@ -130,7 +130,9 @@
                                         <h4 class="media-heading" id="Username"><?=$data->getUser()->getUsername() ?></h4>
                                         <p id="Text"><?=$data->getComment() ?></p>
                                         <ul id="buttons" class="nav nav-pills nav-pills-custom">
+                                            <label for="delete" class="sr-only">delete</label>
                                             <li><a id="delete" href="./index.php?controller=CommentController&action=deleteAction&idc=<?= $data->getId() ?>&c=true&id=<?= $data->getTweet()->getId() ?>" <i class="far fa-trash-alt"></i></button> </a></li>
+                                            <label for="edit" class="sr-only">edit</label>
                                             <li><a id="edit" href="./index.php?controller=CommentController&action=updateAction&idc=<?= $data->getId() ?>&c=true&id=<?= $data->getTweet()->getId() ?>" <i class="far fa-edit"></i></button> </a></li>
                                         </ul>
                                     </div>
