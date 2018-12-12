@@ -21,7 +21,7 @@ if(isset($_GET['action']))
 
 $controllerName =  '\Test\Controller\\'.$controllerName;
 
-$request = new Request($_GET, $_POST);
+$request = Request::createFromGlobals();
 
 /** @var mixed $controller */
 $controller = new $controllerName();

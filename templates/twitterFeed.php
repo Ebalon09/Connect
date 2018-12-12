@@ -144,9 +144,10 @@
 
 
                                                 <?php if(isset($_GET['c'])){?>
-                                                <form action="./index.php?controller=CommentController&action=createAction&id=<?= $data->getId() ?>" method="POST">
-                                                <input id="commentinput" name="text" type="text" class="form-control" autocomplete="off">
-                                                </form>
+                                                    <label for="commentinput" class="sr-only">CommentInput</label>
+                                                    <form action="./index.php?controller=CommentController&action=createAction&id=<?= $data->getId() ?>" method="POST">
+                                                        <input id="commentinput" name="text" type="text" class="form-control" autocomplete="off">
+                                                    </form>
                                                 <?php } ?>
                                             </ul>
                                         </div>

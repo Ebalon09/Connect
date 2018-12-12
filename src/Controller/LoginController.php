@@ -90,7 +90,7 @@ class LoginController
                 if (isset($_POST['Username']) && isset($_POST['Email']))
                 {
                     $data = $this->userRepository->findOneBy([
-                        'email' => $request->getPost()->get('Email')
+                        'email' => $request->get('Email')
                     ]);
 
                     if ($data->getEmail() != null)
@@ -101,7 +101,7 @@ class LoginController
                     }
                     $data = null;
                     $data = $this->userRepository->findOneBy([
-                        'username' => $request->getPost()->get('Username')
+                        'username' => $request->get('Username')
                     ]);
 
                     if ($data->getUsername() != null)
@@ -157,7 +157,7 @@ class LoginController
     {
         if ($_FILES['my_upload']['name'] != null)
         {
-            $_FILES['my_upload']['name'] = $request->getPost()->get('Username'). ".jpg";
+            $_FILES['my_upload']['name'] = $request->get('Username'). ".jpg";
             $upload_file = $_FILES['my_upload']['name'];
             $dest = './uploads/ProfilePics/' . $upload_file;
 

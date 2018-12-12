@@ -139,6 +139,7 @@ class CommentController
             }
             return new RedirectResponse('./index.php');
         }
+
     }
 
     /**
