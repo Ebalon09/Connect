@@ -2,9 +2,10 @@
 /**
  * Created by PhpStorm.
  * User: fstein
- * Date: 19.10.18
- * Time: 11:10
+ * Date: 11.12.18
+ * Time: 17:49
  */
+
 namespace Test\Services;
 
 require_once 'SingletonTrait.php';

@@ -35,7 +35,7 @@
 
             <?php if($_SESSION != null):  ?>
                 <div class="container">
-                    <?php foreach(Session::getInstance()->readMessage() as $type => $messages): ?>
+                    <?php foreach(Test\Services\Session::getInstance()->readMessage() as $type => $messages): ?>
                         <?php foreach($messages as $message): ?>
                             <div class="alert alert-<?= $type; ?>"><?= $message ?></div>
                         <?php endforeach; ?>

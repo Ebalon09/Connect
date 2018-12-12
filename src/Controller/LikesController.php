@@ -8,14 +8,14 @@
 namespace Test\Controller;
 
 
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Test\Model\Likes;
 use Test\Repository\LikeRepository;
 use Test\Repository\TweetRepository;
 use Test\Repository\UserRepository;
-use Test\Services\Request;
-use Test\Services\Response;
-use Test\Services\ResponseRedirect;
-use Test\Services\Session;
 use Test\Services\Templating;
 
 class LikesController{
@@ -60,7 +60,7 @@ class LikesController{
 
     /**
      * @param Request $request
-     * @return ResponseRedirect
+     * @return RedirectResponse
      */
     public function likeAction(Request $request)
     {
@@ -73,7 +73,7 @@ class LikesController{
             if($data->getTweet()->getId() == $request->getQuery()->get('id'))
             {
                 Session::getInstance()->write( 'danger', 'Bereits Geliked!');
-                return new ResponseRedirect('./index.php');
+                return new RedirectResponse('./index.php');
             }
         }
         $likes = new Likes();
@@ -87,14 +87,14 @@ class LikesController{
 
         $id = $request->getQuery()->get('id');
         if($request->getQuery()->get('c') == true){
-            return new ResponseRedirect("./index.php?controller=CommentController&action=indexAction&id=$id&c=true");
+            return new RedirectResponse("./index.php?controller=CommentController&action=indexAction&id=$id&c=true");
         }
-        return new ResponseRedirect("./index.php");
+        return new RedirectResponse("./index.php");
     }
 
     /**
      * @param Request $request
-     * @return ResponseRedirect
+     * @return RedirectResponse
      */
     public function dislikeAction(Request $request)
     {
@@ -103,8 +103,8 @@ class LikesController{
 
         $id = $request->getQuery()->get('id');
         if($request->getQuery()->get('c') == true){
-            return new ResponseRedirect("./index.php?controller=CommentController&action=indexAction&id=$id&c=true");
+            return new RedirectResponse("./index.php?controller=CommentController&action=indexAction&id=$id&c=true");
         }
-        return new ResponseRedirect('./index.php');
+        return new RedirectResponse('./index.php');
     }
 }

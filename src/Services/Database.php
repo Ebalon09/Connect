@@ -22,40 +22,41 @@ class Database
      */
     private $connection;
 
-    public function connect()
+    public function connect ()
     {
-        $this->connection = new \PDO($this->getDSN(), self::DB_USER, self::DB_PASSWORD, array(
-            \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION
-        ));
+        $this->connection = new \PDO($this->getDSN(), self::DB_USER, self::DB_PASSWORD, [
+            \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
+        ]);
     }
 
     /**
-     * @param $query
+     * @param       $query
      * @param array $parameters
+     *
      * @return mixed
      */
-    public function insert($query, array $parameters = array())
+    public function insert ($query, array $parameters = [])
     {
         $statement = $this->connection->prepare($query);
 
-        foreach($parameters as $key => $value)
-        {
+        foreach ($parameters as $key => $value) {
             $statement->bindValue(':'.$key, $value);
         }
+
         return $statement->execute();
     }
 
     /**
-     * @param $query
+     * @param       $query
      * @param array $parameters
+     *
      * @return mixed
      */
-    public function query($query, array $parameters = array())
+    public function query ($query, array $parameters = [])
     {
         $statement = $this->connection->prepare($query);
 
-        foreach($parameters as $key => $value)
-        {
+        foreach ($parameters as $key => $value) {
             $statement->bindValue(':'.$key, $value);
         }
         $statement->execute();
@@ -64,25 +65,26 @@ class Database
     }
 
     /**
-     * @param $query
+     * @param       $query
      * @param array $parameters
+     *
      * @return mixed
      */
-    public function update($query, array $parameters = array())
+    public function update ($query, array $parameters = [])
     {
         $statement = $this->connection->prepare($query);
 
-        foreach($parameters as $key => $value)
-        {
+        foreach ($parameters as $key => $value) {
             $statement->bindValue(':'.$key, $value);
         }
+
         return $statement->execute();
     }
 
     /**
      * Database constructor.
      */
-    protected function __construct()
+    protected function __construct ()
     {
         $this->connect();
     }
@@ -91,7 +93,7 @@ class Database
     /**
      * @return string
      */
-    private function getDSN()
+    private function getDSN ()
     {
         return sprintf("%s:host=%s;dbname=%s", self::DB_DRIVER, self::DB_HOST, self::DB_NAME);
     }

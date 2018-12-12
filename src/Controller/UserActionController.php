@@ -3,11 +3,11 @@
 namespace Test\Controller;
 
 
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Test\Repository\UserRepository;
-use Test\Services\Request;
-use Test\Services\Response;
-use Test\Services\ResponseRedirect;
-use Test\Services\Session;
 use Test\Services\Templating;
 
 class UserActionController
@@ -104,7 +104,7 @@ class UserActionController
     }
 
     /**
-     * @return ResponseRedirect
+     * @return RedirectResponse
      */
     public function deleteAcc()
     {
@@ -120,7 +120,7 @@ class UserActionController
             $_SESSION['userid'] = null;
             $_SESSION['email'] = null;
 
-            return new ResponseRedirect("./index.php");
+            return new RedirectResponse("./index.php");
         }
     }
 

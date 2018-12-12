@@ -89,8 +89,7 @@
                                             <img id="userpictext" alt="" class="media-object img-rounded" src="<?=$user->getPicture()?>">
                                         </a>
                                         <div class="media-body">
-                                            <?php
-                                            if(isset($reTweet)){?>
+                                            <?php if(isset($reTweet)){?>
                                             <form action="./index.php?controller=TwitterController&action=reTweetAction&id=<?= $reTweet->getId();?>" method="POST">
                                                 <label class="control-label sr-only" for="inputSuccess5">Hidden label</label>
                                                 <input id="Userinput" name="text" type="text" class="form-control" autocomplete="off" placeholder="ReTweet Text eingeben">

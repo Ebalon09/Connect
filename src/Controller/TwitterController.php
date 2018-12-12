@@ -2,15 +2,15 @@
 
 namespace Test\Controller;
 
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Test\Model\Tweet;
 use Test\Repository\CommentRepository;
 use Test\Repository\LikeRepository;
 use Test\Repository\TweetRepository;
 use Test\Repository\UserRepository;
 use Test\Services\Database;
-use Test\Services\Request;
-use Test\Services\Response;
-use Test\Services\ResponseRedirect;
 use Test\Services\Session;
 use Test\Services\Templating;
 
@@ -62,7 +62,7 @@ class TwitterController
             $commentarray[$tweet->getId()] = $this->commentRepository->countComments($tweet);
         }
 
-        return new Response( Templating::getInstance()->render('./templates/twitterFeed.php', [
+        return new Response(Templating::getInstance()->render('./templates/twitterFeed.php', [
             'result' => $tweets,
             'action' => "index.php?controller=TwitterController&action=createAction",
             'likes' => $likes,
@@ -87,19 +87,22 @@ class TwitterController
 
     /**
      * @param Request $request
-     * @return ResponseRedirect
+     *
+     * @return RedirectResponse
      * @throws \Exception
      */
     public function createAction(Request $request)
     {
-        if ($request->isPostRequest())
+
+
+        if ($request->get('text'))
         {
             $user = $this->userRepository->findOneBy([
                 'id' => $_SESSION['userid']
             ]);
 
             $tweet = new Tweet();
-            $text = $request->getPost()->get('text');
+            $text = $request->get('text');
 
             preg_match_all('/https:\/\/www\.youtube\.com\/watch\?v=([^\s]*)( |$)/', $text, $matches);
             foreach($matches[1] as $key => $id)
@@ -107,7 +110,7 @@ class TwitterController
                 $tweet->setLinkID($id);
                 $text = str_replace($matches[1][$key] , "" , $text);
             }
-            $tweet->setText(trim(strip_tags($request->getPost()->get('text'))));
+            $tweet->setText(trim(strip_tags($request->get('text'))));
             $tweet->setUser($user);
             $this->handleFileUpload($tweet);
             $this->tweetRepository->add($tweet);
@@ -115,27 +118,28 @@ class TwitterController
             $session = Session::getInstance();
             $session->write('success', 'Tweet erfolgreich gepostet');
 
-            return new ResponseRedirect("./index.php");
+            return new RedirectResponse("./index.php");
         }
     }
 
     /**
      * @param Request $request
-     * @return Response|ResponseRedirect
+     * @return Response|RedirectResponse
      * @throws \Exception
      */
     public function reTweetAction(Request $request)
     {
         $tweet = $this->tweetRepository->findOneBy([
-            'id' => $request->getQuery()->get('id')
+            'id' => $request->query->get('id')
         ]);
         $user = $this->userRepository->findOneBy([
             'id' => $_SESSION['userid']
         ]);
 
-        if($request->isPostRequest())
+
+        if($request->get('text'))
         {
-            $text = $request->getPost()->get('text');
+            $text = $request->get('text');
 
             $reTweet = new Tweet();
             preg_match_all('/https:\/\/www\.youtube\.com\/watch\?v=([^\s]*)( |$)/', $text, $matches);
@@ -153,7 +157,7 @@ class TwitterController
             $session = Session::getInstance();
             $session->write('success', 'Tweet erfolgreich gepostet');
 
-            return new ResponseRedirect("./index.php");
+            return new RedirectResponse("./index.php");
         }
         return new Response(Templating::getInstance()->render('./templates/twitterFeed.php', [
             'result' => $this->tweetRepository->findAll(),
@@ -165,17 +169,18 @@ class TwitterController
 
     /**
      * @param Request $request
-     * @return Response|ResponseRedirect
+     * @return Response|RedirectResponse
      * @throws \Exception
      */
     public function updateAction(Request $request)
     {
-        $tweet = $this->tweetRepository->findBy(['id' => $request->getQuery()->get('id')])[0];
+        $tweet = $this->tweetRepository->findBy(['id' => $request->query->get('id')])[0];
         $user = $this->userRepository->findOneBy(['id' => $_SESSION['userid']]);
 
-        if ($request->isPostRequest())
+
+        if ($request->get('text'))
         {
-            $tweet->setText($request->getPost()->get('text'));
+            $tweet->setText($request->get('text'));
 
             $result = $this->tweetRepository->add($tweet);
             if (!$result)
@@ -186,7 +191,7 @@ class TwitterController
             {
                 Session::getInstance()->write('success', 'Eintrag erfolgreich geupdatet');
             }
-            return new ResponseRedirect('./index.php?controller=TwitterController&action=indexAction');
+            return new RedirectResponse('./index.php?controller=TwitterController&action=indexAction');
         }
         return new Response(Templating::getInstance()->render('./templates/twitterFeed.php', [
             'result' => $this->tweetRepository->findAll(),
@@ -198,19 +203,19 @@ class TwitterController
 
     /**
      * @param Request $request
-     * @return ResponseRedirect
+     * @return RedirectResponse
      */
     public function deleteAction(Request $request)
     {
         $tweet = $this->tweetRepository->findOneBy([
-            'id' => $request->getQuery()->get('id')
+            'id' => $request->query->get('id')
         ]);
         $this->tweetRepository->remove($tweet) ;
 
         $session = Session::getInstance();
         $session->write('success','Tweet erfolgreich gelöscht');
 
-        return new ResponseRedirect("./index.php");
+        return new RedirectResponse("./index.php");
     }
 
     /**
