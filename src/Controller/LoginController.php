@@ -85,7 +85,7 @@ class LoginController
         }
         if ($pw1 == $pw2)
         {
-            if ($request->isPostRequest())
+            if ($request->isMethod(Request::METHOD_POST))
             {
                 if (isset($_POST['Username']) && isset($_POST['Email']))
                 {
@@ -119,9 +119,9 @@ class LoginController
             }else {
                 $user->setPicture(strip_tags($this->handlefileupload($request)));
             }
-            $user->setUsername(strip_tags($request->getPost()->get('Username')));
-            $user->setPassword(password_hash($request->getPost()->get('Password'), PASSWORD_DEFAULT));
-            $user->setEmail(strip_tags($request->getPost()->get('Email')));
+            $user->setUsername(strip_tags($request->get('Username')));
+            $user->setPassword(password_hash($request->get('Password'), PASSWORD_DEFAULT));
+            $user->setEmail(strip_tags($request->get('Email')));
 
             $this->userRepository->add($user);
 

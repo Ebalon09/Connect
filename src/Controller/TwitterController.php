@@ -101,6 +101,7 @@ class TwitterController
                 'id' => $_SESSION['userid']
             ]);
 
+
             $tweet = new Tweet();
             $text = $request->get('text');
 

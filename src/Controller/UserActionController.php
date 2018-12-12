@@ -6,8 +6,8 @@ namespace Test\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Session;
 use Test\Repository\UserRepository;
+use Test\Services\Session;
 use Test\Services\Templating;
 
 class UserActionController

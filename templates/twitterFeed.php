@@ -91,17 +91,17 @@
                                         <div class="media-body">
                                             <?php if(isset($reTweet)){?>
                                             <form action="./index.php?controller=TwitterController&action=reTweetAction&id=<?= $reTweet->getId();?>" method="POST">
-                                                <label class="control-label sr-only" for="inputSuccess5">Hidden label</label>
+                                                <label for="Userinput" class="control-label sr-only">reTweet</label>
                                                 <input id="Userinput" name="text" type="text" class="form-control" autocomplete="off" placeholder="ReTweet Text eingeben">
                                             </form>
                                             <?php } elseif(isset($update)){?>
                                                 <form action="./index.php?controller=TwitterController&action=updateAction&id=<?= $update->getId();?>" method="POST">
-                                                    <label class="control-label sr-only" for="inputSuccess5">Hidden label</label>
+                                                    <label for="Userinput" class="control-label sr-only">Edit</label>
                                                     <input id="Userinput" name="text" type="text" class="form-control" autocomplete="off" value="<?=$update->getText()?>">
                                                 </form>
                                             <?php } else { ?>
                                                 <form action="./index.php?controller=TwitterController&action=createAction" method="POST">
-                                                    <label class="control-label sr-only" for="inputSuccess5">Hidden label</label>
+                                                    <label for="Userinput" class="control-label sr-only">Post</label>
                                                     <input id="Userinput" name="text" type="text" class="form-control" autocomplete="off">
                                                 </form>
                                             <?php } ?>
@@ -110,6 +110,7 @@
                                 </div>
                                 <div class="panel-body">
                                     <!--here foreach with user posts,names,profile pics and buttons-->
+                                    <label for="Text" class="sr-only">Posts</label>
                                     <?php /** @var Tweet $data */?>
                                     <?php foreach($result as $data) { ?>
                                     <div class="media">
@@ -119,9 +120,6 @@
                                         <div class="media-body">
                                             <h4 class="media-heading" id="Username"><?=$data->getUser()->getUsername() ?></h4>
                                             <p id="Text"><?=$data->getText() ?></p>
-
-
-
 
                                             <?php if($data->getReTweet() !== null){ ?>
 

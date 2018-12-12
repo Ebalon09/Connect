@@ -106,7 +106,7 @@ class CommentController
      */
     public function createAction(Request $request)
     {
-        if($request->get('text'))
+        if($request->isMethod(Request::METHOD_POST))
         {
             $user = $this->userRepository->findOneBy([
                 'id' => $_SESSION['userid']
@@ -155,7 +155,7 @@ class CommentController
         $tweet = $this->tweetRepository->findBy(['id' => $comment->getTweet()->getId()])[0];
         $comments = $this->commentRepository->findBy(['tweetid' => $tweet->getId()]);
 
-        if ($request::METHOD_POST)
+        if ($request->isMethod(Request::METHOD_POST))
         {
             $user = $this->userRepository->findOneBy([
                 'id' => $_SESSION['userid']

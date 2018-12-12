@@ -12,7 +12,7 @@
 
         <body class="regForm bg-secondary text-white">
             <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
-                <a class="navbar-brand">Twitter Clone</a>
+                <a class="navbar-brand">TwitterClone</a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
@@ -47,17 +47,17 @@
                 <div class="container">
                     <h1>Registrieren : </h1>
 
-                    <label for="Email">Email :</label>
+                    <label for="Email" class="sr-only">Email :</label>
                     <input name="Email" class="form-control mr-sm-2" type="text" placeholder="Email" aria-label="Email" required>
 
-                    <label for="Username">Username :</label>
+                    <label for="Username" class="sr-only">Username :</label>
                     <input name="Username" class="form-control mr-sm-2" type="text" placeholder="Nutzername" aria-label="Username" required>
 
-                    <label for="Password">Passwort :</label>
+                    <label for="Password" class="sr-only">Passwort :</label>
                     <input name="Password" class="form-control mr-sm-2" type="password" placeholder="Passwort" aria-label="Password" required>
 
 
-                    <label for="re-Password">Passwort erneut eingeben :</label>
+                    <label for="re-Password" class="sr-only">Passwort erneut eingeben :</label>
                     <input name="re-Password" class="form-control mr-sm-2" type="password" placeholder="Passwort" aria-label="Password" required>
 
 

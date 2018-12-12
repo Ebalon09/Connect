@@ -16,21 +16,22 @@
                 <?php } ?>
                 <?php if(isset($_SESSION['userid'])){?>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Optionen</a>
+                        <label for="Dropdown" class="sr-only">Optionen</label><a id="Dropdown" class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Optionen</a>
                         <div class="dropdown-menu">
                             <a class="dropdown-item" href="./index.php?controller=UserActionController&action=settingsIndex">Einstellungen</a>
                             <a class="dropdown-item" href="./index.php?controller=MyPostController&action=indexAction">Meine Posts</a>
                             <a class="dropdown-item" href="#">Fill2</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="./index.php?controller=UserActionController&action=deleteAcc">Account Löschen</a>
+                            <label for="deleteAcc" class="sr-only">Delete Account</label>
+                            <a id="deleteAcc" class="dropdown-item" href="./index.php?controller=UserActionController&action=deleteAcc">Account Löschen</a>
                         </div>
                     </li>
                 <?php } ?>
             </ul>
             <?php if(!isset($_SESSION['userid'])){?>
                 <form class="form-inline my-2 my-lg-0" action="./index.php?controller=LoginController&action=loginAction" method="POST">
-                    <input name="username" class="form-control mr-sm-2" type="text" placeholder="Nutzername" aria-label="username">
-                    <input name="password" class="form-control mr-sm-2" type="password" placeholder="Passwort" aria-label="password">
+                    <label for="UsernameInput" class="sr-only">Username</label><input id="UsernameInput" name="username" class="form-control mr-sm-2" type="text" placeholder="Nutzername" aria-label="username">
+                    <label for="PasswordInput" class="sr-only">Password</label><input id="PasswordInput" name="password" class="form-control mr-sm-2" type="password" placeholder="Passwort" aria-label="password">
                     <button name="Login" class="btn btn-outline-light my-2 my-sm-0" type="submit">Login</button>
                 </form>
             <?php }else{?>
