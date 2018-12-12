@@ -94,7 +94,14 @@ Feature: General Test of Twitter application
       And I should see "Optionen"
       And I should see "Angemeldet als : Behat"
       And I should see "Logout"
-      
+      And I should see "edit"
+      And I follow "edit"
+      And I should see "Edit"
+      Then I focus on "Userinput"
+      And I fill in "Userinput" with " test123"
+      And I submit the field Userinput
+      Then I should see "Eintrag erfolgreich geupdatet"
+
 
     Scenario: Delete Account
       Given I am on "http://localhost/test/index.php"
