@@ -37,8 +37,7 @@
                                     <img id="userpictext" alt="" class="media-object img-rounded" src="<?=$user->getPicture()?>">
                                 </a>
                                 <div class="media-body">
-                                    <?php
-                                    if(isset($update)){?>
+                                    <?php if(isset($update)){?>
                                         <form action="./index.php?controller=CommentController&action=updateAction&idc=<?= $update->getId();?>&c=true&id=<?= $update->getTweet()->getId() ?>" method="POST">
                                             <label class="control-label sr-only" for="Userinput">edit</label>
                                             <input id="Userinput" name="text" type="text" class="form-control" autocomplete="off" value="<?=$update->getComment()?>">

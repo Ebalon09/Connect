@@ -8,9 +8,8 @@
         <body>
         <?php include 'header.php'?>
             <div class="container-fluid">
-                <?php include "alerts.php" ?>
                 <div class="container">
-
+                    <?php include "alerts.php" ?>
                     <div class="row">
                         <div class="col-sm-3">
                             <!--User-->

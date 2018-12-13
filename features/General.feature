@@ -14,9 +14,9 @@ Feature: General Test of Twitter application
     And I should see "Profilbild"
     And I should see "Registrieren"
     Then I fill in "Email" with "Behattest@behat.de"
-    Then I fill in "Username" with "Behat"
-    Then I fill in "Password" with "Behat"
-    Then I fill in "re-Password" with "Behat"
+    Then I fill in "regUsername" with "Behat"
+    Then I fill in "regPassword" with "Behat"
+    Then I fill in "regre-Password" with "Behat"
     Then I press "Registrieren"
     Then I should see "TwitterClone"
 
@@ -136,11 +136,11 @@ Feature: General Test of Twitter application
       Then I press "Login"
       Then I should see "Erfolgreich angemeldet!"
       And I should see "Optionen"
-      And I should see "Angemeldet als : Behat"
+      And I should see "Angemeldet als : behat"
       And I should see "Logout"
       And I should see "comment"
       And I follow "comment"
-      And I should see "CommentInput"
+      And I should see "commentinput"
       Then I focus on "commentinput"
       And I fill in "commentinput" with "Dies ist ein Behat test Kommentar"
       And I submit the field commentinput
@@ -162,7 +162,9 @@ Feature: General Test of Twitter application
       And I should see "Logout"
       And I should see "commentCounter"
       Then I follow "commentCounter"
+      And I wait 4 seconds for request to complete
       And I should see "Userinput"
+      And I wait 4 seconds for request to complete
       Then I fill in "Userinput" with "This is a Behat testComment from the commentFeed"
       And I focus on Userinput
       Then I submit the field Userinput

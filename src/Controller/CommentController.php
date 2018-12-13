@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: fstein
- * Date: 26.11.18
- * Time: 17:43
- */
 
 namespace Test\Controller;
 
@@ -19,6 +13,11 @@ use Test\Repository\UserRepository;
 use Test\Services\Session;
 use Test\Services\Templating;
 
+/**
+ * Class CommentController
+ *
+ * @author Florian Stein <fstein@databay.de>
+ */
 class CommentController
 {
     /**
@@ -41,7 +40,7 @@ class CommentController
     /**
      * CommentController constructor.
      */
-    public function __construct()
+    public function __construct ()
     {
         $this->tweetRepository = new TweetRepository();
         $this->likeRepository = new LikeRepository();
@@ -51,68 +50,68 @@ class CommentController
 
     /**
      * @param Request $request
+     *
      * @return Response
      */
-    public function indexAction(Request $request)
+    public function indexAction (Request $request)
     {
 
         $tweets = $this->tweetRepository->findAll();
         $likes = $this->likeRepository->findBy(['userid' => $_SESSION['userid']]);
-        $comments = $this->commentRepository->findAll();
+        $comments = $this->commentRepository->findBy(['tweetid' => $request->query->get('id')]);
         $tweet = $this->tweetRepository->findOneBy(['id' => $request->query->get('id')]);
-        $user = $this->userRepository->findOneBy(['id' => $_SESSION['userid']]);
+        $user = $this->userRepository->currentUser();
 
-        $array = array();
+        $array = [];
         $array[$tweet->getId()] = $this->likeRepository->countLikes($tweet);
 
         return new Response(Templating::getInstance()->render('./templates/twitterFeed.php', [
-            'comments' => $comments,
-            'result' => $tweets,
-            'tweet' => $tweet,
-            'likes' => $likes,
+            'comments'   => $comments,
+            'result'     => $tweets,
+            'tweet'      => $tweet,
+            'likes'      => $likes,
             'countLikes' => $array,
-            'user' => $user
+            'user'       => $user,
         ]));
     }
 
     /**
      * @param Request $request
+     *
      * @return Response
      */
-    public function commentFeed(Request $request)
+    public function commentFeed (Request $request)
     {
         $likes = $this->likeRepository->findBy(['userid' => $_SESSION['userid']]);
-        $comments = $this->commentRepository->findAll();
+        $comments = $this->commentRepository->findBy(['tweetid' => $request->query->get('id')]);
         $tweet = $this->tweetRepository->findOneBy(['id' => $request->query->get('id')]);
 
-        $user = $this->userRepository->findOneBy(['id' => $_SESSION['userid']]);
+        $user = $this->userRepository->currentUser();
 
-        $array = array();
+        $array = [];
         $array[$tweet->getId()] = $this->likeRepository->countLikes($tweet);
 
         return new Response(Templating::getInstance()->render('./templates/commentFeed.php', [
-            'comments' => $comments,
-            'tweet' => $tweet,
-            'likes' => $likes,
+            'comments'   => $comments,
+            'tweet'      => $tweet,
+            'likes'      => $likes,
             'countLikes' => $array,
-            'user' => $user
+            'user'       => $user,
         ]));
     }
 
     /**
      * @param Request $request
+     *
      * @return RedirectResponse
      * @throws \Exception
      */
-    public function createAction(Request $request)
+    public function createAction (Request $request)
     {
-        if($request->isMethod(Request::METHOD_POST))
-        {
-            $user = $this->userRepository->findOneBy([
-                'id' => $_SESSION['userid']
-            ]);
+        if ($request->isMethod(Request::METHOD_POST)) {
+            $user = $this->userRepository->currentUser();
             $tweet = $this->tweetRepository->findOneBy([
-                'id' => $request->query->get('id')
+                'id' => $request->query->get('id'),
             ]);
 
             $comment = new Comment();
@@ -121,45 +120,43 @@ class CommentController
             $comment->setUser($user);
             $comment->setTweet($tweet);
 
-            if($request->get('text') != '') {
+            if ($request->get('text') != '') {
                 $this->commentRepository->add($comment);
 
                 $session = Session::getInstance();
                 $session->write('success', 'Kommentar erfolgreich gepostet');
-            }
-            else
-            {
+            } else {
                 $session = Session::getInstance();
                 $session->write('danger', 'Du kannst keinen leeren Kommentar posten!');
             }
 
             $id = $request->query->get('id');
-            if($request->query->get('c') == true){
+            if ($request->query->get('c') == true) {
                 return new RedirectResponse("./index.php?controller=CommentController&action=commentFeed&id=$id&c=true");
             }
+
             return new RedirectResponse('./index.php');
         }
-
     }
 
     /**
      * @param Request $request
+     *
      * @return Response|RedirectResponse
      * @throws \Exception
      */
-    public function updateAction(Request $request)
+    public function updateAction (Request $request)
     {
         $comment = $this->commentRepository->findOneBy([
-            'id' => $request->query->get('idc')
+            'id' => $request->query->get('idc'),
         ]);
-        $user = $this->userRepository->findOneBy(['id' => $_SESSION['userid']]);
+        $user = $this->userRepository->currentUser();
         $tweet = $this->tweetRepository->findBy(['id' => $comment->getTweet()->getId()])[0];
         $comments = $this->commentRepository->findBy(['tweetid' => $tweet->getId()]);
 
-        if ($request->isMethod(Request::METHOD_POST))
-        {
+        if ($request->isMethod(Request::METHOD_POST)) {
             $user = $this->userRepository->findOneBy([
-                'id' => $_SESSION['userid']
+                'id' => $_SESSION['userid'],
             ]);
 
             $comment = new Comment();
@@ -175,29 +172,32 @@ class CommentController
 
             $id = $comment->getTweet()->getId();
             $idc = $request->query->get('idc');
-            if($request->query->get('c') == true){
+            if ($request->query->get('c') == true) {
                 return new RedirectResponse("./index.php?controller=CommentController&action=commentFeed&id=$id&c=true&idc=$idc");
             }
+
             return new RedirectResponse("./index.php");
         }
+
         return new Response(Templating::getInstance()->render('./templates/commentFeed.php', [
-            'result' => $this->commentRepository->findAll(),
-            'update' => $comment,
+            'result'   => $this->commentRepository->findBy(['tweetid' => $request->query->get('id')]),
+            'update'   => $comment,
             'comments' => $comments,
-            'user' => $user,
-            'id' => $comment->getId(),
-            'tweet' => $tweet
+            'user'     => $user,
+            'id'       => $comment->getId(),
+            'tweet'    => $tweet,
         ]));
     }
 
     /**
      * @param Request $request
+     *
      * @return RedirectResponse
      */
-    public function deleteAction(Request $request)
+    public function deleteAction (Request $request)
     {
         $comment = $this->commentRepository->findOneBy([
-            'id' => $request->query->get('idc')
+            'id' => $request->query->get('idc'),
         ]);
         $id = $comment->getTweet()->getId();
 
@@ -210,6 +210,7 @@ class CommentController
         if ($request->query->get('c') == true) {
             return new RedirectResponse("./index.php?controller=CommentController&action=commentFeed&id=$id&idc=$idc&c=true");
         }
+
         return new RedirectResponse("./index.php");
     }
 }
