@@ -162,9 +162,7 @@ Feature: General Test of Twitter application
       And I should see "Logout"
       And I should see "commentCounter"
       Then I follow "commentCounter"
-      And I wait 4 seconds for request to complete
       And I should see "Userinput"
-      And I wait 4 seconds for request to complete
       Then I fill in "Userinput" with "This is a Behat testComment from the commentFeed"
       And I focus on Userinput
       Then I submit the field Userinput
