@@ -50,10 +50,10 @@
                     </form>
 
                     <form action="./index.php?controller=UserActionController&action=changeAction" method="POST">
-                        <label for="password">Passwort :</label>
+                        <label for="password">password</label>
                         <input name="password" class="form-control mr-sm-2" type="password" placeholder="Passwort" aria-label="password" required>
-                        <label for="re-password">Passwort erneut eingeben :</label>
-                        <input name="re-password" class="form-control mr-sm-2" type="password" placeholder="Passwort" aria-label="password" required>
+                        <label for="re-password">re-Password</label>
+                        <input name="re-password" class="form-control mr-sm-2" type="password" placeholder="Passwort erneut eingeben" aria-label="password" required>
                         <button name="changePW" class="btn btn-outline-light my-2 my-sm-3" type="submit">Passwort ändern</button>
                     </form>
 

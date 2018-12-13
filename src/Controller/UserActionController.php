@@ -63,25 +63,25 @@ class UserActionController
     {
         $result = null;
 
-        if ($request->isPostRequest())
+        if ($request->isMethod(Request::METHOD_POST))
         {
-            if ($request->getPost()->get('email') != null)
+            if ($request->get('email') != null)
             {
                 $user = $this->userRepository->findOneBy([
                     'email' => $_SESSION['email']
                 ]);
-                $user->setEmail($request->getPost()->get('email'));
+                $user->setEmail($request->get('email'));
                 $result = $this->userRepository->add($user);
             }
-            if ($request->getPost()->get('username') != null)
+            if ($request->get('username') != null)
             {
                 $user = $this->userRepository->findOneBy([
                     'username' => $_SESSION['username']
                 ]);
-                $user->setUsername($request->getPost()->get('username'));
+                $user->setUsername($request->get('username'));
                 $result = $this->userRepository->add($user);
             }
-            if ($request->getPost()->get('password') != null)
+            if ($request->get('password') != null)
             {
                 $pw1 = $_POST['password'];
                 $pw2 = $_POST['re-password'];
@@ -91,7 +91,7 @@ class UserActionController
                     $user = $this->userRepository->findOneBy([
                         'id' => $_SESSION['userid']
                     ]);
-                    $user->setPassword(password_hash($request->getPost()->get('password'), PASSWORD_DEFAULT));
+                    $user->setPassword(password_hash($request->get('password'), PASSWORD_DEFAULT));
                     $result = $this->userRepository->add($user);
                 }  else
                 {

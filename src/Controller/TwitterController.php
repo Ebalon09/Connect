@@ -95,7 +95,7 @@ class TwitterController
     {
 
 
-        if ($request->get('text'))
+        if ($request->isMethod(Request::METHOD_POST))
         {
             $user = $this->userRepository->findOneBy([
                 'id' => $_SESSION['userid']
@@ -138,7 +138,7 @@ class TwitterController
         ]);
 
 
-        if($request->get('text'))
+        if($request->isMethod(Request::METHOD_POST))
         {
             $text = $request->get('text');
 
@@ -179,7 +179,7 @@ class TwitterController
         $user = $this->userRepository->findOneBy(['id' => $_SESSION['userid']]);
 
 
-        if ($request->get('text'))
+        if ($request->isMethod(Request::METHOD_POST))
         {
             $tweet->setText($request->get('text'));
 
