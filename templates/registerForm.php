@@ -1,41 +1,72 @@
-<!DOCTYPE html>
-<html lang="en">
-    <html>
-        <head>
-            <?php include "head.php" ?>
-            <title>TwitterClone Registration</title>
-        </head>
-        <body class="regForm bg-secondary text-white">
-            <?php include "header.php" ?>
-            <div class="container-fluid">
-                <form action="./index.php?controller=LoginController&action=registerAction" method="POST" enctype="multipart/form-data">
-                    <div class="container">
-                        <?php include "alerts.php" ?>
-                        <h1>Registrieren : </h1>
-                        <div class="form-group">
-                        <label for="regEmail" class="sr-only">Email :</label>
-                        <input name="regEmail" class="form-control mr-sm-2" type="text" placeholder="Email" aria-label="Email" required>
-                        </div>
-                        <div class="form-group">
-                        <label for="regUsername" class="sr-only">Username :</label>
-                        <input name="regUsername" class="form-control mr-sm-2" type="text" placeholder="Nutzername" required>
-                        </div>
-                        <div class="form-group">
-                        <label for="regPassword" class="sr-only">Passwort :</label>
-                        <input name="regPassword" class="form-control mr-sm-2" type="password" placeholder="Passwort" aria-label="Password" required>
-                        </div>
-                        <div class="form-group">
-                        <label for="regre-Password" class="sr-only">Passwort erneut eingeben :</label>
-                        <input name="regre-Password" class="form-control mr-sm-2" type="password" placeholder="Passwort" aria-label="Password" required>
-                        </div>
-                        <div class="form-group">
-                        <label for="Picture" class="sr-only">Profilbild</label>
-                        <input id="my_upload" name="my_upload" class="upload" type="file" accept="image/*">
-                        <br>
-                        <button name="Login" class="btn btn-outline-light my-2 my-sm-3" type="submit">Registrieren</button>
+<html>
+<head>
+    <?php include "head.php";?>
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="./Style/register.css">
+    <?php include "scripts.php"?>
+</head>
+<body>
+<!-- Start Main Container -->
+<div class="main-container">
+    <?php include "alerts.php"?>
+    <!-- Start Pokemon Ball Top Part -->
+    <div class="pokemon-top-part"></div>
+    <!-- End Pokemon Ball Top Part -->
+    <!-- Start Main Forms -->
+    <div class="main-forms">
+        <div class="signup-form">
+            <form class="sign-back" action="./index.php?controller=LoginController&action=registerAction" method="POST" enctype="multipart/form-data">
+                <h1>Sign up</h1>
+                <div class="signup-row">
+                    <i class="fa fa-user"></i>
+                    <label for="USERNAME" class="sr-only">USERNAME</label>
+                    <input type="text" name="USERNAME" value="" placeholder="USERNAME" autocomplete="off">
+                </div>
+                <div class="signup-row">
+                    <i class="fa fa-envelope-o"></i>
+                    <label for="EMAIL" class="sr-only">EMAIL</label>
+                    <input type="text" name="EMAIL" value="" placeholder="EMAIL" autocomplete="off">
+                </div>
+                <div class="signup-row">
+                    <i class="fa fa-key"></i>
+                    <label for="PASSWORD" class="sr-only">PASSWORD</label>
+                    <input type="password" name="PASSWORD" value="" placeholder="PASSWORD" autocomplete="off">
+                </div>
+                <div class="signup-row">
+                    <label for="my_upload" class="sr-only">IMAGE</label>
+                    <input id="my_upload" name="my_upload" class="upload" type="file" accept="image/*">
+                </div>
+                <div class="signup-row">
+                    <button id="signupButton" class="fa btn btn-warning fa-arrow-circle-o-right" style="color: white" aria-hidden="true" type="submit"></button>
+                </div>
+                <div class="form-bottom">
+                    <div class="remember">
+                        <input type="checkbox" name="" value="">
+                        <span>Remember me</span>
                     </div>
-                </form>
-            </div>
-        <?php include "scripts.php";?>
-        </body>
-    </html>
+                    <div class="remember">
+                        <a href="#">Already Have Account ?</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- End Main Forms -->
+    <!-- Start Pokemon Ball Bottom Part -->
+    <div class="pokemon-bottom-part">
+        <div class="white-part"></div>
+        <div class="black-line"></div>
+    </div>
+    <!-- End Pokemon Ball Bottom Part -->
+</div>
+<!-- End Main Container -->
+<!-- Start Scripts -->
+
+<script type="text/javascript" src="./Style/js/regscript.js"></script>
+<script src="https://use.fontawesome.com/7dddae9ad9.js"></script>
+
+
+
+<!-- End Scripts -->
+</body>
+</html>

@@ -82,18 +82,15 @@ class LoginController
      */
     public function registerAction (Request $request)
     {
-        $pw1 = $_POST['regPassword'];
-        $pw2 = $_POST['regre-Password'];
-
         if ($_FILES['name'] == '') {
             $pic = "./uploads/ProfilePics/fill.jpg";
         }
-        if ($pw1 == $pw2) {
+        if (isset($_POST['PASSWORD']) && $_POST['PASSWORD'] !== '') {
             if ($request->isMethod(Request::METHOD_POST)) {
-                if (isset($_POST['regUsername']) && isset($_POST['regEmail'])) {
+                if (isset($_POST['USERNAME']) && isset($_POST['USERNAME'])) {
 
                     $data = $this->userRepository->findOneBy([
-                        'email' => $request->get('regEmail'),
+                        'email' => $request->get('EMAIL'),
                     ]);
 
                     if ($data->getEmail() !== null) {
@@ -105,7 +102,7 @@ class LoginController
 
                     $data = null;
                     $data = $this->userRepository->findOneBy([
-                        'username' => $request->get('regUsername'),
+                        'username' => $request->get('USERNAME'),
                     ]);
 
                     if ($data->getUsername() !== null) {
@@ -124,16 +121,16 @@ class LoginController
             } else {
                 $user->setPicture(strip_tags($this->handlefileupload($request)));
             }
-            $user->setUsername(strip_tags($request->get('regUsername')));
-            $user->setPassword(password_hash($request->get('regPassword'), PASSWORD_DEFAULT));
-            $user->setEmail(strip_tags($request->get('regEmail')));
+            $user->setUsername(strip_tags($request->get('USERNAME')));
+            $user->setPassword(password_hash($request->get('PASSWORD'), PASSWORD_DEFAULT));
+            $user->setEmail(strip_tags($request->get('EMAIL')));
 
             $this->userRepository->add($user);
 
             $session = Session::getInstance();
             $session->write('success', 'Erfolgreich Registriert! bitte anmelden');
 
-            return new RedirectResponse("./index.php?controller=LoginController&action=indexAction");
+            return new RedirectResponse("./index.php");
         } else {
             $session = Session::getInstance();
             $session->write('danger', 'Passwörter stimmen nicht überein!');
