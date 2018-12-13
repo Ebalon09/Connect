@@ -1,34 +1,39 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: fstein
- * Date: 13.11.18
- * Time: 08:19
- */
+
 namespace Test\Model;
 
+/**
+ * Class User
+ *
+ * @author Florian Stein <fstein@databay.de>
+ */
 class User
 {
     /**
      * @var int
      */
     protected $id;
+
     /**
      * @var string
      */
     protected $username;
+
     /**
      * @var string
      */
     protected $password;
+
     /**
      * @var string
      */
     protected $email;
+
     /**
      * @var string
      */
     protected $picture;
+
     /**
      * @return string
      */

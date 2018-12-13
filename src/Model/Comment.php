@@ -1,30 +1,34 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: fstein
- * Date: 26.11.18
- * Time: 17:43
- */
+
 namespace Test\Model;
 
+/**
+ * Class Comment
+ *
+ * @author Florian Stein <fstein@databay.de>
+ */
 class Comment
 {
     /**
      * @var string
      */
     protected $comment;
+
     /**
      * @var Tweet
      */
     protected $Tweet;
+
     /**
      * @var int
      */
     protected $id;
+
     /**
      * @var User
      */
     protected $user;
+
     /**
      * @return String
      */
