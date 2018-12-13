@@ -7,6 +7,8 @@ session_start();
 
 require_once __DIR__.'/vendor/autoload.php';
 
+
+
 $controllerName = "TwitterController";
 $actionName = "indexAction";
 
@@ -25,6 +27,7 @@ $request = Request::createFromGlobals();
 
 /** @var mixed $controller */
 $controller = new $controllerName();
+
 /**
  * @var ResponseInterface $response
  */

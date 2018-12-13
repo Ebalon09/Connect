@@ -68,7 +68,16 @@ class UserActionController
     {
         $result = null;
 
-        if ($request->isMethod(Request::METHOD_POST)) {
+        $user = $this->userRepository->currentUser();
+
+        $mainpw = $user->getPassword();
+
+
+        $pw1 = $request->get('PasswordVerify');
+        $pw2 = $request->get('rePasswordVerify');
+
+        if ($request->isMethod(Request::METHOD_POST) && $pw1 == $pw2 && password_verify($pw1, $mainpw) == true)
+        {
             if ($request->get('email') != null) {
                 $user = $this->userRepository->findOneBy([
                     'email' => $_SESSION['email'],
@@ -83,42 +92,39 @@ class UserActionController
                 $user->setUsername($request->get('username'));
                 $result = $this->userRepository->add($user);
             }
-            if ($request->get('password') != null) {
-                $pw1 = $_POST['password'];
-                $pw2 = $_POST['re-password'];
+            if ($request->get('passwordchange') != null) {
 
-                if ($pw1 == $pw2) {
-                    $user = $this->userRepository->findOneBy([
-                        'id' => $_SESSION['userid'],
-                    ]);
-                    $user->setPassword(password_hash($request->get('password'), PASSWORD_DEFAULT));
+                    $user = $this->userRepository->currentUser();
+
+                    $user->setPassword(password_hash($request->get('passwordchange'), PASSWORD_DEFAULT));
                     $result = $this->userRepository->add($user);
-                } else {
-                    Session::getInstance()->write('danger', 'Passwörter müssen übereinstimmen!');
-                }
+
             }
-            if ($_FILES != null) {
-                $user = $this->userRepository->findOneBy([
-                    'id' => $_SESSION['userid'],
-                ]);
+            if ($_FILES != null)
+            {
+                $user = $this->userRepository->currentUser();
 
                 $user->setPicture($this->handleFileUpload($user));
                 $result = $this->userRepository->add($user);
             }
-            if (!$result) {
+            if (!$result)
+            {
                 Session::getInstance()->write('danger', 'Fehler!');
-            } else {
+            }
+            else
+            {
                 $_SESSION['username'] = null;
                 $_SESSION['userid'] = null;
                 $_SESSION['email'] = null;
                 Session::getInstance()->write('success',
                     'erfolgreich geupdatet, bitte neu einloggen damit die änderung in kraft tritt');
-            }
 
-            return new Response(Templating::getInstance()->render('./templates/settingForm.php', [
-                'form' => 'settingForm.php',
-            ]));
+                return new RedirectResponse("./index.php");
+            }
         }
+        Session::getInstance()->write('danger', 'Fehler bei der Verifizierung!');
+
+        return new RedirectResponse("./index.php");
     }
 
     /**
