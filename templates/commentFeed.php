@@ -130,10 +130,12 @@
                                         <h4 class="media-heading" id="Username"><?=$data->getUser()->getUsername() ?></h4>
                                         <p id="Text"><?=$data->getComment() ?></p>
                                         <ul id="buttons" class="nav nav-pills nav-pills-custom">
+                                            <?php if($_SESSION['userid'] == $data->getUser()->getId()){?>
                                             <label for="delete" class="sr-only">delete</label>
                                             <li><a id="delete" href="./index.php?controller=CommentController&action=deleteAction&idc=<?= $data->getId() ?>&c=true&id=<?= $data->getTweet()->getId() ?>" <i class="far fa-trash-alt"></i></button> </a></li>
                                             <label for="edit" class="sr-only">edit</label>
                                             <li><a id="edit" href="./index.php?controller=CommentController&action=updateAction&idc=<?= $data->getId() ?>&c=true&id=<?= $data->getTweet()->getId() ?>" <i class="far fa-edit"></i></button> </a></li>
+                                            <?php }?>
                                         </ul>
                                     </div>
                                 </div>

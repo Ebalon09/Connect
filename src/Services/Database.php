@@ -43,6 +43,7 @@ class Database
             $statement->bindValue(':'.$key, $value);
         }
 
+
         return $statement->execute();
     }
 

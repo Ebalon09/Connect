@@ -6,6 +6,9 @@ namespace Test\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Test\Repository\CommentRepository;
+use Test\Repository\LikeRepository;
+use Test\Repository\TweetRepository;
 use Test\Repository\UserRepository;
 use Test\Services\Session;
 use Test\Services\Templating;
@@ -18,11 +21,29 @@ class UserActionController
     protected $userRepository;
 
     /**
+     * @var TweetRepository
+     */
+    protected $tweetRepository;
+
+    /**
+     * @var CommentRepository
+     */
+    protected $commentRepository;
+
+    /**
+     * @var LikeRepository
+     */
+    protected $likeRepository;
+
+    /**
      * UserActionController constructor.
      */
     public function __construct()
     {
+        $this->commentRepository = new CommentRepository();
         $this->userRepository = new userRepository();
+        $this->tweetRepository = new TweetRepository();
+        $this->likeRepository = new LikeRepository();
     }
 
     /**
@@ -112,6 +133,11 @@ class UserActionController
             $user = $this->userRepository->findOneBy([
                 'id' => $_SESSION['userid']
             ]);
+
+            $this->tweetRepository->removeAllBy(['userid' => $user->getId()]);
+            $this->commentRepository->removeAllBy(['userid' => $user->getId()]);
+            $this->likeRepository->removeAllBy(['userid' => $user->getId()]);
+
             $this->userRepository->remove($user);
 
             Session::getInstance()->write('success', 'Account erfolgreich Gelöscht!');

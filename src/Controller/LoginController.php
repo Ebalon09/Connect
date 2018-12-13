@@ -89,22 +89,28 @@ class LoginController
             {
                 if (isset($_POST['Username']) && isset($_POST['Email']))
                 {
+
+
                     $data = $this->userRepository->findOneBy([
                         'email' => $request->get('Email')
                     ]);
 
-                    if ($data->getEmail() != null)
+
+                    if ($data->getEmail() !== null)
                     {
                         $session = Session::getInstance();
                         $session->write('danger', 'Fehler beim Registrieren : Email bereits vergeben!');
                         return new RedirectResponse("index.php?controller=LoginController&action=indexAction");
                     }
+
+
                     $data = null;
                     $data = $this->userRepository->findOneBy([
                         'username' => $request->get('Username')
                     ]);
 
-                    if ($data->getUsername() != null)
+
+                    if ($data->getUsername() !== null)
                     {
                         $session = Session::getInstance();
                         $session->write('danger', 'Fehler beim Registrieren : Nutzername bereits vergeben!');
@@ -112,6 +118,7 @@ class LoginController
                     }
                 }
             }
+
             $user = new User();
 
             if(isset($pic)){

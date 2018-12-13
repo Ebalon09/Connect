@@ -138,11 +138,13 @@
                                                 <li><a id="commentCounter" href="./index.php?controller=CommentController&action=commentFeed&id=<?= $data->getId()?>&c=true"><?= $countcomments[$data->getId()]?></li>
                                                 <label for="reTweet" class="sr-only">ReTweet</label>
                                                 <li><a id="reTweet" href="./index.php?controller=TwitterController&action=reTweetAction&id=<?= $data->getId() ?>&idc=<?=$data->getId()?>" <i class="fas fa-retweet"></i></button> </a></li>
+
+                                                <?php if($_SESSION['userid'] == $data->getUser()->getId()){?>
                                                 <label for="delete" class="sr-only">delete</label>
                                                 <li><a id="delete" href="./index.php?controller=TwitterController&action=deleteAction&id=<?= $data->getId() ?>" <i class="far fa-trash-alt"></i></button> </a></li>
                                                 <label for="edit" class="sr-only">edit</label>
                                                 <li><a id="edit" href="./index.php?controller=TwitterController&action=updateAction&id=<?= $data->getId() ?>" <i class="far fa-edit"></i></button> </a></li>
-
+                                                <?php }?>
 
                                                 <?php if(isset($_GET['c'])){?>
                                                     <label for="commentinput" class="sr-only">CommentInput</label>

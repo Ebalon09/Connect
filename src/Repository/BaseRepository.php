@@ -121,6 +121,25 @@ abstract class BaseRepository
         return $objects;
     }
 
+
+    /**
+     * @param array $parameters
+     * @return mixed
+     */
+    public function removeAllBy(array $parameters)
+    {
+        $properties = [];
+        foreach($parameters as $key => $value)
+        {
+            $properties[$key] = $key . ' = :' . $key;
+        }
+        $query = "DELETE FROM ".$this->getTableName()." WHERE ";
+        $query .= \join(',',$properties);
+
+
+        return $this->database->insert($query, $parameters);
+    }
+
     /**
      * @return string
      */
