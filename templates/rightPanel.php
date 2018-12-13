@@ -1,0 +1,18 @@
+<div class="col-sm-3">
+    <div class="panel panel-default panel-custom">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                Vorgeschlagen
+                <small><a href="#">Refresh</a> ● <a href="#">View all</a></small>
+            </h3>
+        </div>
+        <div class="panel-body">
+            <!--put recommended persons in there-->
+            Fill1
+            <br>
+            Fill2
+            <br>
+            Fill3
+        </div>
+    </div>
+</div>

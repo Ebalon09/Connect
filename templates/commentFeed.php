@@ -1,82 +1,18 @@
 <html>
 <head>
-    <link rel="icon" href="./favicon.ico">
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="./Style/TwitterStyle.css">
+    <?php include "head.php" ?>
     <title>Twitter</title>
 </head>
-
-<body>
+    <body>
     <?php include 'header.php'?>
-
-    <div id="commentcontainerfluid" class="container-fluid">
-        <?php
-        if($_SESSION['userid'] != null):  ?>
-            <div class="warnung">
-                <?php
-                foreach(Test\Services\Session::getInstance()->readMessage() as $type => $messages) {
-                    foreach($messages as $message){ ?>
-                        <div class="alert alert-<?= $type; ?>"><?= $message ?></div>
-                    <?php    }
-                }
-                ?>
-            </div>
-            <?php
-        endif; ?>
-
-
-        <div class = "container">
-            <div class="row">
-                <div class="col-sm-3">
-
-                    <!--User-->
-                    <!--Show logged in User, with profile pic and data-->
-                    <?php if(isset($_SESSION['userid'])){?>
-                        <div class="panel panel-default">
-                            <div    class="panel-body">
-                                <a href="#"><img class="img-responsive" alt="" src="<?= $user->getPicture()?>"></a>
-                                <div class="row">
-                                    <div class="col-xs-3">
-                                        <h5>
-                                            <small>TWEETS</small>
-                                            <a href="#">1,545</a>
-                                        </h5>
-                                    </div>
-                                    <div class="col-xs-4">
-                                        <h5>
-                                            <small>FOLLOWING</small>
-                                            <a href="#">251</a>
-                                        </h5>
-                                    </div>
-                                    <div class="col-xs-5">
-                                        <h5>
-                                            <small>FOLLOWERS</small>
-                                            <a href="#">153</a>
-                                        </h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    <?php } ?>
-                    <!--trends-->
-                    <div class="panel panel-default panel-custom">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">
-                                Trends
-                            </h3>
-                        </div>
-                        <div class="panel-body">
-                            <ul class="list-unstyled">
-                                <!--foreach trend new list element(if implemented)-->
-                                <li><a href="#">#hashtag trends filler</a></li>
-                                <li><a href="#">#hashtag trends filler 2</a></li>
-                            </ul>
-                        </div>
+        <div id="commentcontainerfluid" class="container-fluid">
+            <?php include "alerts.php" ?>
+            <div class = "container">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <?php include "profile.php"?>
+                        <?php include "trends.php";?>
                     </div>
-                </div>
-
                 <!--Tweet-->
                 <div class="col-sm-6">
                     <div class="panel panel-info">
@@ -92,9 +28,7 @@
                             </div>
                         </div>
                     </div>
-
-
-                <!-- Tweets-->
+                    <!-- Tweets-->
                     <div class="panel panel-info">
                         <div class="panel-heading">
                             <!--Text Box-->
@@ -119,7 +53,6 @@
                             </div>
                         </div>
                         <div class="panel-body">
-                            <!--here foreach with user posts,names,profile pics and buttons-->
                             <?php /** @var Comment $data */?>
                             <?php foreach($comments as $data) { ?>
                                 <div class="media">
@@ -142,39 +75,11 @@
                             <?php } ?>
                         </div>
                     </div>
-
-                    <div class="panel panel-default">
-                        <div class="panel-heading">Hier ist das Ende :(</div>
-                        <div class="panel-body">
-                            <ul class="nav nav-pills">
-                                <li role="presentation" class="active"><a href="./index.php">Refreshe mal deine Seite, vielleicht ist ja was neues da!</a></li>
-                            </ul>
-                        </div>
-                    </div>
+                    <?php include "footPanel.php" ?>
                 </div>
-
-                <!-- right panel-->
-                <div class="col-sm-3">
-                    <div class="panel panel-default panel-custom">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">
-                                Vorgeschlagen
-                                <small><a href="#">Refresh</a> ● <a href="#">View all</a></small>
-                            </h3>
-                        </div>
-                        <div class="panel-body">
-                            <!--put recommended persons in there-->
-                            Fill1
-                            <br>
-                            Fill2
-                            <br>
-                            Fill3
-                        </div>
-                    </div>
-                </div>
+                <?php include "rightPanel.php" ?>
             </div>
         </div>
-
-
-</body>
+        <?php include "scripts.php" ?>
+    </body>
 </html>
