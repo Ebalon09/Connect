@@ -66,13 +66,16 @@ class TwitterController
             $commentarray[$tweet->getId()] = $this->commentRepository->countComments($tweet);
         }
 
-        return new Response(Templating::getInstance()->render('./templates/twitterFeed.php', [
+        return new Response(Templating::getInstance()->render('twitterFeed.html.twig', [
             'result'        => $tweets,
             'action'        => "index.php?controller=TwitterController&action=createAction",
             'likes'         => $likes,
             'countLikes'    => $likearray,
             'user'          => $user,
             'countcomments' => $commentarray,
+            'userid' => $_SESSION['userid'],
+            'username' => $_SESSION['username'],
+            'userimage' => $user->getPicture(),
         ]));
     }
 
@@ -122,6 +125,7 @@ class TwitterController
         ]);
         $user = $this->userRepository->currentUser();
 
+
         if ($request->isMethod(Request::METHOD_POST))
         {
             $text = $request->get('text');
@@ -138,6 +142,7 @@ class TwitterController
             $reTweet->setText($text);
             $reTweet->setUser($user);
 
+
             $this->tweetRepository->add($reTweet);
 
             $session = Session::getInstance();
@@ -145,24 +150,27 @@ class TwitterController
 
             return new RedirectResponse("./index.php");
         }
-        return new Response(Templating::getInstance()->render('./templates/twitterFeed.php', [
+        return new Response(Templating::getInstance()->render('twitterFeed.html.twig', [
             'result'  => $this->tweetRepository->findAll(),
             'reTweet' => $tweet,
             'user'    => $user,
             'id'      => $tweet->getId(),
+            'userid'  => $_SESSION['userid'],
+            'username'=> $_SESSION['username'],
         ]));
     }
 
     /**
      * @param Request $request
      *
-     * @return Response|RedirectResponse
+     * @return RedirectResponse|Response
      * @throws \Exception
      */
     public function updateAction (Request $request)
     {
         $tweet = $this->tweetRepository->findBy(['id' => $request->query->get('id')])[0];
         $user = $this->userRepository->currentUser();
+
 
         if ($request->isMethod(Request::METHOD_POST))
         {
@@ -179,11 +187,13 @@ class TwitterController
             }
             return new RedirectResponse('./index.php?controller=TwitterController&action=indexAction');
         }
-        return new Response(Templating::getInstance()->render('./templates/twitterFeed.php', [
+        return new Response(Templating::getInstance()->render('twitterFeed.html.twig', [
             'result' => $this->tweetRepository->findAll(),
             'update' => $tweet,
             'user'   => $user,
             'id'     => $tweet->getId(),
+            'userid'  => $_SESSION['userid'],
+            'username'=> $_SESSION['username'],
         ]));
     }
 

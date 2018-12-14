@@ -55,7 +55,10 @@ class UserActionController
      */
     public function settingsIndex ()
     {
-        return new Response(Templating::getInstance()->render('./templates/settingForm.php'));
+        return new Response(Templating::getInstance()->render('settingForm.html.twig',[
+            'usermail' => $_SESSION['email'],
+            'username' => $_SESSION['username'],
+        ]));
     }
 
     /**
@@ -73,8 +76,11 @@ class UserActionController
         $mainpw = $user->getPassword();
 
 
+
         $pw1 = $request->get('PasswordVerify');
         $pw2 = $request->get('rePasswordVerify');
+
+
 
         if ($request->isMethod(Request::METHOD_POST) && $pw1 == $pw2 && password_verify($pw1, $mainpw) == true)
         {

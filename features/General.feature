@@ -6,18 +6,18 @@ Feature: General Test of Twitter application
     Given I am on "http://localhost/test/index.php"
     Then I should see "Register"
     Then I follow "Register"
-    And I should see "Registrieren :"
-    And I should see "Email :"
-    And I should see "Username :"
-    And I should see "Passwort :"
-    And I should see "Passwort erneut eingeben :"
-    And I should see "Profilbild"
-    And I should see "Registrieren"
-    Then I fill in "Email" with "Behattest@behat.de"
-    Then I fill in "regUsername" with "Behat"
-    Then I fill in "regPassword" with "Behat"
-    Then I fill in "regre-Password" with "Behat"
-    Then I press "Registrieren"
+    And I wait 15 seconds for request to complete
+    And I should see "Sign up"
+    And I should see "USERNAME"
+    And I should see "EMAIL"
+    And I should see "PASSWORD"
+    And I should see "IMAGE"
+    Then I fill in "EMAIL" with "Behattest@behat.de"
+    Then I fill in "USERNAME" with "Behat"
+    Then I fill in "PASSWORD" with "Behat"
+    And I wait 5 seconds for request to complete
+    Then I press "signupButton"
+    And I wait 10 seconds for request to complete
     Then I should see "TwitterClone"
 
   Scenario: Login
@@ -56,7 +56,7 @@ Feature: General Test of Twitter application
     And I should see "Vorgeschlagen"
     And I should see "Hier ist das Ende :("
     And I should see "Post"
-    Then I fill in "Post" with "This is a Behat test"
+    Then I fill in "Userinput" with "This is a Behat test"
     And I focus on Userinput
     Then I submit the field Userinput
     Then I should see "Tweet erfolgreich gepostet"
@@ -80,7 +80,7 @@ Feature: General Test of Twitter application
       And I should see "Logout"
       Then I should see "Logout"
 
-    Scenario: Post edit Test
+    Scenario: EditTest
       Given I am on "http://localhost/test/index.php"
       Then I should see "TwitterClone"
       And I should see "Register"
@@ -94,9 +94,7 @@ Feature: General Test of Twitter application
       And I should see "Optionen"
       And I should see "Angemeldet als : Behat"
       And I should see "Logout"
-      And I should see "edit"
       And I follow "edit"
-      And I should see "Edit"
       Then I focus on "Userinput"
       And I fill in "Userinput" with "Behat Edit"
       And I submit the field Userinput
@@ -116,15 +114,13 @@ Feature: General Test of Twitter application
       And I should see "Optionen"
       And I should see "Angemeldet als : Behat"
       And I should see "Logout"
-      And I should see "ReTweet"
       And I follow "reTweet"
-      And I should see "reTweet"
       Then I focus on "Userinput"
       And I fill in "Userinput" with "Behat reTweet"
       And I submit the field Userinput
       Then I should see "Tweet erfolgreich gepostet"
 
-    Scenario: Post comment Test
+    Scenario: PostComment
       Given I am on "http://localhost/test/index.php"
       Then I should see "TwitterClone"
       And I should see "Register"
@@ -138,15 +134,13 @@ Feature: General Test of Twitter application
       And I should see "Optionen"
       And I should see "Angemeldet als : behat"
       And I should see "Logout"
-      And I should see "comment"
       And I follow "comment"
-      And I should see "commentinput"
       Then I focus on "commentinput"
       And I fill in "commentinput" with "Dies ist ein Behat test Kommentar"
       And I submit the field commentinput
       Then I should see "Kommentar erfolgreich gepostet"
 
-    Scenario: CommentFeed test
+    Scenario: CommentFeed
       Given I am on "http://localhost/test/index.php"
       Then I should see "TwitterClone"
       And I should see "Register"
@@ -160,7 +154,6 @@ Feature: General Test of Twitter application
       And I should see "Optionen"
       And I should see "Angemeldet als : Behat"
       And I should see "Logout"
-      And I should see "commentCounter"
       Then I follow "commentCounter"
       And I should see "Userinput"
       Then I fill in "Userinput" with "This is a Behat testComment from the commentFeed"
@@ -179,7 +172,7 @@ Feature: General Test of Twitter application
       And I follow "Home"
 
 
-    Scenario: Post delete Test
+    Scenario: PostDelete
       Given I am on "http://localhost/test/index.php"
       Then I should see "TwitterClone"
       And I should see "Register"
@@ -193,11 +186,10 @@ Feature: General Test of Twitter application
       And I should see "Optionen"
       And I should see "Angemeldet als : Behat"
       And I should see "Logout"
-      And I should see "delete"
       And I follow "delete"
       Then I should see "Tweet erfolgreich gelöscht"
 
-    Scenario: Settings Test email
+    Scenario: SettingsEmail
       Given I am on "http://localhost/test/index.php"
       Then I should see "TwitterClone"
       And I should see "Register"
@@ -212,16 +204,16 @@ Feature: General Test of Twitter application
       And I press "Optionen"
       Then I should see "Einstellungen"
       And I follow "Einstellungen"
-      Then I should see "Benutzerdaten Ändern"
-      And I should see "email"
-      And I should see "username"
-      And I should see "password"
-      And I should see "re-password"
+      Then I should see "Settings"
       Then I fill in "email" with "Behat@behat2.de"
-      Then I press "changeMail"
+      Then I press "next"
+      And I wait 5 seconds for request to complete
+      Then I fill in "PasswordVerify" with "Behat"
+      Then I fill in "rePasswordVerify" with "Behat"
+      Then I submit the field "PasswordVerify"
       Then I should see "erfolgreich geupdatet, bitte neu einloggen damit die änderung in kraft tritt"
 
-    Scenario: Settings Test username
+    Scenario: SettingsUsername
       Given I am on "http://localhost/test/index.php"
       Then I should see "TwitterClone"
       And I should see "Register"
@@ -236,17 +228,17 @@ Feature: General Test of Twitter application
       And I press "Optionen"
       Then I should see "Einstellungen"
       And I follow "Einstellungen"
-      Then I should see "Benutzerdaten Ändern"
-      And I should see "email"
-      And I should see "username"
-      And I should see "password"
-      And I should see "re-password"
+      Then I should see "Settings"
       Then I fill in "username" with "Behat2"
-      Then I press "change"
+      Then I press "next"
+      And I wait 5 seconds for request to complete
+      Then I fill in "PasswordVerify" with "Behat"
+      Then I fill in "rePasswordVerify" with "Behat"
+      Then I submit the field "PasswordVerify"
       Then I should see "erfolgreich geupdatet, bitte neu einloggen damit die änderung in kraft tritt"
 
 
-    Scenario: Settings Test password
+    Scenario: SettingsPassword
       Given I am on "http://localhost/test/index.php"
       Then I should see "TwitterClone"
       And I should see "Register"
@@ -261,18 +253,17 @@ Feature: General Test of Twitter application
       And I press "Optionen"
       Then I should see "Einstellungen"
       And I follow "Einstellungen"
-      Then I should see "Benutzerdaten Ändern"
-      And I should see "email"
-      And I should see "username"
-      And I should see "password"
-      And I should see "re-password"
-      Then I fill in "password" with "Behat2"
-      Then I fill in "re-password" with "Behat2"
-      Then I press "changePW"
+      Then I should see "Settings"
+      Then I fill in "passwordchange" with "Behat2"
+      Then I press "next"
+      And I wait 5 seconds for request to complete
+      Then I fill in "PasswordVerify" with "Behat"
+      Then I fill in "rePasswordVerify" with "Behat"
+      Then I submit the field "PasswordVerify"
       Then I should see "erfolgreich geupdatet, bitte neu einloggen damit die änderung in kraft tritt"
 
 
-  Scenario: Delete Account
+  Scenario: DeleteAccount
       Given I am on "http://localhost/test/index.php"
       Then I should see "TwitterClone"
       And I should see "Register"

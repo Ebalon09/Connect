@@ -65,13 +65,17 @@ class CommentController
         $array = [];
         $array[$tweet->getId()] = $this->likeRepository->countLikes($tweet);
 
-        return new Response(Templating::getInstance()->render('./templates/twitterFeed.php', [
+        return new Response(Templating::getInstance()->render('twitterFeed.html.twig', [
             'comments'   => $comments,
             'result'     => $tweets,
             'tweet'      => $tweet,
             'likes'      => $likes,
             'countLikes' => $array,
             'user'       => $user,
+            'userid' => $_SESSION['userid'],
+            'username' => $_SESSION['username'],
+            'userimage' => $user->getPicture(),
+            'c' => $_GET['c'],
         ]));
     }
 
@@ -91,12 +95,17 @@ class CommentController
         $array = [];
         $array[$tweet->getId()] = $this->likeRepository->countLikes($tweet);
 
-        return new Response(Templating::getInstance()->render('./templates/commentFeed.php', [
+        return new Response(Templating::getInstance()->render('commentFeed.html.twig', [
             'comments'   => $comments,
             'tweet'      => $tweet,
             'likes'      => $likes,
             'countLikes' => $array,
             'user'       => $user,
+            'userid' => $_SESSION['userid'],
+            'username' => $_SESSION['username'],
+            'userimage' => $user->getPicture(),
+            'tweetuserimage' => $tweet->getUser()->getPicture(),
+            'tweettext' => $tweet->getText(),
         ]));
     }
 
@@ -179,13 +188,14 @@ class CommentController
             return new RedirectResponse("./index.php");
         }
 
-        return new Response(Templating::getInstance()->render('./templates/commentFeed.php', [
+        return new Response(Templating::getInstance()->render('commentFeed.html.twig', [
             'result'   => $this->commentRepository->findBy(['tweetid' => $request->query->get('id')]),
             'update'   => $comment,
             'comments' => $comments,
             'user'     => $user,
             'id'       => $comment->getId(),
             'tweet'    => $tweet,
+
         ]));
     }
 

@@ -1,14 +1,14 @@
 <html>
 <head>
-    <?php include "head.php";?>
+    {{ include('head.html.twig') }}
     <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="./Style/register.css">
-    <?php include "scripts.php"?>
+    {{ include('scripts.html.twig') }}
 </head>
 <body>
 <!-- Start Main Container -->
 <div class="main-container">
-    <?php include "alerts.php"?>
+    {{ include('alerts.html.twig') }}
     <!-- Start Pokemon Ball Top Part -->
     <div class="pokemon-top-part"></div>
     <!-- End Pokemon Ball Top Part -->
@@ -37,7 +37,7 @@
                     <input id="my_upload" name="my_upload" class="upload" type="file" accept="image/*">
                 </div>
                 <div class="signup-row">
-                    <button id="signupButton" class="fa btn btn-warning fa-arrow-circle-o-right" style="color: white" aria-hidden="true" type="submit"></button>
+                    <button id="signupButton" name="signupButton" class="fa btn btn-warning fa-arrow-circle-o-right" style="color: white" aria-hidden="true" type="submit"></button>
                 </div>
                 <div class="form-bottom">
                     <div class="remember">

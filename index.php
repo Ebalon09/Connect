@@ -7,8 +7,6 @@ session_start();
 
 require_once __DIR__.'/vendor/autoload.php';
 
-
-
 $controllerName = "TwitterController";
 $actionName = "indexAction";
 

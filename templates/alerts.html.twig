@@ -1,0 +1,7 @@
+<div class="warnung">
+    {% for type , messages in alerts%}
+    {% for message in messages %}
+    <div class="alert alert-{{ type }}">{{ message }}</div>
+    {% endfor %}
+    {% endfor %}
+</div>
