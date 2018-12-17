@@ -55,7 +55,7 @@ class UserActionController
      */
     public function settingsIndex ()
     {
-        return new Response(Templating::getInstance()->render('settingForm.html.twig',[
+        return new Response(Templating::getInstance()->render('account/settingForm.html.twig',[
             'usermail' => $_SESSION['email'],
             'username' => $_SESSION['username'],
         ]));

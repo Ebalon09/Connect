@@ -1,4 +1,10 @@
-{% extends "twitterFeed.html.twig" %}
+{% extends "layout.html.twig" %}
+
+{% block title %}Twitter Feed{% endblock %}
+
+{% block input %}
+{{ include('tweet/tweetInput.html.twig') }}
+{% endblock %}
 
 {% block content %}
     <!--here foreach with user posts,names,profile pics and buttons-->

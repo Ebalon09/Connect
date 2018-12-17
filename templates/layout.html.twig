@@ -3,7 +3,7 @@
 <html>
 <head>
     {{ include('service/head.html.twig') }}
-    <title>Twitter</title>
+    <title>{% block title %}Twitter{% endblock %}</title>
 </head>
 <body>
 {{ include('template/header.html.twig') }}
@@ -19,15 +19,15 @@
             </div>
             <!-- Tweets-->
             <div class="col-sm-6">
+                {% block tweet %}{% endblock %}
                 <div class="panel panel-info">
                     <div class="panel-heading">
-                        <!--Text Box-->
                         <div class="media">
+                            <!--Inputs-->
                             <a class="media-left" href="#fake">
                                 <img id="userpictext" alt="" class="media-object img-rounded" src="{{ user.getPicture() }}">
                             </a>
-                            <!--Inputs-->
-                            {{ include("./tweet/Userinput.html.twig") }}
+                            {% block input %}{% endblock %}
                         </div>
                     </div>
                     <div class="panel-body">

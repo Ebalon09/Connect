@@ -1,4 +1,19 @@
-{% extends "commentFeed.html.twig" %}
+{% extends "layout.html.twig" %}
+
+
+{% block title %}Comment Feed{% endblock %}
+
+{% block input %}
+    {{ include("comment/commentInput.html.twig") }}
+{% endblock %}
+
+{% block tweet %}
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            {{ include("comment/tweet.html.twig") }}
+        </div>
+    </div>
+{% endblock %}
 
 {% block content %}
 <div class="panel-body">

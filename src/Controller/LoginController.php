@@ -35,7 +35,7 @@ class LoginController
      */
     public function indexAction ()
     {
-        return new Response(Templating::getInstance()->render('registerForm.html.twig'));
+        return new Response(Templating::getInstance()->render('account/registerForm.html.twig'));
     }
 
     /**

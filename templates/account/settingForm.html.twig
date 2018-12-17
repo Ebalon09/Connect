@@ -4,11 +4,11 @@
 <head>
     <link rel="stylesheet" type="text/css" href="./Style/css/setting.css">
     <title>Einstellungen</title>
-    {{ include('scripts.html.twig') }}
+    {{ include('service/scripts.html.twig') }}
 </head>
 <body>
 
-{{ include ('alerts.html.twig') }}
+{{ include ('service/alerts.html.twig') }}
 <!-- multistep form -->
 <form id="msform" action="./index.php?controller=UserActionController&action=changeAction" method="POST">
     <!-- progressbar -->
