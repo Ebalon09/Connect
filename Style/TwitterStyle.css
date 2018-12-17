@@ -157,6 +157,11 @@ div.panel-heading
     padding-right: 5px;
 }
 
+#imageUpload{
+    font-size: 20px;
+    padding-right: 5px;
+}
+
 #Username{
     padding-left: 10px;
     text-align: left;
@@ -243,4 +248,8 @@ div.panel-heading
 #likeCounter{
     position: absolute;
     right:4%;
+}
+
+#yt{
+    margin-right: 4em;
 }
