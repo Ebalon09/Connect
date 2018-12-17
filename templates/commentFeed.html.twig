@@ -1,0 +1,52 @@
+<html>
+<head>
+    {{ include('service/head.html.twig') }}
+    <title>Twitter</title>
+</head>
+<body>
+{{ include('template/header.html.twig') }}
+<div id="commentcontainerfluid" class="container-fluid">
+    {{ include('service/alerts.html.twig') }}
+    <div class = "container">
+        <div class="row">
+            <div class="col-sm-3">
+                {{ include('template/profile.html.twig') }}
+                {{ include('template/trends.html.twig') }}
+            </div>
+            <!--Tweet-->
+            <div class="col-sm-6">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <!--Text Box-->
+                        <div class="media">
+                            <a class="media-left" href="#fake">
+                                <img id="userpictext" alt="" class="media-object img-rounded" src="{{ tweet.getUser().getPicture() }}">
+                            </a>
+                            <div id="commenttweet" class="media-body">
+                                {{ tweet.getText() }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Tweets-->
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <!--Text Box-->
+                        <div class="media">
+                            <a class="media-left" href="#">
+                                <img id="userpictext" alt="" class="media-object img-rounded" src="{{ user.getPicture() }}">
+                            </a>
+                            {{ include("comment/Userinput.html.twig") }}
+                        </div>
+                    </div>
+                    {% block content %}{% endblock %}
+                </div>
+                {{ include('template/footPanel.html.twig') }}
+            </div>
+            {{ include('template/rightPanel.html.twig') }}
+        </div>
+    </div>
+    {{ include('service/scripts.html.twig') }}
+</div>
+</body>
+</html>

@@ -1,30 +1,34 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: fstein
- * Date: 13.11.18
- * Time: 16:12
- */
+
 namespace Test\Model;
 
+/**
+ * Class Likes
+ *
+ * @author Florian Stein <fstein@databay.de>
+ */
 class Likes
 {
     /**
      * @var int
      */
     protected $id;
+
     /**
      * @var User
      */
     protected $user;
+
     /**
      * @var Tweet
      */
     protected $tweet;
+
     /**
      * @var int
      */
     protected $likes;
+
     /**
      * @return int
      */

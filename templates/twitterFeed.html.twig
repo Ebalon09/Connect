@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<html>
+<head>
+    {{ include('service/head.html.twig') }}
+    <title>Twitter</title>
+</head>
+<body>
+{{ include('template/header.html.twig') }}
+<div class="container-fluid">
+    <div class="container">
+        {{ include('service/alerts.html.twig') }}
+        <div class="row">
+            <div class="col-sm-3">
+                <!--User-->
+                {{ include('template/profile.html.twig') }}
+                <!--trends-->
+                {{ include('template/trends.html.twig') }}
+            </div>
+            <!-- Tweets-->
+            <div class="col-sm-6">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <!--Text Box-->
+                        <div class="media">
+                            <a class="media-left" href="#fake">
+                                <img id="userpictext" alt="" class="media-object img-rounded" src="{{ user.getPicture() }}">
+                            </a>
+                            <!--Inputs-->
+                            {{ include("./tweet/Userinput.html.twig") }}
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        {% block content %}{% endblock %}
+                    </div>
+                </div>
+                {{ include('template/footPanel.html.twig') }}
+            </div>
+            {{ include('template/rightPanel.html.twig') }}
+        </div>
+    </div>
+    {{ include('service/scripts.html.twig') }}
+</div>
+</body>
+</html>

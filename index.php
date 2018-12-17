@@ -1,13 +1,11 @@
 <?php
 
-use Test\Services\Request;
+use Symfony\Component\HttpFoundation\Request;
 use Test\Services\ResponseInterface;
 
 session_start();
 
-require_once 'Autoloader.php';
-$autoloader = new Autoloader();
-$autoloader->registerNamespace("Test/", "src/");
+require_once __DIR__.'/vendor/autoload.php';
 
 $controllerName = "TwitterController";
 $actionName = "indexAction";
@@ -23,10 +21,11 @@ if(isset($_GET['action']))
 
 $controllerName =  '\Test\Controller\\'.$controllerName;
 
-$request = new Request($_GET, $_POST);
+$request = Request::createFromGlobals();
 
 /** @var mixed $controller */
 $controller = new $controllerName();
+
 /**
  * @var ResponseInterface $response
  */

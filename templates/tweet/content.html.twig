@@ -1,0 +1,42 @@
+{% extends "twitterFeed.html.twig" %}
+
+{% block content %}
+    <!--here foreach with user posts,names,profile pics and buttons-->
+    <label for="Text" class="sr-only">Posts</label>
+    {% for data in result %}
+        <div class="media">
+            <a class="media-left" href="#fake">
+                <img id="userpicpost" alt="" class="media-object img-rounded" src="{{ data.getUser().getPicture() }}">
+            </a>
+            <div class="media-body">
+                <h4 class="media-heading" id="Username">{{ data.getUser().getUsername() }}</h4>
+                <p id="Text">{{ data.getText() }}</p>
+
+                {% if(data.getRetweet() is not same as(null)) %}
+                    <div class="media-body">
+                        <h4 class="media-heading" id="Username">{{ data.getReTweet().getUser().getUsername() }}</h4>
+                        <p id="Text">{{ data.getReTweet().getText() }}</p>
+                    </div>
+                {% endif %}
+                {% if(userid is not same as(null)) %}
+                <ul id="buttons" class="nav nav-pills nav-pills-custom">
+                    <li><a id="comment" href="./index.php?controller=CommentController&action=indexAction&id={{ data.getId() }}&idc={{ data.getId() }}&c=true" ><i class="far fa-comment-alt"></i></a></li>
+                    <li><a id="commentCounter" href="./index.php?controller=CommentController&action=commentFeed&id={{ data.getId() }}&c=true">{{ countcomments[data.getId()] }}</li>
+                    <li><a id="reTweet" href="./index.php?controller=TwitterController&action=reTweetAction&id={{ data.getId() }}&idc={{ data.getId() }}"><i class="fas fa-retweet"></i></button> </a></li>
+                    {% if(userid == data.getUser().getId()) %}
+                        <li><a id="delete" href="./index.php?controller=TwitterController&action=deleteAction&id={{ data.getId() }}"><i class="far fa-trash-alt"></i></a></li>
+                        <li><a id="edit" href="./index.php?controller=TwitterController&action=updateAction&id={{ data.getId() }}"><i class="far fa-edit"></i> </a></li>
+                    {% endif %}
+                    {% endif %}
+                    <?php if(isset($_GET['c'])){?>
+                    {% if(c == true) %}
+                        <form action="./index.php?controller=CommentController&action=createAction&id={{ data.id }}" method="POST">
+                            <input id="commentinput" name="text" type="text" class="form-control" autocomplete="off">
+                        </form>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+        <hr>
+    {% endfor %}
+{% endblock %}

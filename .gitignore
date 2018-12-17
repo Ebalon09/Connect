@@ -1,3 +1,6 @@
 /.idea/
 /uploads/
 
+
+/vendor/
+composer.lock

@@ -1,36 +1,49 @@
 <?php
+
 namespace Test\Model;
 
+/**
+ * Class Tweet
+ *
+ * @author Florian Stein <fstein@databay.de>
+ */
 class Tweet
 {
     /**
      * @var int
      */
     protected $id;
+
     /**
      * @var string
      */
     protected $text;
+
     /**
      * @var \DateTime
      */
     protected $datum;
+
     /**
      * @var User
      */
     protected $user;
+
     /**
      * @var string
      */
     protected $destination;
+
     /**
      * @var Likes
      */
     protected $likes;
+
     /**
      * @var string
      */
     protected $linkID;
+
     /**
      * @var Tweet
      */

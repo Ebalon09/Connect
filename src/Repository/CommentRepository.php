@@ -1,30 +1,31 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: fstein
- * Date: 26.11.18
- * Time: 17:43
- */
 
 namespace Test\Repository;
 
 use Test\Model\Comment;
 use Test\Model\Tweet;
 
+/**
+ * Class CommentRepository
+ *
+ * @author Florian Stein <fstein@databay.de>
+ */
 class CommentRepository extends BaseRepository
 {
     /**
      * @var UserRepository
      */
     protected $userRepository;
+
     /**
      * @var TweetRepository
      */
     protected $tweetRepository;
+
     /**
      * LikeRepository constructor.
      */
-    public function __construct()
+    public function __construct ()
     {
         parent::__construct();
         $this->userRepository = new UserRepository();
@@ -32,27 +33,11 @@ class CommentRepository extends BaseRepository
     }
 
     /**
-     * @return array
-     */
-    public function findAll()
-    {
-        $result = $this->database->query("SELECT * FROM Comments");
-
-        $tweets = [];
-        foreach($result as $data)
-        {
-            $tweet = $this->arrayToObject($data);
-
-            $tweets[] = $tweet;
-        }
-        return $tweets;
-    }
-
-    /**
      * @param $data
+     *
      * @return Comment
      */
-    protected function arrayToObject($data)
+    protected function arrayToObject ($data)
     {
         $comment = new Comment();
         $comment->setId($data['id']);
@@ -65,69 +50,50 @@ class CommentRepository extends BaseRepository
 
     /**
      * @param Comment $model
+     *
      * @return array
      */
-    protected function objectToArray($model)
+    protected function objectToArray ($model)
     {
         $data = [
-            'id' => $model->getId(),
-            'userid' => $model->getUser()->getId(),
+            'id'      => $model->getId(),
+            'userid'  => $model->getUser()->getId(),
             'tweetid' => $model->getTweet()->getId(),
             'comment' => $model->getComment(),
         ];
+
         return $data;
-    }
-
-    /**
-     * @param Comment $comment
-     * @return mixed
-     */
-    public function remove(Comment $comment)
-    {
-        $data = $this->objectToArray($comment);
-        $data2['id'] = $data['id'];
-
-        $query = "DELETE FROM Comments ";
-        $query .= "WHERE id = :id";
-        return $this->database->insert($query, $data2);
     }
 
     /**
      * @return string
      */
-    protected function getTableName()
+    protected function getTableName ()
     {
         return 'Comments';
     }
 
     /**
      * @param $model
+     *
      * @return bool
      */
-    protected function isSupported($model)
+    protected function isSupported ($model)
     {
         return $model instanceof Comment;
     }
 
     /**
      * @param Tweet $tweet
+     *
      * @return int
      */
-    public function countComments(Tweet $tweet)
+    public function countComments (Tweet $tweet)
     {
-        return count($this->database->query("SELECT * FROM Comments WHERE tweetid = :tweetid",[
+        return count($this->database->query("SELECT * FROM Comments WHERE tweetid = :tweetid", [
             'tweetid' => $tweet->getId(),
         ]));
     }
-
-
-
-
-
-
-
-
-
 
 
 }
