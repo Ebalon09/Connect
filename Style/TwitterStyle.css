@@ -157,11 +157,6 @@ div.panel-heading
     padding-right: 5px;
 }
 
-#imageUpload{
-    font-size: 20px;
-    padding-right: 5px;
-}
-
 #Username{
     padding-left: 10px;
     text-align: left;
@@ -192,8 +187,6 @@ div.panel-heading
 
 #Userinput{
     width: 28em;
-    margin-right: 0;
-    flex-grow: 2;
 }
 
 #like{
@@ -252,4 +245,17 @@ div.panel-heading
 
 #yt{
     margin-right: 4em;
+}
+
+#img-upload-icon{
+    font-size: 20px;
+    padding-right: 5px;
+    margin-top: 5px;
+    position: absolute;
+    right: 1em;
+    top: 1em;
+}
+
+#img-upload{
+    display: none;
 }

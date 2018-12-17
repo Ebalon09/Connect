@@ -39,7 +39,6 @@
                         <li><a id="like" href="./index.php?controller=LikeController&action=likeAction&id={{ data.getId() }}&idc={{ data.getId() }}"><i class="far fa-heart"></i> </a></li>
                         <li><a href="#" id="likeCounter">{{ countlikes[data.getId()] }}</li>
                     {% endif %}
-                        <li><a href="#" id="imageUpload"><i class="fas fa-file-image"></i></a></li>
                     {% if(userid == data.getUser().getId()) %}
                         <li><a id="delete" href="./index.php?controller=TwitterController&action=deleteAction&id={{ data.getId() }}"><i class="far fa-trash-alt"></i></a></li>
                         <li><a id="edit" href="./index.php?controller=TwitterController&action=updateAction&id={{ data.getId() }}"><i class="far fa-edit"></i> </a></li>

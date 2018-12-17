@@ -62,9 +62,6 @@ Feature: General Test of Twitter application
     Then I should see "Tweet erfolgreich gepostet"
 
   Scenario: Test Logout
-      Then I should see "Logout"
-      And I press "Logout"
-      Then I should not see "Logout"
       Given I am on "http://localhost/test/index.php"
       Then I should see "TwitterClone"
       And I should see "Register"
@@ -77,8 +74,9 @@ Feature: General Test of Twitter application
       Then I should see "Erfolgreich angemeldet!"
       And I should see "Optionen"
       And I should see "Angemeldet als : Behat"
-      And I should see "Logout"
       Then I should see "Logout"
+      And I press "Logout"
+      Then I should not see "Logout"
 
     Scenario: EditTest
       Given I am on "http://localhost/test/index.php"

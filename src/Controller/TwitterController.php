@@ -2,6 +2,7 @@
 
 namespace Test\Controller;
 
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -102,7 +103,8 @@ class TwitterController
             }
             $tweet->setText(trim(strip_tags($request->get('text'))));
             $tweet->setUser($user);
-            $this->handleFileUpload($tweet);
+            $this->handleFileUpload($tweet, $request);
+
             $this->tweetRepository->add($tweet);
 
             $session = Session::getInstance();
@@ -231,17 +233,14 @@ class TwitterController
     /**
      * @param $tweet
      */
-    private function handleFileUpload ($tweet)
+    private function handleFileUpload (Tweet $tweet, Request $request)
     {
-        if ($_FILES['my_upload']['name'] != null)
+        if ($request->files->get("img-upload") != null)
         {
-            $_FILES['my_upload']['name'] = $this->getLastTweet()+1 .".jpg";
-            $upload_file = $_FILES['my_upload']['name'];
-            $dest = './uploads/'.$upload_file;
-
-            move_uploaded_file($_FILES['my_upload']['tmp_name'], $dest);
-
-            $tweet->setDestination($dest);
+            $uploadedFile = $request->files->get("img-upload");
+            $filename = md5(uniqid("image_")) .".jpg";
+            $uploadedFile->move('./uploads/', $filename);
+            $tweet->setDestination('./uploads/' . $filename);
         }
     }
 }
