@@ -66,7 +66,7 @@ class TwitterController
             $commentarray[$tweet->getId()] = $this->commentRepository->countComments($tweet);
         }
 
-        return new Response(Templating::getInstance()->render('twitterFeed.html.twig', [
+        return new Response(Templating::getInstance()->render('tweet/content.html.twig', [
             'result'        => $tweets,
             'action'        => "index.php?controller=TwitterController&action=createAction",
             'likes'         => $likes,
@@ -150,7 +150,7 @@ class TwitterController
 
             return new RedirectResponse("./index.php");
         }
-        return new Response(Templating::getInstance()->render('twitterFeed.html.twig', [
+        return new Response(Templating::getInstance()->render('tweet/content.html.twig', [
             'result'  => $this->tweetRepository->findAll(),
             'reTweet' => $tweet,
             'user'    => $user,
@@ -187,7 +187,7 @@ class TwitterController
             }
             return new RedirectResponse('./index.php?controller=TwitterController&action=indexAction');
         }
-        return new Response(Templating::getInstance()->render('twitterFeed.html.twig', [
+        return new Response(Templating::getInstance()->render('tweet/content.html.twig', [
             'result' => $this->tweetRepository->findAll(),
             'update' => $tweet,
             'user'   => $user,

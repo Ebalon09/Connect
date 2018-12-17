@@ -65,7 +65,7 @@ class CommentController
         $array = [];
         $array[$tweet->getId()] = $this->likeRepository->countLikes($tweet);
 
-        return new Response(Templating::getInstance()->render('twitterFeed.html.twig', [
+        return new Response(Templating::getInstance()->render('comment/content.html.twig', [
             'comments'   => $comments,
             'result'     => $tweets,
             'tweet'      => $tweet,
@@ -95,7 +95,7 @@ class CommentController
         $array = [];
         $array[$tweet->getId()] = $this->likeRepository->countLikes($tweet);
 
-        return new Response(Templating::getInstance()->render('commentFeed.html.twig', [
+        return new Response(Templating::getInstance()->render('comment/content.html.twig', [
             'comments'   => $comments,
             'tweet'      => $tweet,
             'likes'      => $likes,
@@ -188,14 +188,13 @@ class CommentController
             return new RedirectResponse("./index.php");
         }
 
-        return new Response(Templating::getInstance()->render('commentFeed.html.twig', [
+        return new Response(Templating::getInstance()->render('comment/content.html.twig', [
             'result'   => $this->commentRepository->findBy(['tweetid' => $request->query->get('id')]),
             'update'   => $comment,
             'comments' => $comments,
             'user'     => $user,
             'id'       => $comment->getId(),
             'tweet'    => $tweet,
-
         ]));
     }
 

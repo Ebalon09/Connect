@@ -1,17 +1,17 @@
 <html>
 <head>
-    {{ include('head.html.twig') }}
+    {{ include('service/head.html.twig') }}
     <title>Twitter</title>
 </head>
 <body>
-{{ include('header.html.twig') }}
+{{ include('template/header.html.twig') }}
 <div id="commentcontainerfluid" class="container-fluid">
-    {{ include('alerts.html.twig') }}
+    {{ include('service/alerts.html.twig') }}
     <div class = "container">
         <div class="row">
             <div class="col-sm-3">
-                {{ include('profile.html.twig') }}
-                {{ include('trends.html.twig') }}
+                {{ include('template/profile.html.twig') }}
+                {{ include('template/trends.html.twig') }}
             </div>
             <!--Tweet-->
             <div class="col-sm-6">
@@ -34,52 +34,19 @@
                         <!--Text Box-->
                         <div class="media">
                             <a class="media-left" href="#">
-                                <img id="userpictext" alt="" class="media-object img-rounded" src="{{ data.getUser().getPicture() }}">
+                                <img id="userpictext" alt="" class="media-object img-rounded" src="{{ user.getPicture() }}">
                             </a>
-                            <div class="media-body">
-                                <!-- UPDATE/UPDATEID CHECK-->
-                                {% if(update != null) %}
-                                <form action="./index.php?controller=CommentController&action=updateAction&idc={{ update.getId() }}?>&c=true&id={{ update.getTweet().getId() }}" method="POST">
-                                    <label class="control-label sr-only" for="Userinput">edit</label>
-                                    <input id="Userinput" name="text" type="text" class="form-control" autocomplete="off" value="{{ update.GetComment() }}">
-                                </form>
-                                {% else %}
-                                <form action="./index.php?controller=CommentController&action=createAction&id={{ tweet.getId() }}&c=true" method="POST">
-                                    <label class="control-label sr-only" for="Userinput">Userinput</label>
-                                    <input id="Userinput" name="text" type="text" class="form-control" autocomplete="off">
-                                </form>
-                                {% endif %}
-                            </div>
+                            {{ include("comment/Userinput.html.twig") }}
                         </div>
                     </div>
-                    <div class="panel-body">
-                        {% for data in comments %}
-                        <div class="media">
-                            <a class="media-left" href="#fake">
-                                <img id="userpicpost" alt="" class="media-object img-rounded" src="{{ data.getUser().getPicture() }}">
-                            </a>
-                            <div class="media-body">
-                                <h4 class="media-heading" id="Username">{{ data.getUser().getUsername() }}</h4>
-                                <p id="Text">{{ data.getComment }}</p>
-                                <ul id="buttons" class="nav nav-pills nav-pills-custom">
-                                    {% if(userid == data.getuser().getId()) %}
-                                    <label for="delete" class="sr-only">delete</label>
-                                    <li><a id="delete" href="./index.php?controller=CommentController&action=deleteAction&idc={{ data.getId() }}&c=true&id={{ data.getTweet().getId() }}"><i class="far fa-trash-alt"></i></button> </a></li>
-                                    <label for="edit" class="sr-only">edit</label>
-                                    <li><a id="edit" href="./index.php?controller=CommentController&action=updateAction&idc={{ data.getId() }}&c=true&id={{ data.getTweet().getId() }}"><i class="far fa-edit"></i></button> </a></li>
-                                    {% endif %}
-                                </ul>
-                            </div>
-                        </div>
-                        {% endfor %}
-                    </div>
+                    {% block content %}{% endblock %}
                 </div>
-                {{ include('footPanel.html.twig') }}
+                {{ include('template/footPanel.html.twig') }}
             </div>
-            {{ include('rightPanel.html.twig') }}
+            {{ include('template/rightPanel.html.twig') }}
         </div>
     </div>
-    {{ include('scripts.html.twig') }}
+    {{ include('service/scripts.html.twig') }}
 </div>
 </body>
 </html>

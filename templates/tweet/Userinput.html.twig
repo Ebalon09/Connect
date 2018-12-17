@@ -1,0 +1,25 @@
+<div class="media-body">
+    {% if(userid is not same as(null)) %}
+        {% if(reTweet is not same as(null)) %}
+            <form action="./index.php?controller=TwitterController&action=reTweetAction&id={{ reTweet.getId() }}" method="POST">
+                <label for="Userinput" class="control-label sr-only">reTweet</label>
+                <input id="Userinput" name="text" type="text" class="form-control" autocomplete="off" placeholder="ReTweet Text eingeben">
+            </form>
+        {% elseif(update is not same as(null)) %}
+            <form action="./index.php?controller=TwitterController&action=updateAction&id={{ update.getId() }}" method="POST">
+                <label for="Userinput" class="control-label sr-only">Edit</label>
+                <input id="Userinput" name="text" type="text" class="form-control" autocomplete="off" value="{{ update.getText() }}">
+            </form>
+        {% else %}
+            <form action="./index.php?controller=TwitterController&action=createAction" method="POST">
+                <label for="Userinput" class="control-label sr-only">Post</label>
+                <input id="Userinput" name="text" type="text" class="form-control" autocomplete="off">
+            </form>
+        {% endif %}
+    {% else %}
+        <form action="./index.php?controller=TwitterController&action=createAction" method="POST">
+            <label for="Userinput" class="control-label sr-only">Post</label>
+            <input id="Userinput" name="text" type="text" class="form-control" autocomplete="off" disabled>
+        </form>
+    {% endif %}
+</div>
