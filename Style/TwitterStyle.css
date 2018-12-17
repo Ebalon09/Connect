@@ -191,6 +191,21 @@ div.panel-heading
     flex-grow: 2;
 }
 
+#like{
+    font-size: 20px;
+    padding-right: 5px;
+    position: absolute;
+    right: 5%;
+}
+
+#dislike{
+    font-size: 20px;
+    padding-right: 5px;
+    position: absolute;
+    right: 5%;
+}
+
+
 .container-fluid .container .row .col-sm-3 .panel .panel-body{
     text-align: left;
 }
@@ -223,4 +238,9 @@ div.panel-heading
 
     margin-top: 10px;
 
+}
+
+#likeCounter{
+    position: absolute;
+    right:4%;
 }

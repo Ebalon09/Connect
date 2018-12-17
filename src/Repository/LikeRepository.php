@@ -41,7 +41,7 @@ class LikeRepository extends BaseRepository
         $likes = new Likes();
         $likes->setId($data['id']);
         $likes->setUser($this->userRepository->findOneBy(['id' => $data['userid']]));
-        $likes->setTweet($this->tweetRepository->findOneById($data['tweetid']));
+        $likes->setTweet($this->tweetRepository->findOneBy(['id' => $data['tweetid']]));
 
         return $likes;
     }

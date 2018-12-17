@@ -5,11 +5,11 @@ namespace Test\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Session;
 use Test\Model\Likes;
 use Test\Repository\LikeRepository;
 use Test\Repository\TweetRepository;
 use Test\Repository\UserRepository;
+use Test\Services\Session;
 use Test\Services\Templating;
 
 /**
@@ -17,7 +17,7 @@ use Test\Services\Templating;
  *
  * @author Florian Stein <fstein@databay.de>
  */
-class LikesController
+class LikeController
 {
 
     /**
@@ -70,7 +70,7 @@ class LikesController
         ]);
 
         foreach ((array)$likes as $data) {
-            if ($data->getTweet()->getId() == $request->getQuery()->get('id')) {
+            if ($data->getTweet()->getId() == $request->query->get('id')) {
                 Session::getInstance()->write('danger', 'Bereits Geliked!');
 
                 return new RedirectResponse('./index.php');
@@ -81,12 +81,12 @@ class LikesController
             'username' => $_SESSION['username'],
         ]));
         $likes->setTweet($this->tweetRepository->findOneBy([
-            'id' => $request->getQuery()->get('id'),
+            'id' => $request->query->get('id'),
         ]));
         $this->likeRepository->add($likes);
 
-        $id = $request->getQuery()->get('id');
-        if ($request->getQuery()->get('c') == true) {
+        $id = $request->query->get('id');
+        if ($request->query->get('c') == true) {
             return new RedirectResponse("./index.php?controller=CommentController&action=indexAction&id=$id&c=true");
         }
 
@@ -100,11 +100,11 @@ class LikesController
      */
     public function dislikeAction (Request $request)
     {
-        $like = $this->likeRepository->findOneBy(['tweetid' => $request->getQuery()->get('id')]);
+        $like = $this->likeRepository->findOneBy(['tweetid' => $request->query->get('id')]);
         $this->likeRepository->remove($like);
 
-        $id = $request->getQuery()->get('id');
-        if ($request->getQuery()->get('c') == true) {
+        $id = $request->query->get('id');
+        if ($request->query->get('c') == true) {
             return new RedirectResponse("./index.php?controller=CommentController&action=indexAction&id=$id&c=true");
         }
 

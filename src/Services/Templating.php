@@ -1,14 +1,14 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: jgeiger
- * Date: 12.10.18
- * Time: 12:01
- */
+
 namespace Test\Services;
 
 require_once 'SingletonTrait.php';
 
+/**
+ * Class Templating
+ *
+ * @author Florian Stein <fstein@databay.de>
+ */
 class Templating
 {
     use SingletonTrait;
@@ -19,8 +19,6 @@ class Templating
         $loader = new \Twig_Loader_Filesystem(__DIR__ . '/../../templates');
         $this->twig = new \Twig_Environment($loader);
     }
-
-
 
     /**
      * @param $template

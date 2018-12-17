@@ -70,7 +70,7 @@ class TwitterController
             'result'        => $tweets,
             'action'        => "index.php?controller=TwitterController&action=createAction",
             'likes'         => $likes,
-            'countLikes'    => $likearray,
+            'countlikes'    => $likearray,
             'user'          => $user,
             'countcomments' => $commentarray,
             'userid' => $_SESSION['userid'],
