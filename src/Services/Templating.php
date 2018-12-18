@@ -42,6 +42,13 @@ class Templating
     }
 
     /**
+     * @param \Twig_Extension $extension
+     */
+    public function addExtension(\Twig_Extension $extension) {
+        $this->twig->addExtension($extension);
+    }
+
+    /**
      *sends response header from server to client
      */
     public function backToIndex()

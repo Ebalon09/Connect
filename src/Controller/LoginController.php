@@ -55,13 +55,13 @@ class LoginController
                 $session = Session::getInstance();
                 $session->write('danger', 'Keine Daten für den eingegebenen benutzer gefunden!');
 
-                return new RedirectResponse('./index.php?controller=TwitterController&action=indexAction');
+                return new RedirectResponse('/feed');
             }
             if (password_verify($request->get('password'), $data->getPassword()) == false) {
                 $session = Session::getInstance();
                 $session->write('danger', 'passwort falsch!');
 
-                return new RedirectResponse('./index.php?controller=TwitterController&action=indexAction');
+                return new RedirectResponse('/feed');
             }
             $_SESSION['username'] = $data->getUsername();
             $_SESSION['userid'] = $data->getId();
@@ -70,7 +70,7 @@ class LoginController
             $session = Session::getInstance();
             $session->write('success', 'Erfolgreich angemeldet!');
 
-            return new RedirectResponse('./index.php?controller=TwitterController&action=indexAction');
+            return new RedirectResponse('/feed');
         }
     }
 
@@ -97,7 +97,7 @@ class LoginController
                         $session = Session::getInstance();
                         $session->write('danger', 'Fehler beim Registrieren : Email bereits vergeben!');
 
-                        return new RedirectResponse("index.php?controller=LoginController&action=indexAction");
+                        return new RedirectResponse("/register");
                     }
 
                     $data = null;
@@ -109,7 +109,7 @@ class LoginController
                         $session = Session::getInstance();
                         $session->write('danger', 'Fehler beim Registrieren : Nutzername bereits vergeben!');
 
-                        return new RedirectResponse("./index.php?controller=LoginController&action=indexAction");
+                        return new RedirectResponse("/register");
                     }
                 }
             }
@@ -135,7 +135,7 @@ class LoginController
             $session = Session::getInstance();
             $session->write('danger', 'Passwörter stimmen nicht überein!');
 
-            return new RedirectResponse("./index.php?controller=LoginController&action=indexAction");
+            return new RedirectResponse("/settings");
         }
     }
 
@@ -148,7 +148,7 @@ class LoginController
         $_SESSION['userid'] = null;
         $_SESSION['email'] = null;
 
-        return new RedirectResponse("./index.php");
+        return new RedirectResponse("/feed");
     }
 
     /**

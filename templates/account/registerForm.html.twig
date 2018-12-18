@@ -15,7 +15,7 @@
     <!-- Start Main Forms -->
     <div class="main-forms">
         <div class="signup-form">
-            <form class="sign-back" action="./index.php?controller=LoginController&action=registerAction" method="POST" enctype="multipart/form-data">
+            <form class="sign-back" action="{{ path('register_action') }}" method="POST" enctype="multipart/form-data">
                 <h1>Sign up</h1>
                 <div class="signup-row">
                     <i class="fa fa-user"></i>
@@ -61,12 +61,8 @@
 </div>
 <!-- End Main Container -->
 <!-- Start Scripts -->
-
 <script type="text/javascript" src="./Style/js/regscript.js"></script>
 <script src="https://use.fontawesome.com/7dddae9ad9.js"></script>
-
-
-
 <!-- End Scripts -->
 </body>
 </html>

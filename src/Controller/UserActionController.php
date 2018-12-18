@@ -125,12 +125,12 @@ class UserActionController
                 Session::getInstance()->write('success',
                     'erfolgreich geupdatet, bitte neu einloggen damit die änderung in kraft tritt');
 
-                return new RedirectResponse("./index.php");
+                return new RedirectResponse("/feed");
             }
         }
         Session::getInstance()->write('danger', 'Fehler bei der Verifizierung!');
 
-        return new RedirectResponse("./index.php");
+        return new RedirectResponse("/feed");
     }
 
     /**
@@ -153,7 +153,7 @@ class UserActionController
             $_SESSION['userid'] = null;
             $_SESSION['email'] = null;
 
-            return new RedirectResponse("./index.php");
+            return new RedirectResponse("/feed");
         }
     }
 

@@ -78,6 +78,23 @@ Feature: General Test of Twitter application
       And I press "Logout"
       Then I should not see "Logout"
 
+    Scenario: LikeTest
+      Given I am on "http://localhost/test/index.php"
+      Then I should see "TwitterClone"
+      And I should see "Register"
+      And I should see "Username"
+      And I should see "Password"
+      And I should see "Login"
+      Then I fill in "Username" with "Behat"
+      Then I fill in "Password" with "Behat"
+      Then I press "Login"
+      Then I should see "Erfolgreich angemeldet!"
+      And I should see "like"
+      And I follow "like"
+      Then I should see "dislike"
+      Then I follow "dislike"
+      And I should see "like"
+
     Scenario: EditTest
       Given I am on "http://localhost/test/index.php"
       Then I should see "TwitterClone"

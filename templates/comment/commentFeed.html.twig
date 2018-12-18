@@ -28,13 +28,13 @@
                 <ul id="buttons" class="nav nav-pills nav-pills-custom">
                     {% if(userid == data.User.Id) %}
                         <label for="delete" class="sr-only">delete</label>
-                        <li><a id="delete" href="./index.php?controller=CommentController&action=deleteAction&idc={{ data.Id }}&c=true&id={{ data.Tweet.Id }}"><i class="far fa-trash-alt"></i> </a></li>
+                        <li><a id="delete" href="{{ path('delete_comment',{'tweet': data.tweet.id,'c': true, 'idc': data.id}) }}"><i class="far fa-trash-alt"></i> </a></li>
                         <label for="edit" class="sr-only">edit</label>
-                        <li><a id="edit" href="./index.php?controller=CommentController&action=updateAction&idc={{ data.Id }}&c=true&id={{ data.Tweet.Id }}"><i class="far fa-edit"></i> </a></li>
+                        <li><a id="edit" href="{{ path('update_comment',{'tweet': data.tweet.id,'c': true, 'idc': data.id}) }}"><i class="far fa-edit"></i> </a></li>
                     {% endif %}
                 </ul>
             </div>
         </div>
     {% endfor %}
 </div>
-{% endblock %}
+{% endblock %}ö

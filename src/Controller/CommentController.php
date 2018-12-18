@@ -141,10 +141,10 @@ class CommentController
 
             $id = $request->query->get('id');
             if ($request->query->get('c') == true) {
-                return new RedirectResponse("./index.php?controller=CommentController&action=commentFeed&id=$id&c=true");
+                return new RedirectResponse("/feed/comments/$id/c");
             }
 
-            return new RedirectResponse('./index.php');
+            return new RedirectResponse('/feed');
         }
     }
 
@@ -182,10 +182,10 @@ class CommentController
             $id = $comment->getTweet()->getId();
             $idc = $request->query->get('idc');
             if ($request->query->get('c') == true) {
-                return new RedirectResponse("./index.php?controller=CommentController&action=commentFeed&id=$id&c=true&idc=$idc");
+                return new RedirectResponse("/feed/comments/$id/true/$idc");
             }
 
-            return new RedirectResponse("./index.php");
+            return new RedirectResponse("/feed");
         }
 
         return new Response(Templating::getInstance()->render('comment/commentFeed.html.twig', [
@@ -217,9 +217,9 @@ class CommentController
 
         $idc = $request->query->get('idc');
         if ($request->query->get('c') == true) {
-            return new RedirectResponse("./index.php?controller=CommentController&action=commentFeed&id=$id&idc=$idc&c=true");
+            return new RedirectResponse("/feed/comments/$id/true/$idc");
         }
 
-        return new RedirectResponse("./index.php");
+        return new RedirectResponse("/feed");
     }
 }

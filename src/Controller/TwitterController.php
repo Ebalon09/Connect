@@ -110,7 +110,7 @@ class TwitterController
             $session = Session::getInstance();
             $session->write('success', 'Tweet erfolgreich gepostet');
 
-            return new RedirectResponse("./index.php");
+            return new RedirectResponse("/feed");
         }
     }
 
@@ -150,7 +150,7 @@ class TwitterController
             $session = Session::getInstance();
             $session->write('success', 'Tweet erfolgreich gepostet');
 
-            return new RedirectResponse("./index.php");
+            return new RedirectResponse("/feed");
         }
         return new Response(Templating::getInstance()->render('tweet/twitterFeed.html.twig', [
             'result'  => $this->tweetRepository->findAll(),
@@ -187,7 +187,7 @@ class TwitterController
             {
                 Session::getInstance()->write('success', 'Eintrag erfolgreich geupdatet');
             }
-            return new RedirectResponse('./index.php?controller=TwitterController&action=indexAction');
+            return new RedirectResponse('/feed');
         }
         return new Response(Templating::getInstance()->render('tweet/twitterFeed.html.twig', [
             'result' => $this->tweetRepository->findAll(),
@@ -214,7 +214,7 @@ class TwitterController
         $session = Session::getInstance();
         $session->write('success', 'Tweet erfolgreich gelöscht');
 
-        return new RedirectResponse("./index.php");
+        return new RedirectResponse("/feed");
     }
 
     /**

@@ -73,7 +73,7 @@ class LikeController
             if ($data->getTweet()->getId() == $request->query->get('id')) {
                 Session::getInstance()->write('danger', 'Bereits Geliked!');
 
-                return new RedirectResponse('./index.php');
+                return new RedirectResponse('/feed');
             }
         }
         $likes = new Likes();
@@ -85,12 +85,11 @@ class LikeController
         ]));
         $this->likeRepository->add($likes);
 
-        $id = $request->query->get('id');
-        if ($request->query->get('c') == true) {
-            return new RedirectResponse("./index.php?controller=CommentController&action=indexAction&id=$id&c=true");
-        }
-
-        return new RedirectResponse("./index.php");
+        //$id = $request->query->get('id');
+        //if ($request->query->get('c') == true) {
+        //    return new RedirectResponse("/comment/id=$id/c=true");
+        //}
+        return new RedirectResponse("/feed");
     }
 
     /**
@@ -103,11 +102,11 @@ class LikeController
         $like = $this->likeRepository->findOneBy(['tweetid' => $request->query->get('id')]);
         $this->likeRepository->remove($like);
 
-        $id = $request->query->get('id');
-        if ($request->query->get('c') == true) {
-            return new RedirectResponse("./index.php?controller=CommentController&action=indexAction&id=$id&c=true");
-        }
+        //$id = $request->query->get('id');
+        //if ($request->query->get('c') == true) {
+        //    return new RedirectResponse("./index.php?controller=CommentController&action=indexAction&id=$id&c=true");
+        //}
 
-        return new RedirectResponse('./index.php');
+        return new RedirectResponse('/feed');
     }
 }

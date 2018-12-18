@@ -10,7 +10,7 @@
 
 {{ include ('service/alerts.html.twig') }}
 <!-- multistep form -->
-<form id="msform" action="./index.php?controller=UserActionController&action=changeAction" method="POST">
+<form id="msform" action="{{ path('settings_action') }}" method="POST">
     <!-- progressbar -->
     <ul id="progressbar">
         <li class="active">Account Settings</li>
