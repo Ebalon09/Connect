@@ -1,11 +1,11 @@
 <div class="media-body">
     {% if(update != null) %}
-        <form action="./index.php?controller=CommentController&action=updateAction&idc={{ update.getId() }}?>&c=true&id={{ update.getTweet().getId() }}" method="POST">
+        <form action="./index.php?controller=CommentController&action=updateAction&idc={{ update.Id }}?>&c=true&id={{ update.Tweet.Id }}" method="POST">
             <label class="control-label sr-only" for="Userinput">edit</label>
-            <input id="Userinput" name="text" type="text" class="form-control" autocomplete="off" value="{{ update.GetComment() }}">
+            <input id="Userinput" name="text" type="text" class="form-control" autocomplete="off" value="{{ update.Comment }}">
         </form>
     {% else %}
-        <form action="./index.php?controller=CommentController&action=createAction&id={{ tweet.getId() }}&c=true" method="POST">
+        <form action="./index.php?controller=CommentController&action=createAction&id={{ tweet.Id }}&c=true" method="POST">
             <label class="control-label sr-only" for="Userinput">Userinput</label>
             <input id="Userinput" name="text" type="text" class="form-control" autocomplete="off">
         </form>

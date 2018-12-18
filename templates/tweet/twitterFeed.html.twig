@@ -12,36 +12,36 @@
     {% for data in result %}
         <div class="media">
             <a class="media-left" href="#fake">
-                <img id="userpicpost" alt="" class="media-object img-rounded" src="{{ data.getUser().getPicture() }}">
+                <img id="userpicpost" alt="" class="media-object img-rounded" src="{{ data.User.Picture }}">
             </a>
             <div class="media-body">
-                <h4 class="media-heading" id="Username">{{ data.getUser().getUsername() }}</h4>
-                <p id="Text">{{ data.getText() }}</p>
-                {% if(data.getLinkId() is not same as(null)) %}
-                    <iframe id="yt" width="400" height="200" src="https://www.youtube.com/embed/{{ data.getLinkID() }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <h4 class="media-heading" id="Username">{{ data.User.Username }}</h4>
+                <p id="Text">{{ data.Text }}</p>
+                {% if(data.LinkId is not same as(null)) %}
+                    <iframe id="yt" width="400" height="200" src="https://www.youtube.com/embed/{{ data.LinkID }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 {% endif %}
-                {% if(data.getRetweet() is not same as(null)) %}
+                {% if(data.Retweet is not same as(null)) %}
                     <div class="media-body">
-                        <h4 class="media-heading" id="Username">{{ data.getReTweet().getUser().getUsername() }}</h4>
-                        <p id="Text">{{ data.getReTweet().getText() }}</p>
+                        <h4 class="media-heading" id="Username">{{ data.ReTweet.User.Username }}</h4>
+                        <p id="Text">{{ data.ReTweet.Text }}</p>
                     </div>
                 {% endif %}
                 {% if(userid is not same as(null)) %}
                 <ul id="buttons" class="nav nav-pills nav-pills-custom">
-                    <li><a id="comment" href="./index.php?controller=CommentController&action=indexAction&id={{ data.getId() }}&idc={{ data.getId() }}&c=true" ><i class="far fa-comment-alt"></i></a></li>
-                    <li><a id="commentCounter" href="./index.php?controller=CommentController&action=commentFeed&id={{ data.getId() }}&c=true">{{ countcomments[data.getId()] }}</li>
-                    <li><a id="reTweet" href="./index.php?controller=TwitterController&action=reTweetAction&id={{ data.getId() }}&idc={{ data.getId() }}"><i class="fas fa-retweet"></i> </a></li>
+                    <li><a id="comment" href="./index.php?controller=CommentController&action=indexAction&id={{ data.Id }}&idc={{ data.Id }}&c=true" ><i class="far fa-comment-alt"></i></a></li>
+                    <li><a id="commentCounter" href="./index.php?controller=CommentController&action=commentFeed&id={{ data.Id }}&c=true">{{ countcomments[data.Id] }}</li>
+                    <li><a id="reTweet" href="./index.php?controller=TwitterController&action=reTweetAction&id={{ data.Id }}&idc={{ data.Id }}"><i class="fas fa-retweet"></i> </a></li>
 
                     {% if(data.isLikedByUser(likes)) %}
-                        <li><a id="dislike" href="./index.php?controller=LikeController&action=dislikeAction&id={{ data.getId() }}&idc={{ data.getId() }}"><i class="fas fa-heart"></i> </a></li>
-                        <li><a href="#" id="likeCounter">{{ countlikes[data.getId()] }}</li>
+                        <li><a id="dislike" href="./index.php?controller=LikeController&action=dislikeAction&id={{ data.Id }}&idc={{ data.Id }}"><i class="fas fa-heart"></i> </a></li>
+                        <li><a href="#" id="likeCounter">{{ countlikes[data.Id] }}</li>
                     {% else %}
-                        <li><a id="like" href="./index.php?controller=LikeController&action=likeAction&id={{ data.getId() }}&idc={{ data.getId() }}"><i class="far fa-heart"></i> </a></li>
-                        <li><a href="#" id="likeCounter">{{ countlikes[data.getId()] }}</li>
+                        <li><a id="like" href="./index.php?controller=LikeController&action=likeAction&id={{ data.Id }}&idc={{ data.Id }}"><i class="far fa-heart"></i> </a></li>
+                        <li><a href="#" id="likeCounter">{{ countlikes[data.Id] }}</li>
                     {% endif %}
-                    {% if(userid == data.getUser().getId()) %}
-                        <li><a id="delete" href="./index.php?controller=TwitterController&action=deleteAction&id={{ data.getId() }}"><i class="far fa-trash-alt"></i></a></li>
-                        <li><a id="edit" href="./index.php?controller=TwitterController&action=updateAction&id={{ data.getId() }}"><i class="far fa-edit"></i> </a></li>
+                    {% if(userid == data.getUser().Id) %}
+                        <li><a id="delete" href="./index.php?controller=TwitterController&action=deleteAction&id={{ data.Id }}"><i class="far fa-trash-alt"></i></a></li>
+                        <li><a id="edit" href="./index.php?controller=TwitterController&action=updateAction&id={{ data.Id }}"><i class="far fa-edit"></i> </a></li>
                     {% endif %}
                     {% endif %}
                     {% if(c == true) %}
