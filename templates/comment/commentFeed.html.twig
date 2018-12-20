@@ -26,7 +26,7 @@
                 <h4 class="media-heading" id="Username">{{ data.User.Username }}</h4>
                 <p id="Text">{{ data.Comment }}</p>
                 <ul id="buttons" class="nav nav-pills nav-pills-custom">
-                    {% if(userid == data.User.Id) %}
+                    {% if(user.id == data.User.Id) %}
                         <label for="delete" class="sr-only">delete</label>
                         <li><a id="delete" href="{{ path('delete_comment',{'tweet': data.tweet.id,'c': true, 'idc': data.id}) }}"><i class="far fa-trash-alt"></i> </a></li>
                         <label for="edit" class="sr-only">edit</label>

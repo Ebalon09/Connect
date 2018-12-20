@@ -29,7 +29,7 @@
                         <p id="Text">{{ data.ReTweet.Text }}</p>
                     </div>
                 {% endif %}
-                {% if(userid is not same as(null)) %}
+                {% if(user.id is not same as(null)) %}
                 <ul id="buttons" class="nav nav-pills nav-pills-custom">
                     <li><a id="comment" href="{{ path('comment',{'tweet': data.id,'c': true}) }}" ><i class="far fa-comment-alt"></i></a></li>
                     <li><a id="commentCounter" href="{{ path('comment_feed',{'tweet':data.id,'c':true}) }}" >{{ countcomments[data.Id] }}</li>
@@ -44,7 +44,7 @@
                         <li><a id="like" href="{{ path('like',{'tweet':data.id}) }}"><i class="far fa-heart"></i></a></li>
                         <li><a href="#" id="likeCounter">{{ countlikes[data.Id] }}</li>
                     {% endif %}
-                    {% if(userid == data.getUser().Id) %}
+                    {% if(user.id == data.getUser().Id) %}
                         <li><a id="delete" href="{{ path('delete_post',{'tweet': data.id}) }}"><i class="far fa-trash-alt"></i></a></li>
                         <li><a id="edit" href="{{ path('update_post',{'tweet': data.id}) }}"><i class="far fa-edit"></i> </a></li>
                     {% endif %}

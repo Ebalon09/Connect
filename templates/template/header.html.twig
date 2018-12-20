@@ -9,12 +9,12 @@
                 <li class="nav-item active">
                     <a id="homeButton" name="homeButton" title="Home" class="nav-link" href="{{ path('tweet_feed') }}"><i class="fas fa-home"></i> <span class="sr-only">(current)</span></a>
                 </li>
-                {% if(userid == null) %}
+                {% if(user.id == null) %}
                 <li class="nav-item active" >
                     <a class="nav-link" href = "{{ path('register_main') }}" > Register<span class="sr-only" > (current)</span ></a >
                 </li >
                 {% endif %}
-                {% if(userid != null) %}
+                {% if(user.id != null) %}
                 <li class="nav-item dropdown">
                     <label for="Dropdown" class="sr-only">Optionen</label><a id="Dropdown" class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Optionen</a>
                     <div class="dropdown-menu">
@@ -27,7 +27,7 @@
                 </li>
                 {% endif %}
             </ul>
-            {% if(userid == null) %}
+            {% if(user.id == null) %}
             <form class="form-inline my-2 my-lg-0" action="{{ path('login') }}" method="POST">
                 <label for="UsernameInput" class="sr-only">Username</label><input id="UsernameInput" name="username" class="form-control mr-sm-2" type="text" placeholder="Nutzername" aria-label="username">
                 <label for="PasswordInput" class="sr-only">Password</label><input id="PasswordInput" name="password" class="form-control mr-sm-2" type="password" placeholder="Passwort" aria-label="password">
@@ -35,7 +35,7 @@
             </form>
             {% else %}
             <div class="Username">
-                Angemeldet als : {{ username }}
+                Angemeldet als : {{ user.username }}
             </div>
             <form class="form-inline my-2 my-lg-0" action="{{ path('logout') }}" method="POST">
                 <button name="Logout" class="btn btn-outline-light my-2 my-sm-0" type="submit">Logout</button>

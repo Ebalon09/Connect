@@ -17,8 +17,7 @@ use Test\Services\Templating;
 
 /**
  * Class TwitterController
-
-*
+ *
  * @author Florian Stein <fstein@databay.de>
  */
 class TwitterController
@@ -32,10 +31,12 @@ class TwitterController
      * @var UserRepository
      */
     protected $userRepository;
+
     /**
      * @var LikeRepository
      */
     protected $likeRepository;
+
     /**
      * @var CommentRepository
      */
@@ -49,8 +50,12 @@ class TwitterController
      * @param LikeRepository    $likeRepository
      * @param CommentRepository $commentRepository
      */
-    public function __construct (TweetRepository $tweetRepository, UserRepository $userRepository, LikeRepository $likeRepository, CommentRepository $commentRepository)
-    {
+    public function __construct (
+        TweetRepository $tweetRepository,
+        UserRepository $userRepository,
+        LikeRepository $likeRepository,
+        CommentRepository $commentRepository
+    ) {
         $this->tweetRepository = $tweetRepository;
         $this->userRepository = $userRepository;
         $this->likeRepository = $likeRepository;
@@ -66,10 +71,9 @@ class TwitterController
         $likes = $this->likeRepository->findBy(['userid' => $_SESSION['userid']]);
         $user = $this->userRepository->currentUser();
 
-        $commentarray = array();
-        $likearray = array();
-        foreach ($tweets as $tweet)
-        {
+        $commentarray = [];
+        $likearray = [];
+        foreach ($tweets as $tweet) {
             $likearray[$tweet->getId()] = $this->likeRepository->countLikes($tweet);
             $commentarray[$tweet->getId()] = $this->commentRepository->countComments($tweet);
         }
@@ -80,8 +84,8 @@ class TwitterController
             'countlikes'    => $likearray,
             'user'          => $user,
             'countcomments' => $commentarray,
-            'userid' => $_SESSION['userid'],
-            'username' => $_SESSION['username'],
+            'userid'        => $_SESSION['userid'],
+            'username'      => $_SESSION['username'],
         ]));
     }
 
@@ -93,16 +97,14 @@ class TwitterController
      */
     public function createAction (Request $request)
     {
-        if ($request->isMethod(Request::METHOD_POST))
-        {
+        if ($request->isMethod(Request::METHOD_POST)) {
             $user = $this->userRepository->currentUser();
 
             $tweet = new Tweet();
             $text = $request->get('text');
 
             preg_match_all('/https:\/\/www\.youtube\.com\/watch\?v=([^\s]*)( |$)/', $text, $matches);
-            foreach ($matches[1] as $key => $id)
-            {
+            foreach ($matches[1] as $key => $id) {
                 $tweet->setLinkID($id);
                 $text = str_replace($matches[1][$key], "", $text);
             }
@@ -132,23 +134,19 @@ class TwitterController
         ]);
         $user = $this->userRepository->currentUser();
 
-
-        if ($request->isMethod(Request::METHOD_POST))
-        {
+        if ($request->isMethod(Request::METHOD_POST)) {
             $text = $request->get('text');
 
             $reTweet = new Tweet();
             preg_match_all('/https:\/\/www\.youtube\.com\/watch\?v=([^\s]*)( |$)/', $text, $matches);
 
-            foreach ($matches[1] as $key => $id)
-            {
+            foreach ($matches[1] as $key => $id) {
                 $reTweet->setLinkID($id);
                 $text = str_replace($matches[1][$key], "", $text);
             }
             $reTweet->setReTweet($tweet);
             $reTweet->setText($text);
             $reTweet->setUser($user);
-
 
             $this->tweetRepository->add($reTweet);
 
@@ -157,13 +155,14 @@ class TwitterController
 
             return new RedirectResponse("/feed");
         }
+
         return new Response(Templating::getInstance()->render('tweet/twitterFeed.html.twig', [
-            'result'  => $this->tweetRepository->findAll(),
-            'reTweet' => $tweet,
-            'user'    => $user,
-            'id'      => $tweet->getId(),
-            'userid'  => $_SESSION['userid'],
-            'username'=> $_SESSION['username'],
+            'result'    => $this->tweetRepository->findAll(),
+            'reTweet'   => $tweet,
+            'user'      => $user,
+            'id'        => $tweet->getId(),
+            'userid'    => $_SESSION['userid'],
+            'username'  => $_SESSION['username'],
             'userimage' => $user->getPicture(),
         ]));
     }
@@ -179,28 +178,26 @@ class TwitterController
         $tweet = $this->tweetRepository->findOneBy(['id' => $request->query->get('tweet')]);
         $user = $this->userRepository->currentUser();
 
-        if ($request->isMethod(Request::METHOD_POST))
-        {
+        if ($request->isMethod(Request::METHOD_POST)) {
             $tweet->setText($request->get('text'));
 
             $result = $this->tweetRepository->add($tweet);
-            if (!$result)
-            {
+            if (!$result) {
                 Session::getInstance()->write('danger', 'Ungültige Abfrage!');
-            }
-            else
-            {
+            } else {
                 Session::getInstance()->write('success', 'Eintrag erfolgreich geupdatet');
             }
+
             return new RedirectResponse('/feed');
         }
+
         return new Response(Templating::getInstance()->render('tweet/twitterFeed.html.twig', [
-            'result' => $this->tweetRepository->findAll(),
-            'update' => $tweet,
-            'user'   => $user,
-            'id'     => $tweet->getId(),
-            'userid'  => $_SESSION['userid'],
-            'username'=> $_SESSION['username'],
+            'result'   => $this->tweetRepository->findAll(),
+            'update'   => $tweet,
+            'user'     => $user,
+            'id'       => $tweet->getId(),
+            'userid'   => $_SESSION['userid'],
+            'username' => $_SESSION['username'],
         ]));
     }
 
@@ -240,12 +237,11 @@ class TwitterController
      */
     private function handleFileUpload (Tweet $tweet, Request $request)
     {
-        if ($request->files->get("img-upload") != null)
-        {
+        if ($request->files->get("img-upload") != null) {
             $uploadedFile = $request->files->get("img-upload");
-            $filename = md5(uniqid("image_")) .".jpg";
+            $filename = md5(uniqid("image_")).".jpg";
             $uploadedFile->move('./uploads/', $filename);
-            $tweet->setDestination('/uploads/' . $filename);
+            $tweet->setDestination('/uploads/'.$filename);
         }
     }
 }

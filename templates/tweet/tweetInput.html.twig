@@ -1,5 +1,5 @@
 <div class="media-body">
-    {% if(userid is not same as(null)) %}
+    {% if(user.id is not same as(null)) %}
         {% if(reTweet is not same as(null)) %}
             <form action="{{ path('reTweet_post',{'tweet': reTweet.id}) }}" method="POST" enctype="multipart/form-data">
                 <label for="Userinput" class="control-label sr-only">reTweet</label>

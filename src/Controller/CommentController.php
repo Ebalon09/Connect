@@ -24,14 +24,17 @@ class CommentController
      * @var TweetRepository
      */
     protected $tweetRepository;
+
     /**
      * @var UserRepository
      */
     protected $userRepository;
+
     /**
      * @var LikeRepository
      */
     protected $likeRepository;
+
     /**
      * @var CommentRepository
      */
@@ -45,8 +48,12 @@ class CommentController
      * @param UserRepository    $userRepository
      * @param CommentRepository $commentRepository
      */
-    public function __construct (TweetRepository $tweetRepository, LikeRepository $likeRepository, UserRepository $userRepository, CommentRepository $commentRepository)
-    {
+    public function __construct (
+        TweetRepository $tweetRepository,
+        LikeRepository $likeRepository,
+        UserRepository $userRepository,
+        CommentRepository $commentRepository
+    ) {
         $this->tweetRepository = $tweetRepository;
         $this->likeRepository = $likeRepository;
         $this->userRepository = $userRepository;
@@ -62,26 +69,21 @@ class CommentController
     {
         $allTweets = $this->tweetRepository->findAll();
         $likes = $this->likeRepository->findBy(['userid' => $_SESSION['userid']]);
-        $tweet = $this->tweetRepository->findOneBy(['id' => $request->query->get('tweet')]);
-        $user = $this->userRepository->currentUser();
 
-        $commentarray = array();
-        $likearray = array();
-        foreach ($allTweets as $tweet)
-        {
+        $commentarray = [];
+        $likearray = [];
+        foreach ($allTweets as $tweet) {
             $likearray[$tweet->getId()] = $this->likeRepository->countLikes($tweet);
             $commentarray[$tweet->getId()] = $this->commentRepository->countComments($tweet);
         }
 
         return new Response(Templating::getInstance()->render('tweet/twitterFeed.html.twig', [
-            'result'     => $allTweets,
-            'tweet'      => $tweet,
-            'likes'      => $likes,
-            'countLikes' => $likearray,
-            'user'       => $user,
-            'userid' => $_SESSION['userid'],
-            'username' => $_SESSION['username'],
-            'c' => $request->query->get('c'),
+            'result'        => $allTweets,
+            'tweet'         => $this->tweetRepository->findOneBy(['id' => $request->query->get('tweet')]),
+            'likes'         => $likes,
+            'countLikes'    => $likearray,
+            'user'          => $this->userRepository->currentUser(),
+            'c'             => $request->query->get('c'),
             'countcomments' => $commentarray,
         ]));
     }
@@ -93,25 +95,17 @@ class CommentController
      */
     public function commentFeed (Request $request)
     {
-        $likes = $this->likeRepository->findBy(['userid' => $_SESSION['userid']]);
-        $comments = $this->commentRepository->findBy(['tweetid' => $request->query->get('tweet')]);
         $tweet = $this->tweetRepository->findOneBy(['id' => $request->query->get('tweet')]);
-        $user = $this->userRepository->currentUser();
 
         $array = [];
         $array[$tweet->getId()] = $this->likeRepository->countLikes($tweet);
 
         return new Response(Templating::getInstance()->render('comment/commentFeed.html.twig', [
-            'comments'   => $comments,
+            'comments'   => $this->commentRepository->findBy(['tweetid' => $request->query->get('tweet')]),
             'tweet'      => $tweet,
-            'likes'      => $likes,
+            'likes'      => $this->likeRepository->findBy(['userid' => $_SESSION['userid']]),
             'countLikes' => $array,
-            'user'       => $user,
-            'userid' => $_SESSION['userid'],
-            'username' => $_SESSION['username'],
-            'userimage' => $user->getPicture(),
-            'tweetuserimage' => $tweet->getUser()->getPicture(),
-            'tweettext' => $tweet->getText(),
+            'user'       => $this->userRepository->currentUser(),
         ]));
     }
 
@@ -125,9 +119,7 @@ class CommentController
     {
         if ($request->isMethod(Request::METHOD_POST)) {
             $user = $this->userRepository->currentUser();
-            $tweet = $this->tweetRepository->findOneBy([
-                'id' => $request->query->get('tweet'),
-            ]);
+            $tweet = $this->tweetRepository->findOneBy(['id' => $request->query->get('tweet'),]);
 
             $comment = new Comment();
 
@@ -162,12 +154,9 @@ class CommentController
      */
     public function updateAction (Request $request)
     {
-        $comment = $this->commentRepository->findOneBy([
-            'id' => $request->query->get('idc'),
-        ]);
+        $comment = $this->commentRepository->findOneBy(['id' => $request->query->get('idc'),]);
         $user = $this->userRepository->currentUser();
         $tweet = $this->tweetRepository->findBy(['id' => $comment->getTweet()->getId()])[0];
-        $comments = $this->commentRepository->findBy(['tweetid' => $tweet->getId()]);
 
         if ($request->isMethod(Request::METHOD_POST)) {
             $user = $this->userRepository->findOneBy([
@@ -197,7 +186,7 @@ class CommentController
         return new Response(Templating::getInstance()->render('comment/commentFeed.html.twig', [
             'result'   => $this->commentRepository->findBy(['tweetid' => $request->query->get('id')]),
             'update'   => $comment,
-            'comments' => $comments,
+            'comments' => $this->commentRepository->findBy(['tweetid' => $tweet->getId()]),
             'user'     => $user,
             'id'       => $comment->getId(),
             'tweet'    => $tweet,

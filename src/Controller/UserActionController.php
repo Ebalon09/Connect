@@ -47,8 +47,12 @@ class UserActionController
      * @param TweetRepository   $tweetRepository
      * @param LikeRepository    $likeRepository
      */
-    public function __construct (CommentRepository $commentRepository, UserRepository $userRepository, TweetRepository $tweetRepository, LikeRepository $likeRepository)
-    {
+    public function __construct (
+        CommentRepository $commentRepository,
+        UserRepository $userRepository,
+        TweetRepository $tweetRepository,
+        LikeRepository $likeRepository
+    ) {
         $this->commentRepository = $commentRepository;
         $this->userRepository = $userRepository;
         $this->tweetRepository = $tweetRepository;
@@ -60,7 +64,7 @@ class UserActionController
      */
     public function settingsIndex ()
     {
-        return new Response(Templating::getInstance()->render('account/settingForm.html.twig',[
+        return new Response(Templating::getInstance()->render('account/settingForm.html.twig', [
             'usermail' => $_SESSION['email'],
             'username' => $_SESSION['username'],
         ]));
@@ -75,22 +79,16 @@ class UserActionController
     public function changeAction (Request $request)
     {
 
-
         $result = null;
 
         $user = $this->userRepository->currentUser();
 
         $mainpw = $user->getPassword();
 
-
-
         $pw1 = $request->get('PasswordVerify');
         $pw2 = $request->get('rePasswordVerify');
 
-
-
-        if ($request->isMethod(Request::METHOD_POST) && $pw1 == $pw2 && password_verify($pw1, $mainpw) == true)
-        {
+        if ($request->isMethod(Request::METHOD_POST) && $pw1 == $pw2 && password_verify($pw1, $mainpw) == true) {
             if ($request->get('email') != null) {
                 $user = $this->userRepository->findOneBy([
                     'email' => $_SESSION['email'],
@@ -107,25 +105,20 @@ class UserActionController
             }
             if ($request->get('passwordchange') != null) {
 
-                    $user = $this->userRepository->currentUser();
-
-                    $user->setPassword(password_hash($request->get('passwordchange'), PASSWORD_DEFAULT));
-                    $result = $this->userRepository->add($user);
-
-            }
-            if ($_FILES != null)
-            {
                 $user = $this->userRepository->currentUser();
 
-                $user->setPicture($this->handleFileUpload($user));
+                $user->setPassword(password_hash($request->get('passwordchange'), PASSWORD_DEFAULT));
                 $result = $this->userRepository->add($user);
             }
-            if (!$result)
-            {
-                Session::getInstance()->write('danger', 'Fehler!');
+            if ($_FILES != null) {
+                $user = $this->userRepository->currentUser();
+
+                $user->setPicture($this->handleFileUpload($user, $request));
+                $result = $this->userRepository->add($user);
             }
-            else
-            {
+            if (!$result) {
+                Session::getInstance()->write('danger', 'Fehler!');
+            } else {
                 $_SESSION['username'] = null;
                 $_SESSION['userid'] = null;
                 $_SESSION['email'] = null;
@@ -165,18 +158,16 @@ class UserActionController
     }
 
     /**
-     * @param $user
-     *
-     * @return string
+     * @param         $user
+     * @param Request $request
      */
     private function handleFileUpload ($user, Request $request)
     {
-        if ($request->files->get("img-upload") != null)
-        {
+        if ($request->files->get("img-upload") != null) {
             $uploadedFile = $request->files->get("img-upload");
-            $filename = md5(uniqid("image_")) .".jpg";
+            $filename = md5(uniqid("image_")).".jpg";
             $uploadedFile->move('./uploads/', $filename);
-            $user->setDestination('/uploads/' . $filename);
+            $user->setDestination('/uploads/'.$filename);
         }
     }
 

@@ -118,12 +118,9 @@ class LoginController
 
             $user = new User();
 
-            if (isset($pic))
-            {
+            if (isset($pic)) {
                 $user->setPicture($pic);
-            }
-            else
-            {
+            } else {
                 $user->setPicture(strip_tags($this->handlefileupload($request)));
             }
             $user->setUsername(strip_tags($request->get('USERNAME')));
@@ -136,9 +133,7 @@ class LoginController
             $session->write('success', 'Erfolgreich Registriert! bitte anmelden');
 
             return new RedirectResponse("/feed");
-        }
-        else
-        {
+        } else {
             $session = Session::getInstance();
             $session->write('danger', 'Passwörter stimmen nicht überein!');
 
@@ -166,12 +161,12 @@ class LoginController
     private function handleFileUpload ($request)
     {
 
-        if ($request->files->get("img-upload") != null)
-        {
+        if ($request->files->get("img-upload") != null) {
             $uploadedFile = $request->files->get("img-upload");
-            $filename = md5(uniqid("image_")) .".jpg";
+            $filename = md5(uniqid("image_")).".jpg";
             $uploadedFile->move('./uploads/', $filename);
-            $dest = '/uploads/' . $filename;
+            $dest = '/uploads/'.$filename;
+
             return $dest;
         }
     }

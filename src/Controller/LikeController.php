@@ -6,7 +6,6 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Test\Model\Likes;
-use Test\Model\User;
 use Test\Repository\LikeRepository;
 use Test\Repository\TweetRepository;
 use Test\Repository\UserRepository;
@@ -25,10 +24,12 @@ class LikeController
      * @var TweetRepository
      */
     protected $tweetRepository;
+
     /**
      * @var UserRepository
      */
     protected $userRepository;
+
     /**
      * @var LikeRepository
      */
@@ -41,8 +42,11 @@ class LikeController
      * @param UserRepository  $userRepository
      * @param LikeRepository  $likeRepository
      */
-    public function __construct (TweetRepository $tweetRepository, UserRepository $userRepository, LikeRepository $likeRepository)
-    {
+    public function __construct (
+        TweetRepository $tweetRepository,
+        UserRepository $userRepository,
+        LikeRepository $likeRepository
+    ) {
         $this->tweetRepository = $tweetRepository;
         $this->userRepository = $userRepository;
         $this->likeRepository = $likeRepository;
@@ -90,10 +94,6 @@ class LikeController
         ]));
         $this->likeRepository->add($likes);
 
-        //$id = $request->query->get('id');
-        //if ($request->query->get('c') == true) {
-        //    return new RedirectResponse("/comment/id=$id/c=true");
-        //}
         return new RedirectResponse("/feed");
     }
 
@@ -106,11 +106,6 @@ class LikeController
     {
         $like = $this->likeRepository->findOneBy(['tweetid' => $request->query->get('tweet')]);
         $this->likeRepository->remove($like);
-
-        //$id = $request->query->get('id');
-        //if ($request->query->get('c') == true) {
-        //    return new RedirectResponse("./index.php?controller=CommentController&action=indexAction&id=$id&c=true");
-        //}
 
         return new RedirectResponse('/feed');
     }
