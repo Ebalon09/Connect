@@ -69,6 +69,8 @@ class UserActionController
      */
     public function changeAction (Request $request)
     {
+
+
         $result = null;
 
         $user = $this->userRepository->currentUser();
@@ -162,17 +164,14 @@ class UserActionController
      *
      * @return string
      */
-    private function handleFileUpload ($user)
+    private function handleFileUpload ($user, Request $request)
     {
-        if ($_FILES['my_upload']['name'] != null) {
-            $user = $this->userRepository->findOneBy(['id' => $_SESSION['userid']]);
-            $_FILES['my_upload']['name'] = $user->getUsername().".jpg";
-            $upload_file = $_FILES['my_upload']['name'];
-            $dest = './uploads/ProfilePics/'.$upload_file;
-
-            move_uploaded_file($_FILES['my_upload']['tmp_name'], $dest);
-
-            return $dest;
+        if ($request->files->get("img-upload") != null)
+        {
+            $uploadedFile = $request->files->get("img-upload");
+            $filename = md5(uniqid("image_")) .".jpg";
+            $uploadedFile->move('./uploads/', $filename);
+            $user->setDestination('/uploads/' . $filename);
         }
     }
 

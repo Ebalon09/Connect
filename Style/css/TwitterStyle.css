@@ -103,9 +103,8 @@ div.panel-heading
     text-align: center;
 }
 
-.panel .panel-body img
+#profileImage
 {
-
     vertical-align: middle;
     max-width: 225px;
     max-height: 140px;
@@ -168,7 +167,6 @@ div.panel-heading
 }
 
 #userpictext{
-
     margin-top: 5px;
     margin-right: 3px;
     max-width: 40px;
@@ -245,6 +243,13 @@ div.panel-heading
 
 #yt{
     margin-right: 4em;
+}
+
+#image{
+    margin-right: 4em;
+    width: 400px;
+    height: 200px;
+    margin-bottom: 5px;
 }
 
 #img-upload-icon{

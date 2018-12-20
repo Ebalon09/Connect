@@ -3,7 +3,7 @@ var left, opacity, scale;
 var animating;
 
 document.getElementById("back").onclick = function () {
-    location.href = "./index.php";
+    location.href = "/feed";
 };
 
 $(".next").click(function(){

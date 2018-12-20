@@ -32,6 +32,9 @@ $parameters = $router->match($request->getPathInfo());
 list($controller, $action) = \explode('::', $parameters['_controller']);
 
 $controller = new $controller();
+$request->query->add(array_filter($parameters, function($key) {
+    return strpos($key, '_') !== 0;
+}, ARRAY_FILTER_USE_KEY));
 
 /**
  * @var ResponseInterface $response

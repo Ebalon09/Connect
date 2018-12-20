@@ -17,6 +17,9 @@
             <div class="media-body">
                 <h4 class="media-heading" id="Username">{{ data.User.Username }}</h4>
                 <p id="Text">{{ data.Text }}</p>
+                {% if(data.destination is not same as(null)) %}
+                    <img id="image" src="{{ data.destination }}">
+                {% endif %}
                 {% if(data.LinkId is not same as(null)) %}
                     <iframe id="yt" width="400" height="200" src="https://www.youtube.com/embed/{{ data.LinkID }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 {% endif %}
@@ -28,25 +31,25 @@
                 {% endif %}
                 {% if(userid is not same as(null)) %}
                 <ul id="buttons" class="nav nav-pills nav-pills-custom">
-                    <li><a id="comment" href="{{ path('comment',{'tweet': data.id,'idc': data.id,'c': true}) }}" ><i class="far fa-comment-alt"></i></a></li>
+                    <li><a id="comment" href="{{ path('comment',{'tweet': data.id,'c': true}) }}" ><i class="far fa-comment-alt"></i></a></li>
                     <li><a id="commentCounter" href="{{ path('comment_feed',{'tweet':data.id,'c':true}) }}" >{{ countcomments[data.Id] }}</li>
-                    <li><a id="reTweet" href="{{ path('reTweet_post',{'id':data.id,'idc':data.id}) }}"><i class="fas fa-retweet"></i> </a></li>
+                    <li><a id="reTweet" href="{{ path('reTweet_post',{'tweet':data.id,'comment':data.id}) }}"><i class="fas fa-retweet"></i> </a></li>
 
                     {% if(data.isLikedByUser(likes)) %}
                         <lable class="sr-only" for="dislike">dislike</lable>
-                        <li><a id="dislike" href="{{ path('dislike',{'tweet':data.id,'idc':data.id}) }}"><i class="fas fa-heart"></i> </a></li>
+                        <li><a id="dislike" href="{{ path('dislike',{'tweet':data.id}) }}"><i class="fas fa-heart"></i> </a></li>
                         <li><a href="#" id="likeCounter">{{ countlikes[data.Id] }}</li>
                     {% else %}
                         <lable class="sr-only" for="like">like</lable>
-                        <li><a id="like" href="{{ path('like',{'tweet':data.id,'idc':data.id}) }}"><i class="far fa-heart"></i> </a></li>
+                        <li><a id="like" href="{{ path('like',{'tweet':data.id}) }}"><i class="far fa-heart"></i></a></li>
                         <li><a href="#" id="likeCounter">{{ countlikes[data.Id] }}</li>
                     {% endif %}
                     {% if(userid == data.getUser().Id) %}
-                        <li><a id="delete" href="{{ path('delete_post',{'tweet':data.id}) }}" ><i class="far fa-trash-alt"></i></a></li>
-                        <li><a id="edit" href="{{ path('update_post',{'tweet':data.id}) }}"><i class="far fa-edit"></i> </a></li>
+                        <li><a id="delete" href="{{ path('delete_post',{'tweet': data.id}) }}"><i class="far fa-trash-alt"></i></a></li>
+                        <li><a id="edit" href="{{ path('update_post',{'tweet': data.id}) }}"><i class="far fa-edit"></i> </a></li>
                     {% endif %}
                     {% endif %}
-                    {% if(c == true) %}
+                    {% if(c == 1) %}
                         <form action="{{ path('create_comment',{'tweet':data.id}) }}" method="POST">
                             <input id="commentinput" name="text" type="text" class="form-control" autocomplete="off">
                         </form>

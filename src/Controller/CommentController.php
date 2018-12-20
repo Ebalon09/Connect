@@ -55,27 +55,29 @@ class CommentController
      */
     public function indexAction (Request $request)
     {
-
         $tweets = $this->tweetRepository->findAll();
         $likes = $this->likeRepository->findBy(['userid' => $_SESSION['userid']]);
-        $comments = $this->commentRepository->findBy(['tweetid' => $request->query->get('id')]);
-        $tweet = $this->tweetRepository->findOneBy(['id' => $request->query->get('id')]);
+        $tweet = $this->tweetRepository->findOneBy(['id' => $request->query->get('tweet')]);
         $user = $this->userRepository->currentUser();
 
-        $array = [];
-        $array[$tweet->getId()] = $this->likeRepository->countLikes($tweet);
+        $commentarray = array();
+        $likearray = array();
+        foreach ($tweets as $tweet)
+        {
+            $likearray[$tweet->getId()] = $this->likeRepository->countLikes($tweet);
+            $commentarray[$tweet->getId()] = $this->commentRepository->countComments($tweet);
+        }
 
         return new Response(Templating::getInstance()->render('tweet/twitterFeed.html.twig', [
-            'comments'   => $comments,
             'result'     => $tweets,
             'tweet'      => $tweet,
             'likes'      => $likes,
-            'countLikes' => $array,
+            'countLikes' => $likearray,
             'user'       => $user,
             'userid' => $_SESSION['userid'],
             'username' => $_SESSION['username'],
-            'userimage' => $user->getPicture(),
-            'c' => $_GET['c'],
+            'c' => $request->query->get('c'),
+            'countcomments' => $commentarray,
         ]));
     }
 
@@ -87,9 +89,8 @@ class CommentController
     public function commentFeed (Request $request)
     {
         $likes = $this->likeRepository->findBy(['userid' => $_SESSION['userid']]);
-        $comments = $this->commentRepository->findBy(['tweetid' => $request->query->get('id')]);
-        $tweet = $this->tweetRepository->findOneBy(['id' => $request->query->get('id')]);
-
+        $comments = $this->commentRepository->findBy(['tweetid' => $request->query->get('tweet')]);
+        $tweet = $this->tweetRepository->findOneBy(['id' => $request->query->get('tweet')]);
         $user = $this->userRepository->currentUser();
 
         $array = [];
@@ -120,7 +121,7 @@ class CommentController
         if ($request->isMethod(Request::METHOD_POST)) {
             $user = $this->userRepository->currentUser();
             $tweet = $this->tweetRepository->findOneBy([
-                'id' => $request->query->get('id'),
+                'id' => $request->query->get('tweet'),
             ]);
 
             $comment = new Comment();
@@ -139,8 +140,8 @@ class CommentController
                 $session->write('danger', 'Du kannst keinen leeren Kommentar posten!');
             }
 
-            $id = $request->query->get('id');
-            if ($request->query->get('c') == true) {
+            $id = $request->query->get('tweet');
+            if ($request->query->get('c') == 1) {
                 return new RedirectResponse("/feed/comments/$id/c");
             }
 

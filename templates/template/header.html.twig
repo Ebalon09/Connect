@@ -11,14 +11,14 @@
                 </li>
                 {% if(userid == null) %}
                 <li class="nav-item active" >
-                    <a class="nav-link" href = "{{ path('tweet_feed') }}" > Register<span class="sr-only" > (current)</span ></a >
+                    <a class="nav-link" href = "{{ path('register_main') }}" > Register<span class="sr-only" > (current)</span ></a >
                 </li >
                 {% endif %}
                 {% if(userid != null) %}
                 <li class="nav-item dropdown">
                     <label for="Dropdown" class="sr-only">Optionen</label><a id="Dropdown" class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Optionen</a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="{{ path('settings') }}">Einstellungen</a>
+                        <a class="dropdown-item" href="{{ path('settings_main') }}">Einstellungen</a>
                         <a class="dropdown-item" href="#">Fill</a>
                         <a class="dropdown-item" href="#">Fill2</a>
                         <div class="dropdown-divider"></div>

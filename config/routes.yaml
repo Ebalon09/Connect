@@ -1,5 +1,9 @@
 #config/routes.yaml
 
+index:
+  path: /
+  controller: Test\Controller\TwitterController::indexAction
+
 login:
   path: /feed/login
   controller: Test\Controller\LoginController::LoginAction
@@ -11,17 +15,13 @@ logout:
 tweet_feed:
   path: /feed
   controller: Test\Controller\TwitterController::indexAction
-  methods:
-    - GET
-    - POST
 
 comment_feed:
-  path: /feed/comments/{tweet?}/{c?}/{idc?}
+  path: /feed/comments/{tweet?}/{c?}/{comment?}
   controller: Test\Controller\CommentController::commentFeed
   requirements:
     tweet: '\d+'
-    c: '!!bool'
-    idc: '\d+'
+    comment: '\d+'
 
 register_main:
   path: /register
@@ -36,7 +36,7 @@ settings_main:
   controller: Test\Controller\UserActionController::settingsIndex
 
 settings_action:
-  path: /feed/user/settings
+  path: /feed/user/settings/change
   controller: Test\Controller\UserActionController::changeAction
 
 delete_account:
@@ -44,12 +44,10 @@ delete_account:
   controller: Test\Controller\UserActionController::deleteAcc
 
 comment:
-  path: /comment/{tweet?}/{c?}/{idc?}
+  path: /feed/{tweet?}/{c?}/
   controller: Test\Controller\CommentController::indexAction
   requirements:
     tweet: '\d+'
-    c: '!!bool'
-    idc: '\d+'
 
 create_comment:
   path: /feed/comment/{tweet?}
@@ -59,55 +57,49 @@ create_comment:
 
 
 delete_comment:
-  path: /feed/comment/delete/{tweet?}/{c?}/{idc?}
+  path: /feed/comment/delete/{tweet?}/{c?}/{comment?}
   controller: Test\Controller\CommentController::deleteAction
   requirements:
     tweet: '\d+'
-    c: '!!bool'
-    idc: '\d+'
+    comment: '\d+'
 
 update_comment:
-  path: /feed/comment/update/{tweet?}/{c?}/{idc?}
+  path: /feed/comment/update/{tweet?}/{c?}/{comment?}
   controller: Test\Controller\CommentController::updateAction
   requirements:
     tweet: '\d+'
-    c: '!!bool'
-    idc: '\d+'
+    comment: '\d+'
 
 create_post:
-  path: /feed/post/{tweet?}/{c?}
+  path: /feed/post
   controller: Test\Controller\TwitterController::createAction
-  requirements:
-    tweet: '\d+'
-    c: '!!bool'
 
 update_post:
-  path: /feed/post/update/{tweet?}
+  path: /feed/update/{tweet?}
   controller: Test\Controller\TwitterController::updateAction
   requirements:
     tweet: '\d+'
 
 reTweet_post:
-  path: /feed/reTweet/{tweet?}/{idc?}
+  path: /feed/reTweet/{tweet?}
   controller: Test\Controller\TwitterController::reTweetAction
   requirements:
     tweet: '\d+'
-    idc: '\d+'
 
 delete_post:
-  path: /feed/post/delete
+  path: /feed/post/delete/{tweet?}
   controller: Test\Controller\TwitterController::deleteAction
+  requirements:
+    tweet: '\d+'
 
 dislike:
-  path: /feed/dislike/{tweet?}/{idc?}
+  path: /feed/dislike/{tweet?}
   controller: Test\Controller\LikeController::dislikeAction
   requirements:
     tweet: '\d+'
-    idc: '\d+'
 
 like:
-  path: /feed/like/{tweet?}/{idc?}
+  path: /feed/like/{tweet?}
   controller: Test\Controller\LikeController::likeAction
   requirements:
     tweet: '\d+'
-    idc: '\d+'

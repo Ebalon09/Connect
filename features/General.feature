@@ -3,7 +3,7 @@ Feature: General Test of Twitter application
 
 
   Scenario: Register
-    Given I am on "http://localhost/test/index.php"
+    Given I am on "http://twitter.php72/"
     Then I should see "Register"
     Then I follow "Register"
     And I wait 15 seconds for request to complete
@@ -21,7 +21,7 @@ Feature: General Test of Twitter application
     Then I should see "TwitterClone"
 
   Scenario: Login
-    Given I am on "http://localhost/test/index.php"
+    Given I am on "http://twitter.php72/"
     Then I should see "TwitterClone"
     And I should see "Register"
     And I should see "Username"
@@ -36,7 +36,7 @@ Feature: General Test of Twitter application
     And I should see "Logout"
 
   Scenario: Test Mainpage
-    Given I am on "http://localhost/test/index.php"
+    Given I am on "http://twitter.php72/"
     Then I should see "TwitterClone"
     And I should see "Register"
     And I should see "Username"
@@ -62,7 +62,7 @@ Feature: General Test of Twitter application
     Then I should see "Tweet erfolgreich gepostet"
 
   Scenario: Test Logout
-      Given I am on "http://localhost/test/index.php"
+      Given I am on "http://twitter.php72/"
       Then I should see "TwitterClone"
       And I should see "Register"
       And I should see "Username"
@@ -79,7 +79,7 @@ Feature: General Test of Twitter application
       Then I should not see "Logout"
 
     Scenario: LikeTest
-      Given I am on "http://localhost/test/index.php"
+      Given I am on "http://twitter.php72/"
       Then I should see "TwitterClone"
       And I should see "Register"
       And I should see "Username"
@@ -96,7 +96,7 @@ Feature: General Test of Twitter application
       And I should see "like"
 
     Scenario: EditTest
-      Given I am on "http://localhost/test/index.php"
+      Given I am on "http://twitter.php72/"
       Then I should see "TwitterClone"
       And I should see "Register"
       And I should see "Username"
@@ -116,7 +116,7 @@ Feature: General Test of Twitter application
       Then I should see "Eintrag erfolgreich geupdatet"
 
     Scenario: Post ReTweet Test
-      Given I am on "http://localhost/test/index.php"
+      Given I am on "http://twitter.php72/"
       Then I should see "TwitterClone"
       And I should see "Register"
       And I should see "Username"
@@ -136,7 +136,7 @@ Feature: General Test of Twitter application
       Then I should see "Tweet erfolgreich gepostet"
 
     Scenario: PostComment
-      Given I am on "http://localhost/test/index.php"
+      Given I am on "http://twitter.php72/"
       Then I should see "TwitterClone"
       And I should see "Register"
       And I should see "Username"
@@ -156,7 +156,7 @@ Feature: General Test of Twitter application
       Then I should see "Kommentar erfolgreich gepostet"
 
     Scenario: CommentFeed
-      Given I am on "http://localhost/test/index.php"
+      Given I am on "http://twitter.php72/"
       Then I should see "TwitterClone"
       And I should see "Register"
       And I should see "Username"
@@ -188,7 +188,7 @@ Feature: General Test of Twitter application
 
 
     Scenario: PostDelete
-      Given I am on "http://localhost/test/index.php"
+      Given I am on "http://twitter.php72/"
       Then I should see "TwitterClone"
       And I should see "Register"
       And I should see "Username"
@@ -205,7 +205,7 @@ Feature: General Test of Twitter application
       Then I should see "Tweet erfolgreich gelöscht"
 
     Scenario: SettingsEmail
-      Given I am on "http://localhost/test/index.php"
+      Given I am on "http://twitter.php72/"
       Then I should see "TwitterClone"
       And I should see "Register"
       And I should see "Username"
@@ -229,7 +229,7 @@ Feature: General Test of Twitter application
       Then I should see "erfolgreich geupdatet, bitte neu einloggen damit die änderung in kraft tritt"
 
     Scenario: SettingsUsername
-      Given I am on "http://localhost/test/index.php"
+      Given I am on "http://twitter.php72/"
       Then I should see "TwitterClone"
       And I should see "Register"
       And I should see "Username"
@@ -254,7 +254,7 @@ Feature: General Test of Twitter application
 
 
     Scenario: SettingsPassword
-      Given I am on "http://localhost/test/index.php"
+      Given I am on "http://twitter.php72/"
       Then I should see "TwitterClone"
       And I should see "Register"
       And I should see "Username"
@@ -279,7 +279,7 @@ Feature: General Test of Twitter application
 
 
   Scenario: DeleteAccount
-      Given I am on "http://localhost/test/index.php"
+      Given I am on "http://twitter.php72/"
       Then I should see "TwitterClone"
       And I should see "Register"
       And I should see "Username"

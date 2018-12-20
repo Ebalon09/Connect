@@ -69,14 +69,12 @@ class TwitterController
 
         return new Response(Templating::getInstance()->render('tweet/twitterFeed.html.twig', [
             'result'        => $tweets,
-            'action'        => "index.php?controller=TwitterController&action=createAction",
             'likes'         => $likes,
             'countlikes'    => $likearray,
             'user'          => $user,
             'countcomments' => $commentarray,
             'userid' => $_SESSION['userid'],
             'username' => $_SESSION['username'],
-            'userimage' => $user->getPicture(),
         ]));
     }
 
@@ -123,7 +121,7 @@ class TwitterController
     public function reTweetAction (Request $request)
     {
         $tweet = $this->tweetRepository->findOneBy([
-            'id' => $request->query->get('id'),
+            'id' => $request->query->get('tweet'),
         ]);
         $user = $this->userRepository->currentUser();
 
@@ -159,6 +157,7 @@ class TwitterController
             'id'      => $tweet->getId(),
             'userid'  => $_SESSION['userid'],
             'username'=> $_SESSION['username'],
+            'userimage' => $user->getPicture(),
         ]));
     }
 
@@ -170,9 +169,8 @@ class TwitterController
      */
     public function updateAction (Request $request)
     {
-        $tweet = $this->tweetRepository->findBy(['id' => $request->query->get('id')])[0];
+        $tweet = $this->tweetRepository->findOneBy(['id' => $request->query->get('tweet')]);
         $user = $this->userRepository->currentUser();
-
 
         if ($request->isMethod(Request::METHOD_POST))
         {
@@ -207,7 +205,7 @@ class TwitterController
     public function deleteAction (Request $request)
     {
         $tweet = $this->tweetRepository->findOneBy([
-            'id' => $request->query->get('id'),
+            'id' => $request->query->get('tweet'),
         ]);
         $this->tweetRepository->remove($tweet);
 
@@ -240,7 +238,7 @@ class TwitterController
             $uploadedFile = $request->files->get("img-upload");
             $filename = md5(uniqid("image_")) .".jpg";
             $uploadedFile->move('./uploads/', $filename);
-            $tweet->setDestination('./uploads/' . $filename);
+            $tweet->setDestination('/uploads/' . $filename);
         }
     }
 }

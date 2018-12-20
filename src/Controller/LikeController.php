@@ -70,7 +70,7 @@ class LikeController
         ]);
 
         foreach ((array)$likes as $data) {
-            if ($data->getTweet()->getId() == $request->query->get('id')) {
+            if ($data->getTweet()->getId() == $request->query->get('tweet')) {
                 Session::getInstance()->write('danger', 'Bereits Geliked!');
 
                 return new RedirectResponse('/feed');
@@ -81,7 +81,7 @@ class LikeController
             'username' => $_SESSION['username'],
         ]));
         $likes->setTweet($this->tweetRepository->findOneBy([
-            'id' => $request->query->get('id'),
+            'id' => $request->query->get('tweet'),
         ]));
         $this->likeRepository->add($likes);
 
@@ -99,7 +99,7 @@ class LikeController
      */
     public function dislikeAction (Request $request)
     {
-        $like = $this->likeRepository->findOneBy(['tweetid' => $request->query->get('id')]);
+        $like = $this->likeRepository->findOneBy(['tweetid' => $request->query->get('tweet')]);
         $this->likeRepository->remove($like);
 
         //$id = $request->query->get('id');

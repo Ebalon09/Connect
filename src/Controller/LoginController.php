@@ -83,7 +83,7 @@ class LoginController
     public function registerAction (Request $request)
     {
         if ($_FILES['name'] == '') {
-            $pic = "./uploads/ProfilePics/fill.jpg";
+            $pic = "/uploads/ProfilePics/fill.jpg";
         }
         if (isset($_POST['PASSWORD']) && $_POST['PASSWORD'] !== '') {
             if ($request->isMethod(Request::METHOD_POST)) {
@@ -116,9 +116,12 @@ class LoginController
 
             $user = new User();
 
-            if (isset($pic)) {
+            if (isset($pic))
+            {
                 $user->setPicture($pic);
-            } else {
+            }
+            else
+            {
                 $user->setPicture(strip_tags($this->handlefileupload($request)));
             }
             $user->setUsername(strip_tags($request->get('USERNAME')));
@@ -130,12 +133,14 @@ class LoginController
             $session = Session::getInstance();
             $session->write('success', 'Erfolgreich Registriert! bitte anmelden');
 
-            return new RedirectResponse("./index.php");
-        } else {
+            return new RedirectResponse("/feed");
+        }
+        else
+        {
             $session = Session::getInstance();
             $session->write('danger', 'Passwörter stimmen nicht überein!');
 
-            return new RedirectResponse("/settings");
+            return new RedirectResponse("/register");
         }
     }
 
@@ -158,13 +163,13 @@ class LoginController
      */
     private function handleFileUpload ($request)
     {
-        if ($_FILES['my_upload']['name'] != null) {
-            $_FILES['my_upload']['name'] = $request->get('Username').".jpg";
-            $upload_file = $_FILES['my_upload']['name'];
-            $dest = './uploads/ProfilePics/'.$upload_file;
 
-            move_uploaded_file($_FILES['my_upload']['tmp_name'], $dest);
-
+        if ($request->files->get("img-upload") != null)
+        {
+            $uploadedFile = $request->files->get("img-upload");
+            $filename = md5(uniqid("image_")) .".jpg";
+            $uploadedFile->move('./uploads/', $filename);
+            $dest = '/uploads/' . $filename;
             return $dest;
         }
     }
