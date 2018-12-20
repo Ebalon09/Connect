@@ -84,7 +84,7 @@ class LoginController
      */
     public function registerAction (Request $request)
     {
-        if ($_FILES['name'] == '') {
+        if ($request->files->get("my_upload") == null) {
             $pic = "/uploads/ProfilePics/fill.jpg";
         }
         if (isset($_POST['PASSWORD']) && $_POST['PASSWORD'] !== '') {
@@ -121,7 +121,7 @@ class LoginController
             if (isset($pic)) {
                 $user->setPicture($pic);
             } else {
-                $user->setPicture(strip_tags($this->handlefileupload($request)));
+                $user->setPicture($this->handlefileupload($request));
             }
             $user->setUsername(strip_tags($request->get('USERNAME')));
             $user->setPassword(password_hash($request->get('PASSWORD'), PASSWORD_DEFAULT));
@@ -161,8 +161,8 @@ class LoginController
     private function handleFileUpload ($request)
     {
 
-        if ($request->files->get("img-upload") != null) {
-            $uploadedFile = $request->files->get("img-upload");
+        if ($request->files->get("my_upload") != null) {
+            $uploadedFile = $request->files->get("my_upload");
             $filename = md5(uniqid("image_")).".jpg";
             $uploadedFile->move('./uploads/', $filename);
             $dest = '/uploads/'.$filename;

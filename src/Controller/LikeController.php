@@ -57,13 +57,10 @@ class LikeController
      */
     public function indexAction ()
     {
-        $tweets = $this->tweetRepository->findAll();
-        $likes = $this->likeRepository->findBy(['userid' => $_SESSION['userid']]);
-
         return new Response(Templating::getInstance()->render('twitterFeed.html.twig', [
-            'result' => $tweets,
+            'result' => $this->tweetRepository->findAll(),
             'action' => "index.php?controller=TwitterController&action=createAction",
-            'likes'  => $likes,
+            'likes'  => $this->likeRepository->findBy(['userid' => $_SESSION['userid']]),
         ]));
     }
 
@@ -74,9 +71,7 @@ class LikeController
      */
     public function likeAction (Request $request)
     {
-        $likes = $this->likeRepository->findBy([
-            'userid' => $_SESSION['userid'],
-        ]);
+        $likes = $this->likeRepository->findBy(['userid' => $_SESSION['userid'],]);
 
         foreach ((array)$likes as $data) {
             if ($data->getTweet()->getId() == $request->query->get('tweet')) {
@@ -86,9 +81,7 @@ class LikeController
             }
         }
         $likes = new Likes();
-        $likes->setUser($this->userRepository->findOneBy([
-            'username' => $_SESSION['username'],
-        ]));
+        $likes->setUser($this->userRepository->currentUser());
         $likes->setTweet($this->tweetRepository->findOneBy([
             'id' => $request->query->get('tweet'),
         ]));

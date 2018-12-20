@@ -53,8 +53,8 @@ class TwitterController
     public function __construct (
         TweetRepository $tweetRepository,
         UserRepository $userRepository,
-        LikeRepository $likeRepository,
-        CommentRepository $commentRepository
+        LikeRepository $likeRepository,         //only in indexAction
+        CommentRepository $commentRepository    //only in indexAction
     ) {
         $this->tweetRepository = $tweetRepository;
         $this->userRepository = $userRepository;

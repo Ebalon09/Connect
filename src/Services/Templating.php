@@ -13,8 +13,14 @@ class Templating
 {
     use SingletonTrait;
 
+    /**
+     * @var \Twig_Environment
+     */
     private $twig;
 
+    /**
+     * Templating constructor.
+     */
     public function __construct() {
         $loader = new \Twig_Loader_Filesystem(__DIR__ . '/../../templates');
         $this->twig = new \Twig_Environment($loader);
@@ -27,15 +33,6 @@ class Templating
      */
     public function render($template, array $parameters = array())
     {
-        if(strpos($template, '.php') !== false) {
-            ob_start();
-            extract($parameters);
-            include $template;
-            $content = ob_get_clean();
-
-            return $content;
-        }
-
         $this->twig->addGlobal("alerts",Session::getInstance()->readMessage());
 
         return $this->twig->render($template, $parameters);

@@ -48,10 +48,10 @@ class UserActionController
      * @param LikeRepository    $likeRepository
      */
     public function __construct (
-        CommentRepository $commentRepository,
+        CommentRepository $commentRepository,       //only in deleteAcc
         UserRepository $userRepository,
-        TweetRepository $tweetRepository,
-        LikeRepository $likeRepository
+        TweetRepository $tweetRepository,           //only in deleteAcc
+        LikeRepository $likeRepository              //only in deleteAcc
     ) {
         $this->commentRepository = $commentRepository;
         $this->userRepository = $userRepository;
@@ -78,7 +78,6 @@ class UserActionController
      */
     public function changeAction (Request $request)
     {
-
         $result = null;
 
         $user = $this->userRepository->currentUser();
@@ -110,10 +109,10 @@ class UserActionController
                 $user->setPassword(password_hash($request->get('passwordchange'), PASSWORD_DEFAULT));
                 $result = $this->userRepository->add($user);
             }
-            if ($_FILES != null) {
+            if ($request->files->get("my_upload") != null) {
                 $user = $this->userRepository->currentUser();
 
-                $user->setPicture($this->handleFileUpload($user, $request));
+                $user->setPicture($this->handleFileUpload($request));
                 $result = $this->userRepository->add($user);
             }
             if (!$result) {
@@ -158,18 +157,19 @@ class UserActionController
     }
 
     /**
-     * @param         $user
      * @param Request $request
+     *
+     * @return string
      */
-    private function handleFileUpload ($user, Request $request)
+    private function handleFileUpload (Request $request)
     {
-        if ($request->files->get("img-upload") != null) {
-            $uploadedFile = $request->files->get("img-upload");
+            $uploadedFile = $request->files->get("my_upload");
             $filename = md5(uniqid("image_")).".jpg";
             $uploadedFile->move('./uploads/', $filename);
-            $user->setDestination('/uploads/'.$filename);
-        }
-    }
+            $dest = '/uploads/'.$filename;
 
+
+            return $dest;
+    }
 }
 
