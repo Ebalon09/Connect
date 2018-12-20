@@ -18,11 +18,13 @@ class TweetRepository extends BaseRepository
 
     /**
      * TweetRepository constructor.
+     *
+     * @param UserRepository $userRepository
      */
-    public function __construct ()
+    public function __construct (UserRepository $userRepository)
     {
         parent::__construct();
-        $this->userRepository = new UserRepository();
+        $this->userRepository = $userRepository;
     }
 
     /**

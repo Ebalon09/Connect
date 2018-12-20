@@ -1,7 +1,6 @@
 
 
-
-$(document).ready(function(){
+$(document).ready(function() {
     var blackLine = $(".black-line"),
         ball = $(".main-container"),
         mainForm = $(".main-forms"),
@@ -9,26 +8,27 @@ $(document).ready(function(){
         bottom = $(".pokemon-bottom-part"),
         h = $(".sign-back h1"),
         row = $(".signup-row"),
-        arrow= $(".signup-row a"),
+        arrow = $(".signup-row a"),
         rem = $(".remember"),
         tl = new TimelineMax();
 
+
     // Start
     tl
-        .to(blackLine,0.5,{className:'+=red-circle'})
-        .to(blackLine,0.5,{className:'-=red-circle'})
-        .to(blackLine,0.5,{className:'+=red-circle'})
-        .to(blackLine,0.5,{className:'-=red-circle'})
-        .to(blackLine,0.5,{className:'+=red-circle'})
-        .to(blackLine,0.5,{className:'-=red-circle'})
-        .to(blackLine,0.5,{className:'+=red-circle'})
-        .to(blackLine,0.5,{className:'-=red-circle'})
-        .to(ball,0.5,{y:"-70%",ease:Power4.easeOut})
-        .to(ball,0.5,{y:"-50%",ease:Bounce.easeOut})
-        .to(ball,0.5,{y:"-85%",ease:Power4.easeOut},"+=0.5")
-        .to(ball,0.5,{y:"-50%",ease:Bounce.easeOut})
-        .to(ball,0.5,{y:"-100%",ease:Power4.easeOut},"+=0.5")
-        .to(ball,0.5,{y:"-50%",ease:Bounce.easeOut,onComplete:toggle})
+        .to(blackLine, 0.5, {className: '+=red-circle'})
+        .to(blackLine, 0.5, {className: '-=red-circle'})
+        .to(blackLine, 0.5, {className: '+=red-circle'})
+        .to(blackLine, 0.5, {className: '-=red-circle'})
+        .to(blackLine, 0.5, {className: '+=red-circle'})
+        .to(blackLine, 0.5, {className: '-=red-circle'})
+        .to(blackLine, 0.5, {className: '+=red-circle'})
+        .to(blackLine, 0.5, {className: '-=red-circle'})
+        .to(ball, 0.5, {y: "-70%", ease: Power4.easeOut})
+        .to(ball, 0.5, {y: "-50%", ease: Bounce.easeOut})
+        .to(ball, 0.5, {y: "-85%", ease: Power4.easeOut}, "+=0.5")
+        .to(ball, 0.5, {y: "-50%", ease: Bounce.easeOut})
+        .to(ball, 0.5, {y: "-100%", ease: Power4.easeOut}, "+=0.5")
+        .to(ball, 0.5, {y: "-50%", ease: Bounce.easeOut, onComplete: toggle})
     ;
     function toggle(){
         $(".main-forms").slideDown('slow');

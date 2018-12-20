@@ -1,12 +1,12 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: jgeiger
- * Date: 12.10.18
- * Time: 11:23
- */
+
 namespace Test\Services;
 
+/**
+ * Class SingletonTrait
+ *
+ * @author Florian Stein <fstein@databay.de>
+ */
 trait SingletonTrait
 {
 

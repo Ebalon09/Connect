@@ -1,12 +1,12 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: jgeiger
- * Date: 12.10.18
- * Time: 13:53
- */
+
 namespace Test\Services;
 
+/**
+ * Interface ResponseInterface
+ *
+ * @author Florian Stein <fstein@databay.de>
+ */
 interface ResponseInterface
 {
     public function send();

@@ -1,15 +1,14 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: fstein
- * Date: 11.12.18
- * Time: 17:49
- */
 
 namespace Test\Services;
 
 require_once 'SingletonTrait.php';
 
+/**
+ * Class Session
+ *
+ * @author Florian Stein <fstein@databay.de>
+ */
 class Session
 {
     use SingletonTrait;

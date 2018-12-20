@@ -1,12 +1,12 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: fstein
- * Date: 12.10.18
- * Time: 10:44
- */
+
 namespace Test\Services;
 
+/**
+ * Class Database
+ *
+ * @author Florian Stein <fstein@databay.de>
+ */
 class Database
 {
     use SingletonTrait;

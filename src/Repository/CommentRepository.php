@@ -23,13 +23,16 @@ class CommentRepository extends BaseRepository
     protected $tweetRepository;
 
     /**
-     * LikeRepository constructor.
+     * CommentRepository constructor.
+     *
+     * @param UserRepository  $userRepository
+     * @param TweetRepository $tweetRepository
      */
-    public function __construct ()
+    public function __construct (UserRepository $userRepository, TweetRepository $tweetRepository)
     {
         parent::__construct();
-        $this->userRepository = new UserRepository();
-        $this->tweetRepository = new TweetRepository();
+        $this->userRepository = $userRepository;
+        $this->tweetRepository = $tweetRepository;
     }
 
     /**
