@@ -17,7 +17,8 @@ use Test\Services\Templating;
 
 /**
  * Class TwitterController
- *
+
+*
  * @author Florian Stein <fstein@databay.de>
  */
 class TwitterController
@@ -26,6 +27,7 @@ class TwitterController
      * @var TweetRepository
      */
     protected $tweetRepository;
+
     /**
      * @var UserRepository
      */
@@ -41,13 +43,18 @@ class TwitterController
 
     /**
      * TwitterController constructor.
+     *
+     * @param TweetRepository   $tweetRepository
+     * @param UserRepository    $userRepository
+     * @param LikeRepository    $likeRepository
+     * @param CommentRepository $commentRepository
      */
-    public function __construct ()
+    public function __construct (TweetRepository $tweetRepository, UserRepository $userRepository, LikeRepository $likeRepository, CommentRepository $commentRepository)
     {
-        $this->tweetRepository = new TweetRepository();
-        $this->userRepository = new UserRepository();
-        $this->likeRepository = new LikeRepository();
-        $this->commentRepository = new CommentRepository();
+        $this->tweetRepository = $tweetRepository;
+        $this->userRepository = $userRepository;
+        $this->likeRepository = $likeRepository;
+        $this->commentRepository = $commentRepository;
     }
 
     /**

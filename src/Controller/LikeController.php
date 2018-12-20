@@ -6,6 +6,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Test\Model\Likes;
+use Test\Model\User;
 use Test\Repository\LikeRepository;
 use Test\Repository\TweetRepository;
 use Test\Repository\UserRepository;
@@ -34,13 +35,17 @@ class LikeController
     protected $likeRepository;
 
     /**
-     * TwitterController constructor.
+     * LikeController constructor.
+     *
+     * @param TweetRepository $tweetRepository
+     * @param UserRepository  $userRepository
+     * @param LikeRepository  $likeRepository
      */
-    public function __construct ()
+    public function __construct (TweetRepository $tweetRepository, UserRepository $userRepository, LikeRepository $likeRepository)
     {
-        $this->tweetRepository = new TweetRepository();
-        $this->userRepository = new UserRepository();
-        $this->likeRepository = new LikeRepository();
+        $this->tweetRepository = $tweetRepository;
+        $this->userRepository = $userRepository;
+        $this->likeRepository = $likeRepository;
     }
 
     /**

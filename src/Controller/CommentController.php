@@ -39,13 +39,18 @@ class CommentController
 
     /**
      * CommentController constructor.
+     *
+     * @param TweetRepository   $tweetRepository
+     * @param LikeRepository    $likeRepository
+     * @param UserRepository    $userRepository
+     * @param CommentRepository $commentRepository
      */
-    public function __construct ()
+    public function __construct (TweetRepository $tweetRepository, LikeRepository $likeRepository, UserRepository $userRepository, CommentRepository $commentRepository)
     {
-        $this->tweetRepository = new TweetRepository();
-        $this->likeRepository = new LikeRepository();
-        $this->userRepository = new UserRepository();
-        $this->commentRepository = new CommentRepository();
+        $this->tweetRepository = $tweetRepository;
+        $this->likeRepository = $likeRepository;
+        $this->userRepository = $userRepository;
+        $this->commentRepository = $commentRepository;
     }
 
     /**
@@ -55,21 +60,21 @@ class CommentController
      */
     public function indexAction (Request $request)
     {
-        $tweets = $this->tweetRepository->findAll();
+        $allTweets = $this->tweetRepository->findAll();
         $likes = $this->likeRepository->findBy(['userid' => $_SESSION['userid']]);
         $tweet = $this->tweetRepository->findOneBy(['id' => $request->query->get('tweet')]);
         $user = $this->userRepository->currentUser();
 
         $commentarray = array();
         $likearray = array();
-        foreach ($tweets as $tweet)
+        foreach ($allTweets as $tweet)
         {
             $likearray[$tweet->getId()] = $this->likeRepository->countLikes($tweet);
             $commentarray[$tweet->getId()] = $this->commentRepository->countComments($tweet);
         }
 
         return new Response(Templating::getInstance()->render('tweet/twitterFeed.html.twig', [
-            'result'     => $tweets,
+            'result'     => $allTweets,
             'tweet'      => $tweet,
             'likes'      => $likes,
             'countLikes' => $likearray,

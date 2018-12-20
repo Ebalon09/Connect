@@ -41,13 +41,18 @@ class UserActionController
 
     /**
      * UserActionController constructor.
+     *
+     * @param CommentRepository $commentRepository
+     * @param UserRepository    $userRepository
+     * @param TweetRepository   $tweetRepository
+     * @param LikeRepository    $likeRepository
      */
-    public function __construct ()
+    public function __construct (CommentRepository $commentRepository, UserRepository $userRepository, TweetRepository $tweetRepository, LikeRepository $likeRepository)
     {
-        $this->commentRepository = new CommentRepository();
-        $this->userRepository = new userRepository();
-        $this->tweetRepository = new TweetRepository();
-        $this->likeRepository = new LikeRepository();
+        $this->commentRepository = $commentRepository;
+        $this->userRepository = $userRepository;
+        $this->tweetRepository = $tweetRepository;
+        $this->likeRepository = $likeRepository;
     }
 
     /**
