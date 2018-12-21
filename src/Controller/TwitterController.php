@@ -59,7 +59,7 @@ class TwitterController
     public function __construct (
         TweetRepository $tweetRepository,
         UserRepository $userRepository,
-        LikeRepository $likeRepository,         //only in indexAction
+        LikeRepository $likeRepository,
         TweetService $tweetservice
     ) {
         $this->tweetRepository = $tweetRepository;
@@ -156,9 +156,6 @@ class TwitterController
             'reTweet'   => $tweet,
             'user'      => $user,
             'id'        => $tweet->getId(),
-            'userid'    => $_SESSION['userid'],
-            'username'  => $_SESSION['username'],
-            'userimage' => $user->getPicture(),
         ]));
     }
 
@@ -191,8 +188,6 @@ class TwitterController
             'update'   => $tweet,
             'user'     => $user,
             'id'       => $tweet->getId(),
-            'userid'   => $_SESSION['userid'],
-            'username' => $_SESSION['username'],
         ]));
     }
 

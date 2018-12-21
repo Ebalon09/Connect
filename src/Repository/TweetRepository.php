@@ -19,7 +19,7 @@ class TweetRepository extends BaseRepository
     /**
      * TweetRepository constructor.
      *
-     * @param UserRepository $userRepository
+     * @param UserRepository    $userRepository
      */
     public function __construct (UserRepository $userRepository)
     {
