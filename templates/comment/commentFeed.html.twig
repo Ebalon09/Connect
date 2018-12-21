@@ -16,25 +16,29 @@
 {% endblock %}
 
 {% block content %}
-<div class="panel-body">
-    {% for data in comments %}
-        <div class="media">
-            <a class="media-left" href="#fake">
-                <img id="userpicpost" alt="" class="media-object img-rounded" src="{{ data.User.Picture }}">
-            </a>
-            <div class="media-body">
-                <h4 class="media-heading" id="Username">{{ data.User.Username }}</h4>
-                <p id="Text">{{ data.Comment }}</p>
-                <ul id="buttons" class="nav nav-pills nav-pills-custom">
-                    {% if(user.id == data.User.Id) %}
-                        <label for="delete" class="sr-only">delete</label>
-                        <li><a id="delete" href="{{ path('delete_comment',{'tweet': data.tweet.id,'c': true, 'idc': data.id}) }}"><i class="far fa-trash-alt"></i> </a></li>
-                        <label for="edit" class="sr-only">edit</label>
-                        <li><a id="edit" href="{{ path('update_comment',{'tweet': data.tweet.id,'c': true, 'idc': data.id}) }}"><i class="far fa-edit"></i> </a></li>
-                    {% endif %}
-                </ul>
+    <div class="panel-body">
+        {% for data in comments %}
+            <div class="media">
+                <a class="media-left" href="#fake">
+                    <img id="userpicpost" alt="" class="media-object img-rounded" src="{{ data.User.Picture }}">
+                </a>
+                <div class="media-body">
+                    <h4 class="media-heading" id="Username">{{ data.User.Username }}</h4>
+                    <p id="Text">{{ data.Comment }}</p>
+                    <ul id="buttons" class="nav nav-pills nav-pills-custom">
+                        {% if(user.id == data.User.Id) %}
+                            <label for="delete" class="sr-only">delete</label>
+                            <li><a id="delete"
+                                   href="{{ path('delete_comment',{'tweet': data.tweet.id,'c': true, 'idc': data.id}) }}"><i
+                                            class="far fa-trash-alt"></i> </a></li>
+                            <label for="edit" class="sr-only">edit</label>
+                            <li><a id="edit"
+                                   href="{{ path('update_comment',{'tweet': data.tweet.id,'c': true, 'idc': data.id}) }}"><i
+                                            class="far fa-edit"></i> </a></li>
+                        {% endif %}
+                    </ul>
+                </div>
             </div>
-        </div>
-    {% endfor %}
-</div>
+        {% endfor %}
+    </div>
 {% endblock %}

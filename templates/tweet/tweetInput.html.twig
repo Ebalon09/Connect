@@ -3,14 +3,16 @@
         {% if(reTweet is not same as(null)) %}
             <form action="{{ path('reTweet_post',{'tweet': reTweet.id}) }}" method="POST" enctype="multipart/form-data">
                 <label for="Userinput" class="control-label sr-only">reTweet</label>
-                <input id="Userinput" name="text" type="text" class="form-control" autocomplete="off" placeholder="ReTweet Text eingeben">
+                <input id="Userinput" name="text" type="text" class="form-control" autocomplete="off"
+                       placeholder="ReTweet Text eingeben">
                 <label for="img-upload"><i id="img-upload-icon" class="fas fa-file-image"></i></label>
                 <input id="img-upload" name="img-upload" class="upload" type="file" accept="image/*">
             </form>
         {% elseif(update is not same as(null)) %}
             <form action="{{ path('update_post',{'tweet': update.id}) }}" method="POST" enctype="multipart/form-data">
                 <label for="Userinput" class="control-label sr-only">Edit</label>
-                <input id="Userinput" name="text" type="text" class="form-control" autocomplete="off" value="{{ update.Text }}">
+                <input id="Userinput" name="text" type="text" class="form-control" autocomplete="off"
+                       value="{{ update.Text }}">
                 <label for="img-upload"><i id="img-upload-icon" class="fas fa-file-image"></i></label>
                 <input id="img-upload" name="img-upload" class="upload" type="file" accept="image/*">
             </form>
@@ -23,9 +25,9 @@
             </form>
         {% endif %}
     {% else %}
-            <label for="Userinput" class="control-label sr-only">Post</label>
-            <input id="Userinput" name="text" type="text" class="form-control" autocomplete="off" disabled>
-            <label for="img-upload"><i id="img-upload-icon" class="fas fa-file-image"></i></label>
-            <input id="img-upload" name="img-upload" class="upload" type="file" accept="image/*">
+        <label for="Userinput" class="control-label sr-only">Post</label>
+        <input id="Userinput" name="text" type="text" class="form-control" autocomplete="off" disabled>
+        <label for="img-upload"><i id="img-upload-icon" class="fas fa-file-image"></i></label>
+        <input id="img-upload" name="img-upload" class="upload" type="file" accept="image/*">
     {% endif %}
 </div>

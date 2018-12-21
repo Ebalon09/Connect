@@ -10,7 +10,9 @@
             </div>
         {% endif %}
         {% if(tweet.LinkId is not same as(null)) %}
-            <iframe id="yt" width="400" height="200" src="https://www.youtube.com/embed/{{ tweet.LinkID }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <iframe id="yt" width="400" height="200" src="https://www.youtube.com/embed/{{ tweet.LinkID }}"
+                    frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe>
         {% endif %}
         {% if(data.Retweet is not same as(null)) %}
             <div class="media-body">

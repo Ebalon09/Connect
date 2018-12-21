@@ -1,8 +1,10 @@
 <div class="media-body">
     {% if(update != null) %}
-        <form action="{{ path('update_comment',{'tweet': update.tweet.id,'c': true, 'idc': update.id}) }}" method="POST">
+        <form action="{{ path('update_comment',{'tweet': update.tweet.id,'c': true, 'idc': update.id}) }}"
+              method="POST">
             <label class="control-label sr-only" for="Userinput">edit</label>
-            <input id="Userinput" name="text" type="text" class="form-control" autocomplete="off" value="{{ update.Comment }}">
+            <input id="Userinput" name="text" type="text" class="form-control" autocomplete="off"
+                   value="{{ update.Comment }}">
         </form>
     {% else %}
         <form action="{{ path('create_comment',{'tweet': tweet.id,'c': true}) }}" method="POST">
