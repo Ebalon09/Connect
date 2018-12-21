@@ -160,12 +160,11 @@ class LoginController
      */
     private function handleFileUpload ($request)
     {
-
         if ($request->files->get("my_upload") != null) {
             $uploadedFile = $request->files->get("my_upload");
             $filename = md5(uniqid("image_")).".jpg";
-            $uploadedFile->move('./uploads/', $filename);
-            $dest = '/uploads/'.$filename;
+            $uploadedFile->move('./uploads/ProfilePics/', $filename);
+            $dest = '/uploads/ProfilePics/'.$filename;
 
             return $dest;
         }

@@ -140,6 +140,11 @@ class UserActionController
         {
             $user = $this->userRepository->currentUser();
 
+            if($user->getPicture() !== "/uploads/ProfilePics/fill.jpg") {
+                $img = '../test'.$user->getPicture();
+                unlink($img);
+            }
+
             $this->tweetRepository->removeAllBy(['userid' => $user->getId()]);
             $this->commentRepository->removeAllBy(['userid' => $user->getId()]);
             $this->likeRepository->removeAllBy(['userid' => $user->getId()]);
@@ -165,9 +170,8 @@ class UserActionController
     {
             $uploadedFile = $request->files->get("my_upload");
             $filename = md5(uniqid("image_")).".jpg";
-            $uploadedFile->move('./uploads/', $filename);
-            $dest = '/uploads/'.$filename;
-
+            $uploadedFile->move('./uploads/ProfilePics/', $filename);
+            $dest = '/uploads/ProfilePics/'.$filename;
 
             return $dest;
     }
