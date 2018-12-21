@@ -14,6 +14,7 @@ use Test\Repository\UserRepository;
 use Test\Services\Database;
 use Test\Services\Session;
 use Test\Services\Templating;
+use Test\Services\TweetService;
 
 /**
  * Class TwitterController
@@ -43,23 +44,28 @@ class TwitterController
     protected $commentRepository;
 
     /**
+     * @var TweetService
+     */
+    protected $tweetService;
+
+    /**
      * TwitterController constructor.
      *
      * @param TweetRepository   $tweetRepository
      * @param UserRepository    $userRepository
      * @param LikeRepository    $likeRepository
-     * @param CommentRepository $commentRepository
+     * @param TweetService      $tweetservice
      */
     public function __construct (
         TweetRepository $tweetRepository,
         UserRepository $userRepository,
         LikeRepository $likeRepository,         //only in indexAction
-        CommentRepository $commentRepository    //only in indexAction
+        TweetService $tweetservice
     ) {
         $this->tweetRepository = $tweetRepository;
         $this->userRepository = $userRepository;
         $this->likeRepository = $likeRepository;
-        $this->commentRepository = $commentRepository;
+        $this->tweetService = $tweetservice;
     }
 
     /**
@@ -67,25 +73,14 @@ class TwitterController
      */
     public function indexAction ()
     {
-        $tweets = $this->tweetRepository->findAll();
+        $tweets = $this->tweetService->loadFullTweets();
         $likes = $this->likeRepository->findBy(['userid' => $_SESSION['userid']]);
         $user = $this->userRepository->currentUser();
-
-        $commentarray = [];
-        $likearray = [];
-        foreach ($tweets as $tweet) {
-            $likearray[$tweet->getId()] = $this->likeRepository->countLikes($tweet);
-            $commentarray[$tweet->getId()] = $this->commentRepository->countComments($tweet);
-        }
 
         return new Response(Templating::getInstance()->render('tweet/twitterFeed.html.twig', [
             'result'        => $tweets,
             'likes'         => $likes,
-            'countlikes'    => $likearray,
             'user'          => $user,
-            'countcomments' => $commentarray,
-            'userid'        => $_SESSION['userid'],
-            'username'      => $_SESSION['username'],
         ]));
     }
 

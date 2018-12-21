@@ -50,11 +50,59 @@ class Tweet
     protected $reTweet;
 
     /**
+     * @var int
+     */
+    protected $likeNumber;
+
+    /**
+     * @var int
+     */
+    protected $commentNumber;
+
+    /**
+     * @var Comment[]
+     */
+    protected $comments;
+
+    /**
      * Tweet constructor.
      */
     public function __construct()
     {
         $this->datum = new \DateTime();
+    }
+
+    /**
+     * @return Comment
+     */
+    public function getComments ()
+    {
+        return $this->comments;
+    }
+
+    /**
+     * @param Comment[] $comments
+     */
+    public function setComments ($comments)
+    {
+        $this->commentNumber = count($comments);
+        $this->comments = $comments;
+    }
+
+    /**
+     * @return int
+     */
+    public function getLikenumber ()
+    {
+        return $this->likeNumber;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCommentnumber()
+    {
+        return $this->commentNumber;
     }
 
     /**
@@ -98,11 +146,11 @@ class Tweet
     }
 
     /**
-     * @param Likes $likes
+     * @param Likes[] $likes
      */
     public function setLikes($likes)
     {
-
+        $this->likenumber = count($likes);
         $this->likes = $likes;
     }
 

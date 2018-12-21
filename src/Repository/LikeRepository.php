@@ -95,4 +95,16 @@ class LikeRepository extends BaseRepository
         ]));
     }
 
+    /**
+     * @param Tweet $tweet
+     *
+     * @return array
+     */
+    public function TweetLikes(Tweet $tweet)
+    {
+        $likes = $this->findBy(['tweetid' => $tweet->getId()]);
+        return $likes;
+    }
+
+
 }

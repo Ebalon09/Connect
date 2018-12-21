@@ -69,6 +69,16 @@ class CommentRepository extends BaseRepository
     }
 
     /**
+     * @param Tweet $tweet
+     *
+     * @return array
+     */
+    public function TweetComments(Tweet $tweet){
+        $comments = $this->findBy(['tweetid' => $tweet->getId()]);
+        return $comments;
+    }
+
+    /**
      * @return string
      */
     protected function getTableName ()

@@ -71,15 +71,6 @@ class LikeController
      */
     public function likeAction (Request $request)
     {
-        $likes = $this->likeRepository->findBy(['userid' => $_SESSION['userid'],]);
-
-        foreach ((array)$likes as $data) {
-            if ($data->getTweet()->getId() == $request->query->get('tweet')) {
-                Session::getInstance()->write('danger', 'Bereits Geliked!');
-
-                return new RedirectResponse('/feed');
-            }
-        }
         $likes = new Likes();
         $likes->setUser($this->userRepository->currentUser());
         $likes->setTweet($this->tweetRepository->findOneBy([

@@ -35,6 +35,27 @@ class User
     protected $picture;
 
     /**
+     * @var Likes
+     */
+    protected $likes;
+
+    /**
+     * @return Likes
+     */
+    public function getLikes ()
+    {
+        return $this->likes;
+    }
+
+    /**
+     * @param Likes $likes
+     */
+    public function setLikes ($likes)
+    {
+        $this->likes = $likes;
+    }
+
+    /**
      * @return string
      */
     public function getPicture()
