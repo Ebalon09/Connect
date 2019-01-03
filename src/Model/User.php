@@ -2,40 +2,59 @@
 
 namespace Test\Model;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
  * Class User
  *
  * @author Florian Stein <fstein@databay.de>
+ *
+ * @ORM\Entity()
+ * @ORM\Table(name="users")
  */
 class User
 {
     /**
      * @var int
+     *
+     * @ORM\Id()
+     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(type="integer")
      */
     protected $id;
 
     /**
      * @var string
+     *
+     * @ORM\Column(type="string")
      */
     protected $username;
 
     /**
      * @var string
+     *
+     * @ORM\Column(type="string")
      */
     protected $password;
 
     /**
      * @var string
+     *
+     * @ORM\Column(type="string")
      */
     protected $email;
 
     /**
      * @var string
+     *
+     * @ORM\Column(type="string")
      */
     protected $picture;
 
     /**
      * @var Likes
+     *
+     * @ORM\ManyToOne(targetEntity="Likes")
      */
     protected $likes;
 

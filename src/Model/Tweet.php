@@ -2,55 +2,79 @@
 
 namespace Test\Model;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
  * Class Tweet
  *
  * @author Florian Stein <fstein@databay.de>
+ *
+ * @ORM\Entity()
+ * @ORM\Table(name="tweets")
  */
 class Tweet
 {
     /**
      * @var int
+     *
+     * @ORM\Id()
+     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(type="integer")
      */
     protected $id;
 
     /**
      * @var string
+     *
+     * @ORM\Column(type="text")
      */
     protected $text;
 
     /**
      * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
      */
     protected $datum;
 
     /**
      * @var User
+     *
+     * @ORM\ManyToOne(targetEntity="User")
      */
     protected $user;
 
     /**
      * @var string
+     *
+     * @ORM\Column(type="string")
      */
     protected $destination;
 
     /**
      * @var Likes
+     *
+     * @ORM\ManyToMany(targetEntity="Likes")
      */
     protected $likes;
 
     /**
      * @var string
+     *
+     * @ORM\Column(type="string")
      */
     protected $linkID;
 
     /**
      * @var Tweet
+     *
+     * @ORM\ManyToOne(targetEntity="Tweet")
      */
     protected $reTweet;
 
     /**
      * @var int
+     *
      */
     protected $likeNumber;
 

@@ -2,30 +2,45 @@
 
 namespace Test\Model;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
  * Class Comment
  *
  * @author Florian Stein <fstein@databay.de>
+ *
+ * @ORM\Entity()
+ * @ORM\Table(name="comments")
  */
 class Comment
 {
     /**
      * @var string
+     *
+     * @ORM\Column(type="text")
      */
     protected $comment;
 
     /**
      * @var Tweet
+     *
+     * @ORM\ManyToMany(targetEntity="Tweet")
      */
     protected $Tweet;
 
     /**
      * @var int
+     *
+     * @ORM\Id()
+     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(type="integer")
      */
     protected $id;
 
     /**
      * @var User
+     *
+     * @ORM\ManyToMany(targetEntity="User")
      */
     protected $user;
 

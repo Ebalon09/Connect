@@ -47,19 +47,20 @@ class LoginController
      */
     public function loginAction (Request $request)
     {
-
-        if ($request->get('username') && $request->get('password')) {
+        if ($request->get('username') && $request->get('password'))
+        {
             $data = $this->userRepository->findOneBy([
                 'username' => $request->get('username'),
             ]);
 
             if ($data == null) {
                 $session = Session::getInstance();
-                $session->write('danger', 'Keine Daten für den eingegebenen benutzer gefunden!');
+                $session->write('danger', 'Nutzer existiert nicht!');
 
                 return new RedirectResponse('/feed');
             }
-            if (password_verify($request->get('password'), $data->getPassword()) == false) {
+            if (password_verify($request->get('password'), $data->getPassword()) == false)
+            {
                 $session = Session::getInstance();
                 $session->write('danger', 'passwort falsch!');
 
@@ -84,9 +85,11 @@ class LoginController
      */
     public function registerAction (Request $request)
     {
-        if ($request->files->get("my_upload") == null) {
+        if ($request->files->get("my_upload") == null)
+        {
             $pic = "/uploads/ProfilePics/fill.jpg";
         }
+
         if (isset($_POST['PASSWORD']) && $_POST['PASSWORD'] !== '') {
             if ($request->isMethod(Request::METHOD_POST)) {
                 if (isset($_POST['USERNAME']) && isset($_POST['USERNAME'])) {

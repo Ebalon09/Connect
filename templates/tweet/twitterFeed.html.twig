@@ -39,7 +39,7 @@
                 <ul id="buttons" class="nav nav-pills nav-pills-custom">
                     <li><a id="comment" href="{{ path('comment',{'tweet': data.id,'c': true}) }}" ><i class="far fa-comment-alt"></i></a></li>
                     <li><a id="commentCounter" href="{{ path('comment_feed',{'tweet':data.id,'c':true}) }}" >{{ data.commentnumber }}</li>
-                    <li><a id="reTweet" href="{{ path('reTweet_post',{'tweet':data.id,'comment':data.id}) }}"><i class="fas fa-retweet"></i> </a></li>
+                    <li><a id="reTweet" href="{{ path('reTweet_post',{'tweet':data.id}) }}"><i class="fas fa-retweet"></i> </a></li>
                     {% if(data.isLikedByUser(likes)) %}
                         <lable class="sr-only" for="dislike">dislike</lable>
                         <li><a id="dislike" href="{{ path('dislike',{'tweet':data.id}) }}"><i class="fas fa-heart"></i> </a></li>

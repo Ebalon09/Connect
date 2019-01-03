@@ -1,11 +1,20 @@
 <?php
 
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Tools\Setup;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpKernel\Controller\ArgumentResolver;
+use Symfony\Component\HttpKernel\Controller\ContainerControllerResolver;
+use Symfony\Component\HttpKernel\EventListener\RouterListener;
+use Symfony\Component\HttpKernel\HttpKernel;
+use Symfony\Component\Routing\Matcher\UrlMatcher;
+use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\Router;
-use Test\Services\ResponseInterface;
 use Test\Services\Templating;
 
 session_start();
@@ -20,7 +29,21 @@ $container = new ContainerBuilder();
 $containerLoader = new YamlFileLoader($container, new FileLocator(__DIR__));
 $containerLoader->load('config/services.yaml');
 $container->compile();
+//////
 
+$isDevMode = true;
+$config = Setup::createAnnotationMetadataConfiguration(array(__DIR__.'/src/Model'), $isDevMode);
+
+$conn = array(
+    'driver' => 'pdo_mysql',
+    'user'   => 'root',
+    'password'   => 'root',
+    'dbname'    => 'Twitter'
+);
+
+$entityManager = EntityManager::create($conn, $config);
+
+//////
 $request = Request::createFromGlobals();
 
 $router = new Router(
@@ -33,17 +56,15 @@ $templating->addExtension(
     new \Symfony\Bridge\Twig\Extension\RoutingExtension($router->getGenerator())
 );
 
+$matcher = new UrlMatcher($routes, new RequestContext());
 
-$parameters = $router->match($request->getPathInfo());
-list($controller, $action) = \explode('::', $parameters['_controller']);
+$dispatcher = new EventDispatcher();
+$dispatcher->addSubscriber(new RouterListener($matcher, new RequestStack()));
 
-$controller = $container->get($controller);
-$request->query->add(array_filter($parameters, function($key) {
-    return strpos($key, '_') !== 0;
-}, ARRAY_FILTER_USE_KEY));
+$controllerResolver = new ContainerControllerResolver($container);
+$argumentResolver = new ArgumentResolver();
 
-/**
- * @var ResponseInterface $response
- */
-$response = $controller->$action($request);
+$kernel = new httpKernel($dispatcher, $controllerResolver, new RequestStack(), $argumentResolver);
+
+$response = $kernel->handle($request);
 $response->send();

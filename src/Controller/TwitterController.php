@@ -127,6 +127,7 @@ class TwitterController
         $tweet = $this->tweetRepository->findOneBy([
             'id' => $request->query->get('tweet'),
         ]);
+
         $user = $this->userRepository->currentUser();
 
         if ($request->isMethod(Request::METHOD_POST)) {

@@ -2,30 +2,44 @@
 
 namespace Test\Model;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
  * Class Likes
  *
  * @author Florian Stein <fstein@databay.de>
+ *
+ * @ORM\Entity()
+ * @ORM\Table(name="likes")
  */
 class Likes
 {
     /**
      * @var int
+     *
+     * @ORM\Id()
+     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(type="integer")
      */
     protected $id;
 
     /**
      * @var User
+     *
+     * @ORM\ManyToMany(targetEntity="User")
      */
     protected $user;
 
     /**
      * @var Tweet
+     *
+     * @ORM\ManyToMany(targetEntity="Tweet")
      */
     protected $tweet;
 
     /**
      * @var int
+     *
      */
     protected $likes;
 
@@ -92,9 +106,4 @@ class Likes
     {
         $this->tweet = $tweet;
     }
-
-
-
-
-
 }
