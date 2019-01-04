@@ -77,7 +77,6 @@ class TwitterController
     {
 
         $tweets = $this->tweetRepository->findAll();
-
         $likes = $this->likeRepository->findBy(['id' => $_SESSION['userid']]);
         $user = $this->userRepository->findOneBy(['id' => $_SESSION['userid']]);
 
@@ -130,10 +129,10 @@ class TwitterController
     public function reTweetAction (Request $request)
     {
         $tweet = $this->tweetRepository->findOneBy([
-            'id' => $request->query->get('tweet'),
+            'id' => $request->get('tweet'),
         ]);
 
-        $user = $this->userRepository->currentUser();
+        $user = $this->userRepository->findOneBy(['id' => $_SESSION['userid']]);
 
         if ($request->isMethod(Request::METHOD_POST)) {
             $text = $request->get('text');
@@ -149,7 +148,8 @@ class TwitterController
             $reTweet->setText($text);
             $reTweet->setUser($user);
 
-            $this->tweetRepository->add($reTweet);
+            $this->manager->persist($reTweet);
+            $this->manager->flush();
 
             $session = Session::getInstance();
             $session->write('success', 'Tweet erfolgreich gepostet');
@@ -173,18 +173,16 @@ class TwitterController
      */
     public function updateAction (Request $request)
     {
-        $tweet = $this->tweetRepository->findOneBy(['id' => $request->query->get('tweet')]);
-        $user = $this->userRepository->currentUser();
+        $tweet = $this->tweetRepository->findOneBy(['id' => $request->get('tweet')]);
+        $user = $this->userRepository->findOneBy(['id' => $_SESSION['userid']]);
 
         if ($request->isMethod(Request::METHOD_POST)) {
             $tweet->setText($request->get('text'));
 
-            $result = $this->tweetRepository->add($tweet);
-            if (!$result) {
-                Session::getInstance()->write('danger', 'Ungültige Abfrage!');
-            } else {
-                Session::getInstance()->write('success', 'Eintrag erfolgreich geupdatet');
-            }
+            $this->manager->persist($tweet);
+            $this->manager->flush();
+
+            Session::getInstance()->write('success', 'Eintrag erfolgreich geupdatet');
 
             return new RedirectResponse('/feed');
         }
@@ -205,27 +203,16 @@ class TwitterController
     public function deleteAction (Request $request)
     {
         $tweet = $this->tweetRepository->findOneBy([
-            'id' => $request->query->get('tweet'),
+            'id' => $request->get('tweet'),
         ]);
-        $this->tweetRepository->remove($tweet);
+
+        $this->manager->remove($tweet);
+        $this->manager->flush();
 
         $session = Session::getInstance();
         $session->write('success', 'Tweet erfolgreich gelöscht');
 
         return new RedirectResponse("/feed");
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getLastTweet ()
-    {
-        $data = Database::getInstance()->query("SELECT * FROM Tweet ORDER BY id DESC", [
-            'postid' => $_SESSION['userid'],
-        ]);
-        $data2 = $data[0]['id'];
-
-        return $data2;
     }
 
     /**
