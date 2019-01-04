@@ -2,10 +2,13 @@
 
 namespace Test\Controller;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Test\Model\Likes;
+use Test\Model\Tweet;
+use Test\Model\User;
 use Test\Repository\LikeRepository;
 use Test\Repository\TweetRepository;
 use Test\Repository\UserRepository;
@@ -36,20 +39,22 @@ class LikeController
     protected $likeRepository;
 
     /**
+     * @var EntityManagerInterface
+     */
+    protected $manager;
+
+    /**
      * LikeController constructor.
      *
-     * @param TweetRepository $tweetRepository
-     * @param UserRepository  $userRepository
-     * @param LikeRepository  $likeRepository
+     * @param EntityManagerInterface $manager
      */
     public function __construct (
-        TweetRepository $tweetRepository,
-        UserRepository $userRepository,
-        LikeRepository $likeRepository
+        EntityManagerInterface $manager
     ) {
-        $this->tweetRepository = $tweetRepository;
-        $this->userRepository = $userRepository;
-        $this->likeRepository = $likeRepository;
+        $this->tweetRepository = $manager->getRepository(Tweet::class);
+        $this->userRepository = $manager->getRepository(User::class);
+        $this->likeRepository = $manager->getRepository(Likes::class);
+        $this->manager = $manager;
     }
 
     /**
@@ -74,9 +79,11 @@ class LikeController
         $likes = new Likes();
         $likes->setUser($this->userRepository->currentUser());
         $likes->setTweet($this->tweetRepository->findOneBy([
-            'id' => $request->query->get('tweet'),
+            'id' => $request->get('tweet'),
         ]));
-        $this->likeRepository->add($likes);
+
+        $this->manager->persist($likes);
+        $this->manager->flush();
 
         return new RedirectResponse("/feed");
     }
@@ -88,8 +95,10 @@ class LikeController
      */
     public function dislikeAction (Request $request)
     {
-        $like = $this->likeRepository->findOneBy(['tweetid' => $request->query->get('tweet')]);
-        $this->likeRepository->remove($like);
+        $like = $this->likeRepository->findOneBy(['tweetid' => $request->get('tweet')]);
+
+        $this->manager->remove($like);
+        $this->manager->flush();
 
         return new RedirectResponse('/feed');
     }
