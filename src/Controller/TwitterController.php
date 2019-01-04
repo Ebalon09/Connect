@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Test\Model\Comment;
 use Test\Model\Likes;
 use Test\Model\Tweet;
 use Test\Model\User;
@@ -44,6 +45,11 @@ class TwitterController
     protected $likeRepository;
 
     /**
+     * @var CommentRepository
+     */
+    protected $commentRepository;
+
+    /**
      * @var TweetService
      */
     protected $tweetService;
@@ -66,6 +72,7 @@ class TwitterController
         $this->tweetRepository = $manager->getRepository(Tweet::class);
         $this->userRepository = $manager->getRepository(User::class);
         $this->likeRepository = $manager->getRepository(Likes::class);
+        $this->commentRepository = $manager->getRepository(Comment::class);
         $this->tweetService = $tweetService;
         $this->manager = $manager;
     }
@@ -205,6 +212,18 @@ class TwitterController
         $tweet = $this->tweetRepository->findOneBy([
             'id' => $request->get('tweet'),
         ]);
+        $comments = $this->commentRepository->findBy(['Tweet' => $request->get('tweet')]);
+        $likes = $this->likeRepository->findBy(['tweet' => $request->get('tweet')]);
+
+        foreach($comments as $comment){
+            $this->manager->remove($comment);
+        }
+
+        foreach($likes as $like){
+            $this->manager->remove($like);
+        }
+
+        $this->manager->flush();
 
         $this->manager->remove($tweet);
         $this->manager->flush();
