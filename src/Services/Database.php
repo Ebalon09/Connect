@@ -15,7 +15,7 @@ class Database
     const DB_HOST = 'localhost';
     const DB_USER = 'root';
     const DB_PASSWORD = 'root';
-    const DB_NAME = 'Twitter';
+    const DB_NAME = 'Twitter2';
 
     /**
      * @var \PDO

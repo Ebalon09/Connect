@@ -12,8 +12,9 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity()
  * @ORM\Table(name="comments")
  */
-class Comment
+class Comment extends BaseModel
 {
+
     /**
      * @var string
      *
@@ -24,23 +25,14 @@ class Comment
     /**
      * @var Tweet
      *
-     * @ORM\ManyToMany(targetEntity="Tweet")
+     * @ORM\ManyToOne(targetEntity="Tweet", inversedBy="comments")
      */
     protected $Tweet;
 
     /**
-     * @var int
-     *
-     * @ORM\Id()
-     * @ORM\GeneratedValue(strategy="AUTO")
-     * @ORM\Column(type="integer")
-     */
-    protected $id;
-
-    /**
      * @var User
      *
-     * @ORM\ManyToMany(targetEntity="User")
+     * @ORM\ManyToOne(targetEntity="User")
      */
     protected $user;
 
@@ -74,22 +66,6 @@ class Comment
     public function setTweet($Tweet)
     {
         $this->Tweet = $Tweet;
-    }
-
-    /**
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @param int $id
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
     }
 
     /**

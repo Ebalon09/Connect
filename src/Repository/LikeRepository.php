@@ -12,65 +12,34 @@ use Test\Model\Tweet;
  */
 class LikeRepository extends BaseRepository
 {
-    /**
-     * @var UserRepository
-     */
-    protected $userRepository;
-    /**
-     * @var TweetRepository
-     */
-    protected $tweetRepository;
-
-    /**
-     * LikeRepository constructor.
-     *
-     * @param UserRepository  $userRepository
-     * @param TweetRepository $tweetRepository
-     */
-    public function __construct (UserRepository $userRepository, TweetRepository $tweetRepository)
-    {
-        parent::__construct();
-        $this->userRepository = $userRepository;
-        $this->tweetRepository = $tweetRepository;
-    }
-
-    /**
-     * @param $data
-     *
-     * @return Likes
-     */
-    protected function arrayToObject ($data)
-    {
-        $likes = new Likes();
-        $likes->setId($data['id']);
-        $likes->setUser($this->userRepository->findOneBy(['id' => $data['userid']]));
-        $likes->setTweet($this->tweetRepository->findOneBy(['id' => $data['tweetid']]));
-
-        return $likes;
-    }
-
-    /**
-     * @param Likes $model
-     *
-     * @return array
-     */
-    protected function objectToArray ($model)
-    {
-        $data = [
-            'id'      => $model->getId(),
-            'userid'  => $model->getUser()->getId(),
-            'tweetid' => $model->getTweet()->getId(),
-        ];
-
-        return $data;
-    }
+    ///**
+    // * @var UserRepository
+    // */
+    //protected $userRepository;
+    ///**
+    // * @var TweetRepository
+    // */
+    //protected $tweetRepository;
+    //
+    ///**
+    // * LikeRepository constructor.
+    // *
+    // * @param UserRepository  $userRepository
+    // * @param TweetRepository $tweetRepository
+    // */
+    //public function __construct (UserRepository $userRepository, TweetRepository $tweetRepository)
+    //{
+    //    parent::__construct();
+    //    $this->userRepository = $userRepository;
+    //    $this->tweetRepository = $tweetRepository;
+    //}
 
     /**
      * @return mixed
      */
     protected function getTableName ()
     {
-        return 'Likes';
+        return 'likes';
     }
 
     /**
@@ -90,9 +59,12 @@ class LikeRepository extends BaseRepository
      */
     public function countLikes (Tweet $tweet)
     {
-        return count($this->database->query("SELECT * FROM Likes WHERE tweetid = :tweetid", [
-            'tweetid' => $tweet->getId(),
-        ]));
+
+        return $this->count($this->findBy(['likes' => $tweet->getLikes()]));
+
+        //return count($this->database->query("SELECT * FROM Likes WHERE tweetid = :tweetid", [
+        //    'tweetid' => $tweet->getId(),
+        //]));
     }
 
     /**

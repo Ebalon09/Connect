@@ -2,6 +2,7 @@
 
 namespace Test\Model;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -12,16 +13,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity()
  * @ORM\Table(name="tweets")
  */
-class Tweet
+class Tweet extends BaseModel
 {
-    /**
-     * @var int
-     *
-     * @ORM\Id()
-     * @ORM\GeneratedValue(strategy="AUTO")
-     * @ORM\Column(type="integer")
-     */
-    protected $id;
 
     /**
      * @var string
@@ -35,7 +28,7 @@ class Tweet
      *
      * @ORM\Column(type="datetime")
      */
-    protected $datum;
+    protected $createDate;
 
     /**
      * @var User
@@ -47,21 +40,21 @@ class Tweet
     /**
      * @var string
      *
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     protected $destination;
 
     /**
-     * @var Likes
+     * @var Likes[]
      *
-     * @ORM\ManyToMany(targetEntity="Likes")
+     * @ORM\OneToMany(targetEntity="Likes", mappedBy="tweet")
      */
     protected $likes;
 
     /**
      * @var string
      *
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     protected $linkID;
 
@@ -73,18 +66,8 @@ class Tweet
     protected $reTweet;
 
     /**
-     * @var int
-     *
-     */
-    protected $likeNumber;
-
-    /**
-     * @var int
-     */
-    protected $commentNumber;
-
-    /**
      * @var Comment[]
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="Tweet")
      */
     protected $comments;
 
@@ -93,7 +76,9 @@ class Tweet
      */
     public function __construct()
     {
-        $this->datum = new \DateTime();
+        $this->createDate = new \DateTime();
+        $this->likes      = new ArrayCollection();
+        $this->comments   = new ArrayCollection();
     }
 
     /**
@@ -105,28 +90,43 @@ class Tweet
     }
 
     /**
+     * @return \DateTime
+     */
+    public function getCreateDate ()
+    {
+        return $this->createDate;
+    }
+
+    /**
+     * @param \DateTime $createDate
+     */
+    public function setCreateDate (\DateTime $createDate)
+    {
+        $this->createDate = $createDate;
+    }
+
+    /**
      * @param Comment[] $comments
      */
     public function setComments ($comments)
     {
-        $this->commentNumber = count($comments);
         $this->comments = $comments;
     }
 
     /**
      * @return int
      */
-    public function getLikenumber ()
+    public function getNumbersOfLikes ()
     {
-        return $this->likeNumber;
+        return \count($this->likes);
     }
 
     /**
      * @return int
      */
-    public function getCommentnumber()
+    public function getNumberOfComments()
     {
-        return $this->commentNumber;
+        return \count($this->comments);
     }
 
     /**
@@ -174,7 +174,6 @@ class Tweet
      */
     public function setLikes($likes)
     {
-        $this->likenumber = count($likes);
         $this->likes = $likes;
     }
 
@@ -195,22 +194,6 @@ class Tweet
     }
 
     /**
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @param int $id
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
-    /**
      * @return string
      */
     public function getText()
@@ -224,22 +207,6 @@ class Tweet
     public function setText($text)
     {
         $this->text = $text;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getDatum()
-    {
-        return $this->datum;
-    }
-
-    /**
-     * @param \DateTime $datum
-     */
-    public function setDatum(\DateTime $datum)
-    {
-        $this->datum = $datum;
     }
 
     /**
@@ -257,6 +224,15 @@ class Tweet
     {
         $this->destination = $destination;
     }
+
+    /**
+     * @return string
+     */
+    public function __toString(){
+        return "$this->id";
+    }
+
+
 
     /**
      * @param Likes $likes[]

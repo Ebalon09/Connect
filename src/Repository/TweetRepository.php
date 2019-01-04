@@ -2,6 +2,7 @@
 
 namespace Test\Repository;
 
+use Doctrine\ORM\EntityManager;
 use Test\Model\Tweet;
 
 /**
@@ -11,71 +12,28 @@ use Test\Model\Tweet;
  */
 class TweetRepository extends BaseRepository
 {
-    /**
-     * @var UserRepository
-     */
-    protected $userRepository;
-
-    /**
-     * TweetRepository constructor.
-     *
-     * @param UserRepository    $userRepository
-     */
-    public function __construct (UserRepository $userRepository)
-    {
-        parent::__construct();
-        $this->userRepository = $userRepository;
-    }
+    ///**
+    // * @var UserRepository
+    // */
+    //protected $userRepository;
+    //
+    ///**
+    // * TweetRepository constructor.
+    // *
+    // * @param UserRepository    $userRepository
+    // */
+    //public function __construct (UserRepository $userRepository)
+    //{
+    //    parent::__construct();
+    //    $this->userRepository = $userRepository;
+    //}
 
     /**
      * @return mixed
      */
     protected function getTableName ()
     {
-        return 'Tweet';
-    }
-
-    /**
-     * @param $data
-     *
-     * @return Tweet
-     */
-    protected function arrayToObject ($data)
-    {
-        $tweet = new Tweet();
-        $tweet->setId($data['id']);
-        $tweet->setText($data['text']);
-        $tweet->setDatum(new \DateTime($data['createDate']));
-        $tweet->setUser($this->userRepository->findOneBy(['id' => $data['userid']]));
-        $tweet->setDestination($data['destination']);
-        $tweet->setLinkID($data['LinkID']);
-
-        if ($data['reTweet'] !== null) {
-
-            $tweet->setReTweet($this->findOneBy(['id' => $data['reTweet']]));
-        }
-
-        return $tweet;
-    }
-
-    /**
-     * @param Tweet $tweet
-     *
-     * @return array
-     */
-    protected function objectToArray ($tweet)
-    {
-        $data = [
-            'id'          => $tweet->getId(),
-            'text'        => $tweet->getText(),
-            'createDate'  => $tweet->getDatum()->format('Y-m-d H:i:s'),
-            'userid'      => $tweet->getUser()->getId(),
-            'destination' => $tweet->getDestination(),
-            'LinkID'      => $tweet->getLinkID(),
-            'reTweet'     => $tweet->getReTweet(),
-        ];
-
-        return $data;
+        return 'tweets';
     }
 
     /**

@@ -1,7 +1,5 @@
 <?php
 
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\Tools\Setup;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
@@ -29,21 +27,7 @@ $container = new ContainerBuilder();
 $containerLoader = new YamlFileLoader($container, new FileLocator(__DIR__));
 $containerLoader->load('config/services.yaml');
 $container->compile();
-//////
 
-$isDevMode = true;
-$config = Setup::createAnnotationMetadataConfiguration(array(__DIR__.'/src/Model'), $isDevMode);
-
-$conn = array(
-    'driver' => 'pdo_mysql',
-    'user'   => 'root',
-    'password'   => 'root',
-    'dbname'    => 'Twitter'
-);
-
-$entityManager = EntityManager::create($conn, $config);
-
-//////
 $request = Request::createFromGlobals();
 
 $router = new Router(

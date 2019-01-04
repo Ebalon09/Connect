@@ -2,8 +2,11 @@
 
 namespace Test\Services;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Test\Model\Likes;
 use Test\Model\Tweet;
+use Test\Model\User;
 use Test\Repository\CommentRepository;
 use Test\Repository\LikeRepository;
 use Test\Repository\TweetRepository;
@@ -34,15 +37,13 @@ class TweetService
     /**
      * TweetService constructor.
      *
-     * @param TweetRepository   $tweetRepository
-     * @param LikeRepository    $likeRepository
-     * @param CommentRepository $commentRepository
+     * @param EntityManagerInterface $manager
      */
-    public function __construct(TweetRepository $tweetRepository, LikeRepository $likeRepository, CommentRepository $commentRepository)
+    public function __construct(EntityManagerInterface $manager)
     {
-        $this->tweetRepository        = $tweetRepository;
-        $this->likeRepository         = $likeRepository;
-        $this->commentRepository      = $commentRepository;
+        $this->tweetRepository        = $manager->getRepository(Tweet::class);
+        $this->likeRepository         = $manager->getRepository(Likes::class);
+        $this->commentRepository      = $manager->getRepository(User::class);
     }
 
     /**
@@ -54,9 +55,8 @@ class TweetService
          * @var Tweet[] $tweets
          */
         $tweets = $this->tweetRepository->findAll();
+
         foreach ($tweets as $tweet) {
-            $likes = $this->likeRepository->TweetLikes($tweet);
-            $tweet->setLikes($likes);
             $comments = $this->commentRepository->TweetComments($tweet);
 
             $tweet->setComments($comments);

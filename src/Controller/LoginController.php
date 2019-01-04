@@ -2,6 +2,8 @@
 
 namespace Test\Controller;
 
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,13 +25,19 @@ class LoginController
     protected $userRepository;
 
     /**
+     * @var EntityManagerInterface
+     */
+    protected $manager;
+
+    /**
      * LoginController constructor.
      *
-     * @param UserRepository $userRepository
+     * @param EntityManagerInterface $manager
      */
-    public function __construct (UserRepository $userRepository)
+    public function __construct (EntityManagerInterface $manager)
     {
-        $this->userRepository = $userRepository;
+        $this->manager = $manager;
+        $this->userRepository = $manager->getRepository(User::class);
     }
 
     /**
@@ -59,6 +67,8 @@ class LoginController
 
                 return new RedirectResponse('/feed');
             }
+
+
             if (password_verify($request->get('password'), $data->getPassword()) == false)
             {
                 $session = Session::getInstance();
@@ -98,7 +108,7 @@ class LoginController
                         'email' => $request->get('EMAIL'),
                     ]);
 
-                    if ($data->getEmail() !== null) {
+                    if ($data != null && $data->getEmail() !== null) {
                         $session = Session::getInstance();
                         $session->write('danger', 'Fehler beim Registrieren : Email bereits vergeben!');
 
@@ -110,7 +120,7 @@ class LoginController
                         'username' => $request->get('USERNAME'),
                     ]);
 
-                    if ($data->getUsername() !== null) {
+                    if ($data != null && $data->getUsername() !== null) {
                         $session = Session::getInstance();
                         $session->write('danger', 'Fehler beim Registrieren : Nutzername bereits vergeben!');
 
@@ -130,7 +140,8 @@ class LoginController
             $user->setPassword(password_hash($request->get('PASSWORD'), PASSWORD_DEFAULT));
             $user->setEmail(strip_tags($request->get('EMAIL')));
 
-            $this->userRepository->add($user);
+            $this->manager->persist($user);
+            $this->manager->flush();
 
             $session = Session::getInstance();
             $session->write('success', 'Erfolgreich Registriert! bitte anmelden');

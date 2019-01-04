@@ -2,6 +2,8 @@
 
 namespace Test\Repository;
 
+use Doctrine\ORM\EntityRepository;
+use Test\Model\User;
 use Test\Services\Database;
 
 /**
@@ -11,21 +13,21 @@ use Test\Services\Database;
  */
 abstract class BaseRepository
 {
-    /**
-     * @var Database
-     */
-    protected $database;
+    ///**
+    // * @var Database
+    // */
+    //protected $database;
+    //
+    ///**
+    // * BaseRepository constructor.
+    // */
+    //public function __construct ()
+    //{
+    //    $this->database = Database::getInstance();
+    //}
 
     /**
-     * BaseRepository constructor.
-     */
-    public function __construct ()
-    {
-        $this->database = Database::getInstance();
-    }
-
-    /**
-     * @return mixed
+     * @return User
      */
     public function currentUser()
     {
@@ -78,69 +80,6 @@ abstract class BaseRepository
         return $this->database->insert($query, $data);
     }
 
-
-    /**
-     * @return array
-     */
-    public function findAll ()
-    {
-        $result = $this->database->query("SELECT * FROM " . $this->getTableName() . " ORDER BY createDate DESC");
-
-        $found = [];
-        foreach ($result as $data) {
-            $model = $this->arrayToObject($data);
-
-            $found[] = $model;
-        }
-        return $found;
-    }
-
-    /**
-     * @param array $parameters
-     *
-     * @return mixed
-     */
-    public function findOneBy (array $parameters)
-    {
-        $properties = [];
-        foreach ($parameters as $key => $value) {
-            $properties[$key] = $key.' = :'.$key;
-        }
-        $query = "SELECT * FROM ".$this->getTableName()." WHERE ";
-        $query .= \join(',', $properties);
-
-        $data = $this->database->query($query, $parameters);
-        $data2 = $data[0];
-        $object = $this->arrayToObject($data2);
-
-        return $object;
-    }
-
-    /**
-     * @param array $parameters
-     *
-     * @return array
-     */
-    public function findBy (array $parameters)
-    {
-        $properties = [];
-        foreach ($parameters as $key => $value) {
-            $properties[$key] = $key.' = :'.$key;
-        }
-        $query = "SELECT * FROM ".$this->getTableName()." WHERE ";
-        $query .= \join(',', $properties);
-
-        $data = $this->database->query($query, $parameters);
-
-        $objects = [];
-        foreach ($data as $result) {
-            $object = $this->arrayToObject($result);
-            $objects[] = $object;
-        }
-
-        return $objects;
-    }
-
     /**
      * @param $model
      *
@@ -176,28 +115,9 @@ abstract class BaseRepository
     }
 
     /**
-     * @return string
-     */
-    abstract protected function getTableName ();
-
-    /**
-     * @param $model
-     *
-     * @return array
-     */
-    abstract protected function objectToArray ($model);
-
-    /**
      * @param $model
      *
      * @return boolean
      */
     abstract protected function isSupported ($model);
-
-    /**
-     * @param $data
-     *
-     * @return mixed
-     */
-    abstract protected function arrayToObject ($data);
 }

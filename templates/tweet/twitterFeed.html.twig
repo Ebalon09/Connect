@@ -12,11 +12,11 @@
     {% for data in result %}
         <div class="media" style="border: black 2px">
             <a class="media-left" href="#fake">
-                <img id="userpicpost" alt="" class="media-object img-rounded" src="{{ data.User.Picture }}">
+                <img id="userpicpost" alt="" class="media-object img-rounded" src="{{ data.user.picture }}">
             </a>
             <div class="media-body">
-                <h4 class="media-heading" id="Username">{{ data.User.Username }}</h4>
-                <p id="Text">{{ data.Text }}</p>
+                <h4 class="media-heading" id="Username">{{ data.user.username }}</h4>
+                <p id="Text">{{ data.text }}</p>
                 {% if(data.destination is not same as(null)) %}
                     <img id="image" src="{{ data.destination }}">
                 {% endif %}
@@ -27,7 +27,7 @@
                     <hr>
                     <div class="media-body">
                         {% if(data.retweet.id is not same as (null)) %}
-                            <h4 class="media-heading" id="Username">{{ data.ReTweet.User.Username }}</h4>
+                            <h4 class="media-heading" id="Username">{{ data.retweet.user.username }}</h4>
                             <p id="Text">{{ data.ReTweet.Text }}</p>
                         {% else %}
                         Der ursprüngliche Tweet ist nicht mehr verfügbar

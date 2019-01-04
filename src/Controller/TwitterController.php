@@ -2,11 +2,16 @@
 
 namespace Test\Controller;
 
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Test\Model\Likes;
 use Test\Model\Tweet;
+use Test\Model\User;
 use Test\Repository\CommentRepository;
 use Test\Repository\LikeRepository;
 use Test\Repository\TweetRepository;
@@ -24,7 +29,7 @@ use Test\Services\TweetService;
 class TwitterController
 {
     /**
-     * @var TweetRepository
+     * @var EntityRepository
      */
     protected $tweetRepository;
 
@@ -39,33 +44,30 @@ class TwitterController
     protected $likeRepository;
 
     /**
-     * @var CommentRepository
-     */
-    protected $commentRepository;
-
-    /**
      * @var TweetService
      */
     protected $tweetService;
 
     /**
+     * @var EntityManagerInterface
+     */
+    protected $manager;
+
+    /**
      * TwitterController constructor.
      *
-     * @param TweetRepository   $tweetRepository
-     * @param UserRepository    $userRepository
-     * @param LikeRepository    $likeRepository
-     * @param TweetService      $tweetservice
+     * @param EntityManagerInterface $manager
+     * @param TweetService           $tweetService
      */
     public function __construct (
-        TweetRepository $tweetRepository,
-        UserRepository $userRepository,
-        LikeRepository $likeRepository,
-        TweetService $tweetservice
+        EntityManagerInterface $manager,
+        TweetService $tweetService
     ) {
-        $this->tweetRepository = $tweetRepository;
-        $this->userRepository = $userRepository;
-        $this->likeRepository = $likeRepository;
-        $this->tweetService = $tweetservice;
+        $this->tweetRepository = $manager->getRepository(Tweet::class);
+        $this->userRepository = $manager->getRepository(User::class);
+        $this->likeRepository = $manager->getRepository(Likes::class);
+        $this->tweetService = $tweetService;
+        $this->manager = $manager;
     }
 
     /**
@@ -73,14 +75,16 @@ class TwitterController
      */
     public function indexAction ()
     {
-        $tweets = $this->tweetService->loadFullTweets();
-        $likes = $this->likeRepository->findBy(['userid' => $_SESSION['userid']]);
-        $user = $this->userRepository->currentUser();
+
+        $tweets = $this->tweetRepository->findAll();
+
+        $likes = $this->likeRepository->findBy(['id' => $_SESSION['userid']]);
+        $user = $this->userRepository->findOneBy(['id' => $_SESSION['userid']]);
 
         return new Response(Templating::getInstance()->render('tweet/twitterFeed.html.twig', [
-            'result'        => $tweets,
-            'likes'         => $likes,
-            'user'          => $user,
+            'result' => $tweets,
+            'likes'  => $likes,
+            'user'   => $user,
         ]));
     }
 
@@ -93,7 +97,7 @@ class TwitterController
     public function createAction (Request $request)
     {
         if ($request->isMethod(Request::METHOD_POST)) {
-            $user = $this->userRepository->currentUser();
+            $user = $this->userRepository->findOneBy(['id' => $_SESSION['userid']]);
 
             $tweet = new Tweet();
             $text = $request->get('text');
@@ -107,7 +111,8 @@ class TwitterController
             $tweet->setUser($user);
             $this->handleFileUpload($tweet, $request);
 
-            $this->tweetRepository->add($tweet);
+            $this->manager->persist($tweet);
+            $this->manager->flush();
 
             $session = Session::getInstance();
             $session->write('success', 'Tweet erfolgreich gepostet');
@@ -153,10 +158,10 @@ class TwitterController
         }
 
         return new Response(Templating::getInstance()->render('tweet/twitterFeed.html.twig', [
-            'result'    => $this->tweetRepository->findAll(),
-            'reTweet'   => $tweet,
-            'user'      => $user,
-            'id'        => $tweet->getId(),
+            'result'  => $this->tweetRepository->findAll(),
+            'reTweet' => $tweet,
+            'user'    => $user,
+            'id'      => $tweet->getId(),
         ]));
     }
 
@@ -185,10 +190,10 @@ class TwitterController
         }
 
         return new Response(Templating::getInstance()->render('tweet/twitterFeed.html.twig', [
-            'result'   => $this->tweetRepository->findAll(),
-            'update'   => $tweet,
-            'user'     => $user,
-            'id'       => $tweet->getId(),
+            'result' => $this->tweetRepository->findAll(),
+            'update' => $tweet,
+            'user'   => $user,
+            'id'     => $tweet->getId(),
         ]));
     }
 

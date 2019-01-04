@@ -26,14 +26,14 @@ class Likes
     /**
      * @var User
      *
-     * @ORM\ManyToMany(targetEntity="User")
+     * @ORM\ManyToOne(targetEntity="User")
      */
     protected $user;
 
     /**
      * @var Tweet
      *
-     * @ORM\ManyToMany(targetEntity="Tweet")
+     * @ORM\ManyToOne(targetEntity="Tweet", inversedBy="likes")
      */
     protected $tweet;
 
