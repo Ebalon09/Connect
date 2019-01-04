@@ -2,10 +2,14 @@
 
 namespace Test\Controller;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Test\Model\Comment;
+use Test\Model\Likes;
+use Test\Model\Tweet;
+use Test\Model\User;
 use Test\Repository\CommentRepository;
 use Test\Repository\LikeRepository;
 use Test\Repository\TweetRepository;
@@ -41,23 +45,23 @@ class CommentController
     protected $commentRepository;
 
     /**
+     * @var EntityManagerInterface
+     */
+    protected $manager;
+
+    /**
      * CommentController constructor.
      *
-     * @param TweetRepository   $tweetRepository
-     * @param LikeRepository    $likeRepository
-     * @param UserRepository    $userRepository
-     * @param CommentRepository $commentRepository
+     * @param EntityManagerInterface $manager
      */
     public function __construct (
-        TweetRepository $tweetRepository,
-        LikeRepository $likeRepository,
-        UserRepository $userRepository,
-        CommentRepository $commentRepository
+        EntityManagerInterface $manager
     ) {
-        $this->tweetRepository = $tweetRepository;
-        $this->likeRepository = $likeRepository;
-        $this->userRepository = $userRepository;
-        $this->commentRepository = $commentRepository;
+        $this->tweetRepository = $manager->getRepository(Tweet::class);
+        $this->likeRepository = $manager->getRepository(Likes::class);
+        $this->userRepository = $manager->getRepository(User::class);
+        $this->commentRepository = $manager->getRepository(Comment::class);
+        $this->manager = $manager;
     }
 
     /**
@@ -68,23 +72,14 @@ class CommentController
     public function indexAction (Request $request)
     {
         $allTweets = $this->tweetRepository->findAll();
-        $likes = $this->likeRepository->findBy(['userid' => $_SESSION['userid']]);
-
-        $commentarray = [];
-        $likearray = [];
-        foreach ($allTweets as $tweet) {
-            $likearray[$tweet->getId()] = $this->likeRepository->countLikes($tweet);
-            $commentarray[$tweet->getId()] = $this->commentRepository->countComments($tweet);
-        }
+        $likes = $this->likeRepository->findBy(['id' => $_SESSION['userid']]);
 
         return new Response(Templating::getInstance()->render('tweet/twitterFeed.html.twig', [
             'result'        => $allTweets,
-            'tweet'         => $this->tweetRepository->findOneBy(['id' => $request->query->get('tweet')]),
+            'tweet'         => $this->tweetRepository->findOneBy(['id' => $request->get('tweet')]),
             'likes'         => $likes,
-            'countLikes'    => $likearray,
-            'user'          => $this->userRepository->currentUser(),
-            'c'             => $request->query->get('c'),
-            'countcomments' => $commentarray,
+            'user'          => $this->userRepository->findOneBy(['id' => $_SESSION['userid']]),
+            'c'             => $request->get('c'),
         ]));
     }
 
@@ -95,17 +90,13 @@ class CommentController
      */
     public function commentFeed (Request $request)
     {
-        $tweet = $this->tweetRepository->findOneBy(['id' => $request->query->get('tweet')]);
-
-        $array = [];
-        $array[$tweet->getId()] = $this->likeRepository->countLikes($tweet);
+        $tweet = $this->tweetRepository->findOneBy(['id' => $request->get('tweet')]);
 
         return new Response(Templating::getInstance()->render('comment/commentFeed.html.twig', [
-            'comments'   => $this->commentRepository->findBy(['tweetid' => $request->query->get('tweet')]),
             'tweet'      => $tweet,
-            'likes'      => $this->likeRepository->findBy(['userid' => $_SESSION['userid']]),
-            'countLikes' => $array,
-            'user'       => $this->userRepository->currentUser(),
+            'comments'   => $this->commentRepository->findBy(['Tweet' => $request->get('tweet')]),
+            'likes'      => $this->likeRepository->findBy(['user' => $_SESSION['userid']]),
+            'user'       => $this->userRepository->findOneBy(['id' => $_SESSION['userid']]),
         ]));
     }
 
@@ -118,8 +109,8 @@ class CommentController
     public function createAction (Request $request)
     {
         if ($request->isMethod(Request::METHOD_POST)) {
-            $user = $this->userRepository->currentUser();
-            $tweet = $this->tweetRepository->findOneBy(['id' => $request->query->get('tweet'),]);
+            $user = $this->userRepository->findOneBy(['id' => $_SESSION['userid']]);
+            $tweet = $this->tweetRepository->findOneBy(['id' => $request->get('tweet')]);
 
             $comment = new Comment();
 
@@ -128,7 +119,8 @@ class CommentController
             $comment->setTweet($tweet);
 
             if ($request->get('text') != '') {
-                $this->commentRepository->add($comment);
+                $this->manager->persist($comment);
+                $this->manager->flush();
 
                 $session = Session::getInstance();
                 $session->write('success', 'Kommentar erfolgreich gepostet');
@@ -137,8 +129,8 @@ class CommentController
                 $session->write('danger', 'Du kannst keinen leeren Kommentar posten!');
             }
 
-            $id = $request->query->get('tweet');
-            if ($request->query->get('c') == 1) {
+            $id = $request->get('tweet');
+            if ($request->get('c') == 1) {
                 return new RedirectResponse("/feed/comments/$id/c");
             }
 
@@ -154,8 +146,8 @@ class CommentController
      */
     public function updateAction (Request $request)
     {
-        $comment = $this->commentRepository->findOneBy(['id' => $request->query->get('idc'),]);
-        $user = $this->userRepository->currentUser();
+        $comment = $this->commentRepository->findOneBy(['id' => $request->get('idc'),]);
+        $user = $this->userRepository->findOneBy(['id' => $_SESSION['userid']]);
         $tweet = $this->tweetRepository->findBy(['id' => $comment->getTweet()->getId()])[0];
 
         if ($request->isMethod(Request::METHOD_POST)) {
@@ -163,20 +155,19 @@ class CommentController
                 'id' => $_SESSION['userid'],
             ]);
 
-            $comment = new Comment();
             $comment->setComment(trim(strip_tags($request->get('text'))));
             $comment->setUser($user);
             $comment->setTweet($tweet);
-            $comment->setId($request->query->get('idc'));
 
-            $this->commentRepository->add($comment);
+            $this->manager->persist($comment);
+            $this->manager->flush();
 
             $session = Session::getInstance();
             $session->write('success', 'Tweet erfolgreich gepostet');
 
             $id = $comment->getTweet()->getId();
-            $idc = $request->query->get('idc');
-            if ($request->query->get('c') == true) {
+            $idc = $request->get('idc');
+            if ($request->get('c') == true) {
                 return new RedirectResponse("/feed/comments/$id/true/$idc");
             }
 
@@ -184,9 +175,9 @@ class CommentController
         }
 
         return new Response(Templating::getInstance()->render('comment/commentFeed.html.twig', [
-            'result'   => $this->commentRepository->findBy(['tweetid' => $request->query->get('id')]),
+            'result'   => $this->commentRepository->findBy(['Tweet' => $request->get('id')]),
             'update'   => $comment,
-            'comments' => $this->commentRepository->findBy(['tweetid' => $tweet->getId()]),
+            'comments' => $this->commentRepository->findBy(['Tweet' => $tweet->getId()]),
             'user'     => $user,
             'id'       => $comment->getId(),
             'tweet'    => $tweet,
@@ -205,13 +196,14 @@ class CommentController
         ]);
         $id = $comment->getTweet()->getId();
 
-        $this->commentRepository->remove($comment);
+        $this->manager->remove($comment);
+        $this->manager->flush();
 
         $session = Session::getInstance();
         $session->write('success', 'Tweet erfolgreich gelöscht');
 
-        $idc = $request->query->get('idc');
-        if ($request->query->get('c') == true) {
+        $idc = $request->get('idc');
+        if ($request->get('c') == true) {
             return new RedirectResponse("/feed/comments/$id/true/$idc");
         }
 

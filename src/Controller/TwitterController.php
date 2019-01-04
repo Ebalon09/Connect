@@ -77,7 +77,7 @@ class TwitterController
     {
 
         $tweets = $this->tweetRepository->findAll();
-        $likes = $this->likeRepository->findBy(['id' => $_SESSION['userid']]);
+        $likes = $this->likeRepository->findBy(['user' => $_SESSION['userid']]);
         $user = $this->userRepository->findOneBy(['id' => $_SESSION['userid']]);
 
         return new Response(Templating::getInstance()->render('tweet/twitterFeed.html.twig', [

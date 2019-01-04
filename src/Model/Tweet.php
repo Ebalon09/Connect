@@ -116,7 +116,7 @@ class Tweet extends BaseModel
     /**
      * @return int
      */
-    public function getNumbersOfLikes ()
+    public function getNumberOfLikes ()
     {
         return \count($this->likes);
     }

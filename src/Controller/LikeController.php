@@ -77,7 +77,7 @@ class LikeController
     public function likeAction (Request $request)
     {
         $likes = new Likes();
-        $likes->setUser($this->userRepository->currentUser());
+        $likes->setUser($this->userRepository->findOneBy(['id' => $_SESSION['userid']]));
         $likes->setTweet($this->tweetRepository->findOneBy([
             'id' => $request->get('tweet'),
         ]));
@@ -95,7 +95,7 @@ class LikeController
      */
     public function dislikeAction (Request $request)
     {
-        $like = $this->likeRepository->findOneBy(['tweetid' => $request->get('tweet')]);
+        $like = $this->likeRepository->findOneBy(['tweet' => $request->get('tweet')]);
 
         $this->manager->remove($like);
         $this->manager->flush();
