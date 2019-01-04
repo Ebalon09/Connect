@@ -2,9 +2,14 @@
 
 namespace Test\Controller;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Test\Model\Comment;
+use Test\Model\Likes;
+use Test\Model\Tweet;
+use Test\Model\User;
 use Test\Repository\CommentRepository;
 use Test\Repository\LikeRepository;
 use Test\Repository\TweetRepository;
@@ -40,23 +45,23 @@ class UserActionController
     protected $likeRepository;
 
     /**
+     * @var EntityManagerInterface
+     */
+    protected $manager;
+
+    /**
      * UserActionController constructor.
      *
-     * @param CommentRepository $commentRepository
-     * @param UserRepository    $userRepository
-     * @param TweetRepository   $tweetRepository
-     * @param LikeRepository    $likeRepository
+     * @param EntityManagerInterface $manager
      */
     public function __construct (
-        CommentRepository $commentRepository,       //only in deleteAcc
-        UserRepository $userRepository,
-        TweetRepository $tweetRepository,           //only in deleteAcc
-        LikeRepository $likeRepository              //only in deleteAcc
+        EntityManagerInterface $manager
     ) {
-        $this->commentRepository = $commentRepository;
-        $this->userRepository = $userRepository;
-        $this->tweetRepository = $tweetRepository;
-        $this->likeRepository = $likeRepository;
+        $this->commentRepository = $manager->getRepository(Comment::class);
+        $this->userRepository = $manager->getRepository(User::class);
+        $this->tweetRepository = $manager->getRepository(Tweet::class);
+        $this->likeRepository = $manager->getRepository(Likes::class);
+        $this->manager = $manager;
     }
 
     /**
@@ -80,7 +85,7 @@ class UserActionController
     {
         $result = null;
 
-        $user = $this->userRepository->currentUser();
+        $user = $this->userRepository->findOneBy(['id' => $_SESSION['userid']]);
 
         $mainpw = $user->getPassword();
 
@@ -93,31 +98,37 @@ class UserActionController
                     'email' => $_SESSION['email'],
                 ]);
                 $user->setEmail($request->get('email'));
-                $result = $this->userRepository->add($user);
+
+                $this->manager->persist($user);
+                $this->manager->flush();
             }
             if ($request->get('username') != null) {
                 $user = $this->userRepository->findOneBy([
-                    'username' => $_SESSION['username'],
+                    'id' => $_SESSION['userid'],
                 ]);
                 $user->setUsername($request->get('username'));
-                $result = $this->userRepository->add($user);
+
+                $this->manager->persist($user);
+                $this->manager->flush();
             }
             if ($request->get('passwordchange') != null) {
 
-                $user = $this->userRepository->currentUser();
+                $user = $this->userRepository->findOneBy(['id' => $_SESSION['userid']]);
 
                 $user->setPassword(password_hash($request->get('passwordchange'), PASSWORD_DEFAULT));
-                $result = $this->userRepository->add($user);
+
+                $this->manager->persist($user);
+                $this->manager->flush();
             }
+
             if ($request->files->get("my_upload") != null) {
-                $user = $this->userRepository->currentUser();
+                $user = $this->userRepository->findOneBy(['id' => $_SESSION['userid']]);
 
                 $user->setPicture($this->handleFileUpload($request));
-                $result = $this->userRepository->add($user);
+
+                $this->manager->persist($user);
+                $this->manager->flush();
             }
-            if (!$result) {
-                Session::getInstance()->write('danger', 'Fehler!');
-            } else {
                 $_SESSION['username'] = null;
                 $_SESSION['userid'] = null;
                 $_SESSION['email'] = null;
@@ -125,7 +136,6 @@ class UserActionController
                     'erfolgreich geupdatet, bitte neu einloggen damit die änderung in kraft tritt');
 
                 return new RedirectResponse("/feed");
-            }
         }
         Session::getInstance()->write('danger', 'Fehler bei der Verifizierung!');
 
@@ -138,7 +148,7 @@ class UserActionController
     public function deleteAcc ()
     {
         {
-            $user = $this->userRepository->currentUser();
+            $user = $this->userRepository->findOneBy(['id' => $_SESSION['userid']]);
 
             if($user->getPicture() !== "/uploads/ProfilePics/fill.jpg") {
                 $img = '../test'.$user->getPicture();
@@ -149,7 +159,8 @@ class UserActionController
             $this->commentRepository->removeAllBy(['userid' => $user->getId()]);
             $this->likeRepository->removeAllBy(['userid' => $user->getId()]);
 
-            $this->userRepository->remove($user);
+            $this->manager->remove($user);
+            $this->manager->flush();
 
             Session::getInstance()->write('success', 'Account erfolgreich Gelöscht!');
 
