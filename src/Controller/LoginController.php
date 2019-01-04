@@ -4,9 +4,11 @@ namespace Test\Controller;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Test\Events\CreatedAccoutEvent;
 use Test\Model\User;
 use Test\Repository\UserRepository;
 use Test\Services\Session;
@@ -30,14 +32,21 @@ class LoginController
     protected $manager;
 
     /**
+     * @var EventDispatcher
+     */
+    protected $dispatcher;
+
+    /**
      * LoginController constructor.
      *
      * @param EntityManagerInterface $manager
+     * @param EventDispatcher        $dispatcher
      */
-    public function __construct (EntityManagerInterface $manager)
+    public function __construct (EntityManagerInterface $manager, EventDispatcher $dispatcher)
     {
         $this->manager = $manager;
         $this->userRepository = $manager->getRepository(User::class);
+        $this->dispatcher = $dispatcher;
     }
 
     /**
@@ -139,6 +148,8 @@ class LoginController
             $user->setUsername(strip_tags($request->get('USERNAME')));
             $user->setPassword(password_hash($request->get('PASSWORD'), PASSWORD_DEFAULT));
             $user->setEmail(strip_tags($request->get('EMAIL')));
+
+            $this->dispatcher->dispatch('Created.account', new CreatedAccoutEvent($user));
 
             $this->manager->persist($user);
             $this->manager->flush();

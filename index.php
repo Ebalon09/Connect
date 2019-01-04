@@ -13,6 +13,8 @@ use Symfony\Component\HttpKernel\HttpKernel;
 use Symfony\Component\Routing\Matcher\UrlMatcher;
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\Router;
+use Test\Events\CreatedAccoutEvent;
+use Test\Listener\CreatedAccountListener;
 use Test\Services\Templating;
 
 session_start();
@@ -23,10 +25,20 @@ $fileLocator = new FileLocator(array(__DIR__));
 $routeLoader = new Symfony\Component\Routing\Loader\YamlFileLoader($fileLocator);
 $routes = $routeLoader->load('config/routes.yaml');
 
+
 $container = new ContainerBuilder();
 $containerLoader = new YamlFileLoader($container, new FileLocator(__DIR__));
 $containerLoader->load('config/services.yaml');
+
 $container->compile();
+
+
+$eventDispatcher = $container->get(EventDispatcher::class);
+
+$eventDispatcher->addListener(CreatedAccoutEvent::NAME, array(new CreatedAccountListener, 'sendAccountCreatedMail'));
+
+
+
 
 $request = Request::createFromGlobals();
 

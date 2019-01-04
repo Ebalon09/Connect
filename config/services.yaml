@@ -22,6 +22,9 @@ services:
         public: true
 
 
+    Symfony\Component\EventDispatcher\EventDispatcher:
+        public: true
+
     orm.config:
         factory: ['Doctrine\ORM\Tools\Setup', 'createAnnotationMetadataConfiguration']
         class: Doctrine\ORM\Configuration
