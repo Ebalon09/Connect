@@ -5,10 +5,12 @@ namespace Test\Controller;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Test\Events\ChangeDataEvent;
 use Test\Model\Comment;
 use Test\Model\Likes;
 use Test\Model\Tweet;
@@ -60,14 +62,22 @@ class TwitterController
     protected $manager;
 
     /**
+     * @var EventDispatcher
+     */
+    protected $dispatcher;
+
+
+    /**
      * TwitterController constructor.
      *
      * @param EntityManagerInterface $manager
      * @param TweetService           $tweetService
+     * @param EventDispatcher        $dispatcher
      */
     public function __construct (
         EntityManagerInterface $manager,
-        TweetService $tweetService
+        TweetService $tweetService,
+        EventDispatcher $dispatcher
     ) {
         $this->tweetRepository = $manager->getRepository(Tweet::class);
         $this->userRepository = $manager->getRepository(User::class);
@@ -75,6 +85,7 @@ class TwitterController
         $this->commentRepository = $manager->getRepository(Comment::class);
         $this->tweetService = $tweetService;
         $this->manager = $manager;
+        $this->dispatcher = $dispatcher;
     }
 
     /**
@@ -183,8 +194,13 @@ class TwitterController
         $tweet = $this->tweetRepository->findOneBy(['id' => $request->get('tweet')]);
         $user = $this->userRepository->findOneBy(['id' => $_SESSION['userid']]);
 
-        if ($request->isMethod(Request::METHOD_POST)) {
+        if ($request->isMethod(Request::METHOD_POST))
+        {
             $tweet->setText($request->get('text'));
+
+            $comment = null;
+
+            $this->dispatcher->dispatch('Authority.Check', new ChangeDataEvent($user, $request, $tweet, $comment));
 
             $this->manager->persist($tweet);
             $this->manager->flush();

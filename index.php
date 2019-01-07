@@ -14,8 +14,10 @@ use Symfony\Component\Routing\Matcher\UrlMatcher;
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\Router;
 use Test\Events\AccountDataChangedEvent;
+use Test\Events\ChangeDataEvent;
 use Test\Events\CreatedAccoutEvent;
 use Test\Listener\AccountDataChangedListener;
+use Test\Listener\ChangeDataListener;
 use Test\Listener\CreatedAccountListener;
 use Test\Services\Templating;
 
@@ -27,19 +29,17 @@ $fileLocator = new FileLocator(array(__DIR__));
 $routeLoader = new Symfony\Component\Routing\Loader\YamlFileLoader($fileLocator);
 $routes = $routeLoader->load('config/routes.yaml');
 
-
 $container = new ContainerBuilder();
 $containerLoader = new YamlFileLoader($container, new FileLocator(__DIR__));
 $containerLoader->load('config/services.yaml');
 
 $container->compile();
 
-
 $eventDispatcher = $container->get(EventDispatcher::class);
 
 $eventDispatcher->addListener(CreatedAccoutEvent::NAME, array(new CreatedAccountListener, 'sendAccountCreatedMail'));
 $eventDispatcher->addListener(AccountDataChangedEvent::NAME, array(new AccountDataChangedListener, 'sendDataUpdatedMail'));
-
+$eventDispatcher->addListener(ChangeDataEvent::NAME, array(new ChangeDataListener, 'checkAuthority'));
 
 
 $request = Request::createFromGlobals();
