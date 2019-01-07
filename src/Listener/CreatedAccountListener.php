@@ -2,6 +2,8 @@
 
 namespace Test\Listener;
 
+use Test\Events\CreatedAccoutEvent;
+
 /**
  * Class AccountCreatedListener
  *
@@ -9,9 +11,9 @@ namespace Test\Listener;
  */
 class CreatedAccountListener
 {
-    public function sendAccountCreatedMail()
+    public function sendAccountCreatedMail(CreatedAccoutEvent $event)
     {
-        var_dump("mail send");exit;
+        var_dump("mail send to " . $event->getUser()->getEmail());exit;
     }
 
 }

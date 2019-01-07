@@ -20,11 +20,19 @@ class CreatedAccoutEvent extends Event
     const NAME = 'Created.account';
 
 
+    /**
+     * CreatedAccoutEvent constructor.
+     *
+     * @param User $user
+     */
     public function __construct (User $user)
     {
         $this->user = $user;
     }
 
+    /**
+     * @return User
+     */
     public function getUser()
     {
         return $this->user;

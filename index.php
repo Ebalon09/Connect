@@ -13,7 +13,9 @@ use Symfony\Component\HttpKernel\HttpKernel;
 use Symfony\Component\Routing\Matcher\UrlMatcher;
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\Router;
+use Test\Events\AccountDataChangedEvent;
 use Test\Events\CreatedAccoutEvent;
+use Test\Listener\AccountDataChangedListener;
 use Test\Listener\CreatedAccountListener;
 use Test\Services\Templating;
 
@@ -36,7 +38,7 @@ $container->compile();
 $eventDispatcher = $container->get(EventDispatcher::class);
 
 $eventDispatcher->addListener(CreatedAccoutEvent::NAME, array(new CreatedAccountListener, 'sendAccountCreatedMail'));
-
+$eventDispatcher->addListener(AccountDataChangedEvent::NAME, array(new AccountDataChangedListener, 'sendDataUpdatedMail'));
 
 
 

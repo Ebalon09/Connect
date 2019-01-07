@@ -3,9 +3,11 @@
 namespace Test\Controller;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Test\Events\AccountDataChangedEvent;
 use Test\Model\Comment;
 use Test\Model\Likes;
 use Test\Model\Tweet;
@@ -50,18 +52,26 @@ class UserActionController
     protected $manager;
 
     /**
+     * @var EventDispatcher
+     */
+    protected $dispatcher;
+
+    /**
      * UserActionController constructor.
      *
      * @param EntityManagerInterface $manager
+     * @param EventDispatcher        $dispatcher
      */
     public function __construct (
-        EntityManagerInterface $manager
+        EntityManagerInterface $manager,
+        EventDispatcher $dispatcher
     ) {
         $this->commentRepository = $manager->getRepository(Comment::class);
         $this->userRepository = $manager->getRepository(User::class);
         $this->tweetRepository = $manager->getRepository(Tweet::class);
         $this->likeRepository = $manager->getRepository(Likes::class);
         $this->manager = $manager;
+        $this->dispatcher = $dispatcher;
     }
 
     /**
@@ -92,17 +102,21 @@ class UserActionController
         $pw1 = $request->get('PasswordVerify');
         $pw2 = $request->get('rePasswordVerify');
 
-        if ($request->isMethod(Request::METHOD_POST) && $pw1 == $pw2 && password_verify($pw1, $mainpw) == true) {
-            if ($request->get('email') != null) {
+        if ($request->isMethod(Request::METHOD_POST) && $pw1 == $pw2 && password_verify($pw1, $mainpw) == true)
+        {
+            if ($request->get('email') != null)
+            {
                 $user = $this->userRepository->findOneBy([
                     'email' => $_SESSION['email'],
                 ]);
+
                 $user->setEmail($request->get('email'));
 
                 $this->manager->persist($user);
                 $this->manager->flush();
             }
-            if ($request->get('username') != null) {
+            if ($request->get('username') != null)
+            {
                 $user = $this->userRepository->findOneBy([
                     'id' => $_SESSION['userid'],
                 ]);
@@ -111,7 +125,8 @@ class UserActionController
                 $this->manager->persist($user);
                 $this->manager->flush();
             }
-            if ($request->get('passwordchange') != null) {
+            if ($request->get('passwordchange') != null)
+            {
 
                 $user = $this->userRepository->findOneBy(['id' => $_SESSION['userid']]);
 
@@ -121,7 +136,8 @@ class UserActionController
                 $this->manager->flush();
             }
 
-            if ($request->files->get("my_upload") != null) {
+            if ($request->files->get("my_upload") != null)
+            {
                 $user = $this->userRepository->findOneBy(['id' => $_SESSION['userid']]);
 
                 $user->setPicture($this->handleFileUpload($request));
@@ -129,7 +145,10 @@ class UserActionController
                 $this->manager->persist($user);
                 $this->manager->flush();
             }
-                $_SESSION['username'] = null;
+
+            $this->dispatcher->dispatch('AccountSettings.Changed', new AccountDataChangedEvent($user, $request));
+
+            $_SESSION['username'] = null;
                 $_SESSION['userid'] = null;
                 $_SESSION['email'] = null;
                 Session::getInstance()->write('success',
