@@ -4,6 +4,10 @@ index:
   path: /
   controller: Test\Controller\TwitterController::indexAction
 
+error:
+  path: /error
+  controller: Test\Controller\TwitterController::errorAction
+
 login:
   path: /feed/login
   controller: Test\Controller\LoginController::LoginAction

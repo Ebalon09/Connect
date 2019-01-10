@@ -10,7 +10,10 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Test\Events\ChangeDataEvent;
+use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
+use Symfony\Component\HttpKernel\KernelEvents;
+use Test\Events\SecurityEvent;
 use Test\Model\Comment;
 use Test\Model\Likes;
 use Test\Model\Tweet;
@@ -194,13 +197,11 @@ class TwitterController
         $tweet = $this->tweetRepository->findOneBy(['id' => $request->get('tweet')]);
         $user = $this->userRepository->findOneBy(['id' => $_SESSION['userid']]);
 
+
+
         if ($request->isMethod(Request::METHOD_POST))
         {
             $tweet->setText($request->get('text'));
-
-            $comment = null;
-
-            $this->dispatcher->dispatch('Authority.Check', new ChangeDataEvent($user, $request, $tweet, $comment));
 
             $this->manager->persist($tweet);
             $this->manager->flush();
@@ -209,6 +210,7 @@ class TwitterController
 
             return new RedirectResponse('/feed');
         }
+
 
         return new Response(Templating::getInstance()->render('tweet/twitterFeed.html.twig', [
             'result' => $this->tweetRepository->findAll(),
@@ -262,4 +264,15 @@ class TwitterController
             $tweet->setDestination('/uploads/'.$filename);
         }
     }
+
+    /**
+     * @return Response
+     */
+    public function errorAction()
+    {
+        return new Response(Templating::getInstance()->render('service/error.html.twig', [
+        ]));
+    }
+
+
 }

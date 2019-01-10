@@ -39,3 +39,4 @@ services:
         class: Doctrine\ORM\EntityManager
         factory: ['Doctrine\ORM\EntityManager', 'create']
         arguments: ["%connection%", "@orm.config"]
+        public: true

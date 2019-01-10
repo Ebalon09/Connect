@@ -9,11 +9,11 @@ use Test\Model\Tweet;
 use Test\Model\User;
 
 /**
- * Class ChangeDataEvent
+ * Class SecurityEvent
  *
  * @author Florian Stein <fstein@databay.de>
  */
-class ChangeDataEvent extends Event
+class SecurityEvent extends Event
 {
     /**
      * @var User
@@ -38,14 +38,14 @@ class ChangeDataEvent extends Event
     const NAME = 'Authority.Check';
 
     /**
-     * ChangeDataEvent constructor.
+     * SecurityEvent constructor.
      *
      * @param User    $user
      * @param Request $request
-     * @param Tweet   $tweet
-     * @param Comment $comment
+     * @param         $tweet
+     * @param         $comment
      */
-    public function __construct (User $user, Request $request, Tweet $tweet, Comment $comment)
+    public function __construct (User $user, Request $request, $tweet, $comment)
     {
         $this->user = $user;
         $this->request = $request;
