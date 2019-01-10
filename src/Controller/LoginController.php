@@ -149,7 +149,7 @@ class LoginController
             $user->setPassword(password_hash($request->get('PASSWORD'), PASSWORD_DEFAULT));
             $user->setEmail(strip_tags($request->get('EMAIL')));
 
-            //$this->dispatcher->dispatch('Created.account', new CreatedAccoutEvent($user));
+            $this->dispatcher->dispatch('Created.account', new CreatedAccoutEvent($user));
 
             $this->manager->persist($user);
             $this->manager->flush();

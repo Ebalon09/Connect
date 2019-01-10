@@ -4,11 +4,9 @@ namespace Test\Listener;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Test\Model\Comment;
 use Test\Model\Tweet;
-use Test\Model\User;
 use Test\Repository\CommentRepository;
 use Test\Repository\TweetRepository;
 

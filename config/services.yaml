@@ -40,3 +40,8 @@ services:
         factory: ['Doctrine\ORM\EntityManager', 'create']
         arguments: ["%connection%", "@orm.config"]
         public: true
+
+
+    Test\Listener\CreatedAccountListener:
+      tags:
+        - {name : sendAccountCreatedMail, event: Created.account}
