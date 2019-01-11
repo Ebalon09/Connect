@@ -21,6 +21,8 @@ services:
         resource: '../src/Controller/*'
         public: true
 
+    event_dispatcher:
+      alias: Symfony\Component\EventDispatcher\EventDispatcher
 
     Symfony\Component\EventDispatcher\EventDispatcher:
         public: true
@@ -35,6 +37,9 @@ services:
           - null
           - false
 
+    entity_manager:
+      alias: Doctrine\ORM\EntityManagerInterface
+
     Doctrine\ORM\EntityManagerInterface:
         class: Doctrine\ORM\EntityManager
         factory: ['Doctrine\ORM\EntityManager', 'create']
@@ -44,4 +49,14 @@ services:
 
     Test\Listener\CreatedAccountListener:
       tags:
-        - {name : sendAccountCreatedMail, event: Created.account}
+        - {name: kernel.event_listener, event: Created.account, method: sendAccountCreatedMail}
+
+
+    Test\Listener\AccountDataChangedListener:
+          tags:
+            - {name: kernel.event_listener, event: AccountSettings.Changed, method: sendDataUpdatedMail}
+
+    Test\Listener\SecurityListener:
+      arguments: ["@entity_manager"]
+      tags:
+        - {name: kernel.event_listener, event: kernel.request, method: onKernelRequest}
