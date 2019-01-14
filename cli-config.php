@@ -13,7 +13,7 @@ $conn = array(
     'driver' => 'pdo_mysql',
     'user'   => 'root',
     'password'   => 'root',
-    'dbname'    => 'Twitter2'
+    'dbname'    => 'Twitter'
 );
 
 $entityManager = EntityManager::create($conn, $config);

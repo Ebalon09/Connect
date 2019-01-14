@@ -26,6 +26,7 @@ class Comment extends BaseModel
      * @var Tweet
      *
      * @ORM\ManyToOne(targetEntity="Tweet", inversedBy="comments")
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     protected $Tweet;
 
@@ -33,6 +34,7 @@ class Comment extends BaseModel
      * @var User
      *
      * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     protected $user;
 

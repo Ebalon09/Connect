@@ -12,28 +12,6 @@ use Test\Model\Tweet;
  */
 class LikeRepository extends BaseRepository
 {
-    ///**
-    // * @var UserRepository
-    // */
-    //protected $userRepository;
-    ///**
-    // * @var TweetRepository
-    // */
-    //protected $tweetRepository;
-    //
-    ///**
-    // * LikeRepository constructor.
-    // *
-    // * @param UserRepository  $userRepository
-    // * @param TweetRepository $tweetRepository
-    // */
-    //public function __construct (UserRepository $userRepository, TweetRepository $tweetRepository)
-    //{
-    //    parent::__construct();
-    //    $this->userRepository = $userRepository;
-    //    $this->tweetRepository = $tweetRepository;
-    //}
-
     /**
      * @return mixed
      */
@@ -59,12 +37,7 @@ class LikeRepository extends BaseRepository
      */
     public function countLikes (Tweet $tweet)
     {
-
         return $this->count($this->findBy(['likes' => $tweet->getLikes()]));
-
-        //return count($this->database->query("SELECT * FROM Likes WHERE tweetid = :tweetid", [
-        //    'tweetid' => $tweet->getId(),
-        //]));
     }
 
     /**

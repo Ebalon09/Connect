@@ -12,36 +12,6 @@ use Test\Model\Tweet;
  */
 class CommentRepository extends BaseRepository
 {
-    ///**
-    // * @var UserRepository
-    // */
-    //protected $userRepository;
-    //
-    ///**
-    // * @var TweetRepository
-    // */
-    //protected $tweetRepository;
-    //
-    ///**
-    // * @var LikeRepository
-    // */
-    //protected $likeRepository;
-    //
-    ///**
-    // * CommentRepository constructor.
-    // *
-    // * @param UserRepository  $userRepository
-    // * @param TweetRepository $tweetRepository
-    // * @param LikeRepository  $likeRepository
-    // */
-    //public function __construct (UserRepository $userRepository, TweetRepository $tweetRepository, LikeRepository $likeRepository)
-    //{
-    //    parent::__construct();
-    //    $this->userRepository = $userRepository;
-    //    $this->tweetRepository = $tweetRepository;
-    //    $this->likeRepository = $likeRepository;
-    //}
-
     /**
      * @param Tweet $tweet
      *
@@ -77,13 +47,6 @@ class CommentRepository extends BaseRepository
      */
     public function countComments (Tweet $tweet)
     {
-
-
         return $this->count($this->findBy(['comments' => $tweet->getComments()]));
-
-
-        //return count($this->database->query("SELECT * FROM Comments WHERE tweetid = :tweetid", [
-        //    'tweetid' => $tweet->getId(),
-        //]));
     }
 }

@@ -34,6 +34,7 @@ class Tweet extends BaseModel
      * @var User
      *
      * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     protected $user;
 
@@ -48,6 +49,7 @@ class Tweet extends BaseModel
      * @var Likes[]
      *
      * @ORM\OneToMany(targetEntity="Likes", mappedBy="tweet")
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     protected $likes;
 
@@ -62,6 +64,7 @@ class Tweet extends BaseModel
      * @var Tweet
      *
      * @ORM\ManyToOne(targetEntity="Tweet")
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     protected $reTweet;
 

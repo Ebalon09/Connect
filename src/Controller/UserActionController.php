@@ -174,10 +174,6 @@ class UserActionController
                 unlink($img);
             }
 
-            $this->tweetRepository->removeAllBy(['userid' => $user->getId()]);
-            $this->commentRepository->removeAllBy(['userid' => $user->getId()]);
-            $this->likeRepository->removeAllBy(['userid' => $user->getId()]);
-
             $this->manager->remove($user);
             $this->manager->flush();
 

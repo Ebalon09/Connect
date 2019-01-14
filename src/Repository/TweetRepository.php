@@ -12,22 +12,6 @@ use Test\Model\Tweet;
  */
 class TweetRepository extends BaseRepository
 {
-    ///**
-    // * @var UserRepository
-    // */
-    //protected $userRepository;
-    //
-    ///**
-    // * TweetRepository constructor.
-    // *
-    // * @param UserRepository    $userRepository
-    // */
-    //public function __construct (UserRepository $userRepository)
-    //{
-    //    parent::__construct();
-    //    $this->userRepository = $userRepository;
-    //}
-
     /**
      * @return mixed
      */

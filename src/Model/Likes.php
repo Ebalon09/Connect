@@ -27,6 +27,7 @@ class Likes
      * @var User
      *
      * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     protected $user;
 
@@ -34,6 +35,7 @@ class Likes
      * @var Tweet
      *
      * @ORM\ManyToOne(targetEntity="Tweet", inversedBy="likes")
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     protected $tweet;
 

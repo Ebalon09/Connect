@@ -11,7 +11,6 @@ use Test\Model\User;
  */
 class UserRepository extends BaseRepository
 {
-
     /**
      * @return mixed
      */
@@ -29,6 +28,4 @@ class UserRepository extends BaseRepository
     {
         return $model instanceof User;
     }
-
-
 }

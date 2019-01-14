@@ -13,7 +13,7 @@ class CreatedAccountListener
 {
     public function sendAccountCreatedMail(CreatedAccoutEvent $event)
     {
-        var_dump("mail send to " . $event->getUser()->getEmail());exit;
+        //var_dump("mail send to " . $event->getUser()->getEmail());exit;
     }
 
 }

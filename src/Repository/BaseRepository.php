@@ -13,18 +13,6 @@ use Test\Services\Database;
  */
 abstract class BaseRepository
 {
-    ///**
-    // * @var Database
-    // */
-    //protected $database;
-    //
-    ///**
-    // * BaseRepository constructor.
-    // */
-    //public function __construct ()
-    //{
-    //    $this->database = Database::getInstance();
-    //}
 
     /**
      * @return User
