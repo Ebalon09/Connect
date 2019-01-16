@@ -91,10 +91,12 @@ class CommentController
     public function commentFeed (Request $request)
     {
         $tweet = $this->tweetRepository->findOneBy(['id' => $request->get('tweet')]);
+        $comments = $this->commentRepository->findBy(['Tweet' => $request->get('tweet')]);
+        array_multisort($comments, SORT_DESC);
 
         return new Response(Templating::getInstance()->render('comment/commentFeed.html.twig', [
             'tweet'      => $tweet,
-            'comments'   => $this->commentRepository->findBy(['Tweet' => $request->get('tweet')]),
+            'comments'   => $comments,
             'likes'      => $this->likeRepository->findBy(['user' => $_SESSION['userid']]),
             'user'       => $this->userRepository->findOneBy(['id' => $_SESSION['userid']]),
         ]));

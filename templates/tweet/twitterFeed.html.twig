@@ -41,11 +41,9 @@
                     <li><a id="commentCounter" href="{{ path('comment_feed',{'tweet':data.id,'c':true}) }}" >{{ data.numberofcomments }}</li>
                     <li><a id="reTweet" href="{{ path('reTweet_post',{'tweet':data.id}) }}"><i class="fas fa-retweet"></i> </a></li>
                     {% if(data.islikedbyuser(likes)) %}
-                        <lable class="sr-only" for="dislike">dislike</lable>
                         <li><a id="dislike" href="{{ path('dislike',{'tweet':data.id}) }}"><i class="fas fa-heart"></i> </a></li>
                         <li><a href="#" id="likeCounter">{{ data.numberoflikes }}</li>
                     {% else %}
-                        <lable class="sr-only" for="like">like</lable>
                         <li><a id="like" href="{{ path('like',{'tweet':data.id}) }}"><i class="far fa-heart"></i></a></li>
                         <li><a href="#" id="likeCounter">{{ data.numberoflikes }}</li>
                     {% endif %}

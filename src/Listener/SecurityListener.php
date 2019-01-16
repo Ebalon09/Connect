@@ -48,20 +48,10 @@ class SecurityListener
     public function onKernelRequest(GetResponseEvent $event)
     {
         $tweet = $this->tweetRepository->findOneBy(['id' => $event->getRequest()->get('tweet')]);
-        $comment = $this->commentRepository->findOneBy(['id' => $event->getRequest()->get('comment')]);
+        $comment = $this->commentRepository->findOneBy(['id' => $event->getRequest()->get('idc')]);
 
         $action = substr($event->getRequest()->get('_controller'), strpos($event->getRequest()->get('_controller'), "::") +2);
 
-
-        if(isset($tweet))
-        {
-            if ($tweet->getUser()->getId() !== $_SESSION['userid'] && $action == "updateAction") {
-                $event->setResponse(new RedirectResponse("/error"));
-            }
-            if ($tweet->getUser()->getId() !== $_SESSION['userid'] && $action == "deleteAction") {
-                $event->setResponse(new RedirectResponse("/error"));
-            }
-        }
         if(isset($comment))
         {
             if ($comment->getUser()->getId() !== $_SESSION['userid'] && $action == "updateAction")
@@ -72,7 +62,15 @@ class SecurityListener
             {
                 $event->setResponse(new RedirectResponse("/error"));
             }
-
+        }
+        if(isset($tweet) && $comment == null)
+        {
+            if ($tweet->getUser()->getId() !== $_SESSION['userid'] && $action == "updateAction") {
+                $event->setResponse(new RedirectResponse("/error"));
+            }
+            if ($tweet->getUser()->getId() !== $_SESSION['userid'] && $action == "deleteAction") {
+                $event->setResponse(new RedirectResponse("/error"));
+            }
         }
     }
 }

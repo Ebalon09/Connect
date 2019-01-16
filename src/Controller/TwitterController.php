@@ -98,6 +98,8 @@ class TwitterController
     {
 
         $tweets = $this->tweetRepository->findAll();
+        array_multisort($tweets, SORT_DESC);
+
         $likes = $this->likeRepository->findBy(['user' => $_SESSION['userid']]);
         $user = $this->userRepository->findOneBy(['id' => $_SESSION['userid']]);
 

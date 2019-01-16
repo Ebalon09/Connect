@@ -2,7 +2,7 @@
     {% if(update != null) %}
         <form action="{{ path('update_comment',{'tweet': update.tweet.id,'c': true, 'idc': update.id}) }}"
               method="POST">
-            <label class="control-label sr-only" for="Userinput">edit</label>
+            <label class="control-label sr-only" for="Userinput">Userinput</label>
             <input id="Userinput" name="text" type="text" class="form-control" autocomplete="off"
                    value="{{ update.Comment }}">
         </form>

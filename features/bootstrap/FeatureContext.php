@@ -5,6 +5,9 @@ use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
 use Behat\MinkExtension\Context\MinkContext;
 use \Behat\Mink\Element\NodeElement;
+use Doctrine\ORM\EntityManagerInterface;
+use Test\Model\User;
+use Test\Repository\UserRepository;
 
 /**
  * Defines application features from the specific context.
@@ -20,6 +23,27 @@ class FeatureContext extends MinkContext
      */
     public function __construct()
     {
+    }
+
+    /**
+     * @Given I am logged in as :username with :password
+     */
+    public function iAmLoggedIn($username, $password)
+    {
+        $this->visit('http://twitter.php72/');
+        $this->fillField('Username', $username);
+        $this->fillField('Password', $password);
+        $this->pressButton('Login');
+    }
+
+    /**
+     * @Then I verify my password with :password
+     */
+    public function VerifyPassword($password)
+    {
+        $this->fillField('PasswordVerify', $password);
+        $this->fillField('rePasswordVerify', $password);
+        $this->iSubmitField('PasswordVerify');
     }
 
     /**
@@ -53,28 +77,6 @@ class FeatureContext extends MinkContext
     {
         $click = $this->getSession()->getPage()->find('named', ['id_or_name' , $element]);
         $click->click();
-    }
-
-    /**
-     * @Then I execute scenario :scenario
-     *
-     * @param string $scenario
-     *
-     * @return bool
-     *
-     * @throws ErrorException
-     */
-    public function iExecuteScenario($scenario)
-    {
-        $output = shell_exec('vendor/bin/behat --name="' . escapeshellarg($scenario) . '"');
-        $validation = strpos($output,"Mink\\Exception");
-
-        if($validation)
-        {
-            throw new ErrorException("Scenario throws an error");
-        }
-
-        return true;
     }
 
     /**
