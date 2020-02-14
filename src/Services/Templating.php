@@ -2,6 +2,8 @@
 
 namespace Test\Services;
 
+use Symfony\Bridge\Twig\Extension\RoutingExtension;
+
 require_once 'SingletonTrait.php';
 
 /**
@@ -14,7 +16,7 @@ class Templating
     use SingletonTrait;
 
     /**
-     * @var \Twig_Environment
+     * @var \Twig\Environment
      */
     private $twig;
 
@@ -22,14 +24,17 @@ class Templating
      * Templating constructor.
      */
     public function __construct() {
-        $loader = new \Twig_Loader_Filesystem(__DIR__ . '/../../templates');
-        $this->twig = new \Twig_Environment($loader);
+        $loader = new \Twig\Loader\FilesystemLoader(__DIR__ . '/../../templates');
+        $this->twig = new \Twig\Environment($loader);
     }
 
     /**
      * @param $template
      * @param array $parameters
      * @return string
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
      */
     public function render($template, array $parameters = array())
     {
@@ -39,9 +44,9 @@ class Templating
     }
 
     /**
-     * @param \Twig_Extension $extension
+     * @param \Twig\Environment $extension
      */
-    public function addExtension(\Twig_Extension $extension) {
+    public function addExtension(RoutingExtension $extension) {
         $this->twig->addExtension($extension);
     }
 

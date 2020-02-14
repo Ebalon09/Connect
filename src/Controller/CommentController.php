@@ -165,7 +165,7 @@ class CommentController
             $this->manager->flush();
 
             $session = Session::getInstance();
-            $session->write('success', 'Tweet erfolgreich gepostet');
+            $session->write('success', 'Erfolgreich gepostet');
 
             $id = $comment->getTweet()->getId();
             $idc = $request->get('idc');
@@ -202,7 +202,7 @@ class CommentController
         $this->manager->flush();
 
         $session = Session::getInstance();
-        $session->write('success', 'Tweet erfolgreich gelöscht');
+        $session->write('success', 'Erfolgreich gelöscht');
 
         $idc = $request->get('idc');
         if ($request->get('c') == true) {

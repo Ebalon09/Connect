@@ -3,7 +3,7 @@
 parameters:
     connection:
       driver: pdo_mysql
-      user: root
+      user: ebalon
       password: root
       dbname: Twitter
 

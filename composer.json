@@ -23,6 +23,7 @@
         "symfony/dependency-injection": "^4.2",
         "symfony/security": "^4.2",
         "symfony/event-dispatcher": "^4.2",
-        "doctrine/orm": "^2.6"
+        "doctrine/orm": "^2.6",
+      "ext-pdo": "*"
     }
 }

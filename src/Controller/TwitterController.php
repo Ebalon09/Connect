@@ -137,7 +137,7 @@ class TwitterController
             $this->manager->flush();
 
             $session = Session::getInstance();
-            $session->write('success', 'Tweet erfolgreich gepostet');
+            $session->write('success', 'Erfolgreich gepostet');
 
             return new RedirectResponse("/feed");
         }
@@ -175,7 +175,7 @@ class TwitterController
             $this->manager->flush();
 
             $session = Session::getInstance();
-            $session->write('success', 'Tweet erfolgreich gepostet');
+            $session->write('success', 'Erfolgreich gepostet');
 
             return new RedirectResponse("/feed");
         }
@@ -249,7 +249,7 @@ class TwitterController
         $this->manager->flush();
 
         $session = Session::getInstance();
-        $session->write('success', 'Tweet erfolgreich gelöscht');
+        $session->write('success', 'Erfolgreich gelöscht');
 
         return new RedirectResponse("/feed");
     }

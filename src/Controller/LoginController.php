@@ -104,6 +104,7 @@ class LoginController
      */
     public function registerAction (Request $request)
     {
+
         if ($request->files->get("my_upload") == null)
         {
             $pic = "/uploads/ProfilePics/fill.jpg";
@@ -145,6 +146,9 @@ class LoginController
             } else {
                 $user->setPicture($this->handlefileupload($request));
             }
+
+
+
             $user->setUsername(strip_tags($request->get('USERNAME')));
             $user->setPassword(password_hash($request->get('PASSWORD'), PASSWORD_DEFAULT));
             $user->setEmail(strip_tags($request->get('EMAIL')));

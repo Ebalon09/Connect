@@ -11,7 +11,7 @@ $config = Setup::createAnnotationMetadataConfiguration(array(__DIR__.'/src'), $i
 
 $conn = array(
     'driver' => 'pdo_mysql',
-    'user'   => 'root',
+    'user'   => 'ebalon',
     'password'   => 'root',
     'dbname'    => 'Twitter'
 );

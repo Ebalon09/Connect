@@ -1,7 +1,5 @@
 body {
-    background-color: #002152;
-    background-image:
-            radial-gradient(ellipse at center, #002152 0%, black 130%);
+    background-color: #2b2d2b;
     font-size: 14px;
     line-height: 1.42857143;
     color: #333;
@@ -10,7 +8,7 @@ body {
 
 .nav-pills-custom>li>a
 { /*button normal color*/
-    color: lightgrey;
+    color: black;
 }
 
 .nav-pills-custom>li>a:focus,
@@ -65,7 +63,7 @@ div.panel-heading
 
 .container-fluid
 {
-    margin-top: 70px;
+    margin-top: 100px;
 }
 
 .container-fluid .panel .panel-body .col-cs-3 

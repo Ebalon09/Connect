@@ -1,6 +1,7 @@
 <?php
 
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Twig\Extension\RoutingExtension;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
@@ -47,7 +48,7 @@ $request = Request::createFromGlobals();
 
 $templating = Templating::getInstance();
 $templating->addExtension(
-    new \Symfony\Bridge\Twig\Extension\RoutingExtension($router)
+    new RoutingExtension($router)
 );
 
 $controllerResolver = new ContainerControllerResolver($container);
